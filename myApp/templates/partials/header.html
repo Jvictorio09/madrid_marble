@@ -1,0 +1,22 @@
+<header class="absolute inset-x-0 top-0 z-20">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-6 text-white md:px-12">
+        <div class="flex items-center gap-3">
+            {% if content.nav.logo_image_url %}
+            <img src="{{ content.nav.logo_image_url }}" alt="{{ content.nav.brand|default:'Madrid Marble' }}" class="h-10 w-auto object-contain">
+            {% else %}
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 font-semibold">{{ content.nav.logo_text|default:"MM" }}</span>
+            {% endif %}
+            <span class="text-lg font-semibold tracking-wide hidden sm:inline">{{ content.nav.brand|default:"Madrid Marble" }}</span>
+        </div>
+        <nav class="hidden items-center gap-8 text-sm font-medium uppercase tracking-[0.2em] text-white/80 md:flex">
+            {% for link in content.nav.links %}
+            <a href="{{ link.href }}" class="transition hover:text-white">{{ link.label }}</a>
+            {% endfor %}
+        </nav>
+        {% if content.nav.cta %}
+        <a href="{{ content.nav.cta.href }}" class="hidden rounded-full border border-white/30 bg-white/5 px-5 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-white/10 hover:border-white/50 md:inline-flex">{{ content.nav.cta.label }}</a>
+        {% endif %}
+    </div>
+</header>
+
+

@@ -1,0 +1,123 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Edit Portfolio Section - Madrid Marble Dashboard{% endblock %}
+
+{% block content %}
+<!-- Include Image Picker Modal -->
+{% include "dashboard/image_picker_modal.html" %}
+
+<div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="text-4xl font-bold text-navy-900">Edit Portfolio Section</h1>
+        <div class="flex gap-4">
+            <a href="{% url 'dashboard:portfolio_projects_list' %}" class="text-gray-600 hover:text-navy-900">
+                <i class="fa-solid fa-folder-open mr-2"></i> Manage Projects
+            </a>
+            <a href="{% url 'dashboard:home' %}" class="text-gray-600 hover:text-navy-900">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Back
+            </a>
+        </div>
+    </div>
+
+    <form method="post" class="bg-white rounded-xl shadow-sm p-8 space-y-6">
+        {% csrf_token %}
+        
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Heading</label>
+            <input type="text" name="heading" value="{{ portfolio.heading|default:'' }}" required
+                   placeholder="Get inspired by our projects"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+            <textarea name="description" rows="3" required
+                      placeholder="Explore how our premium marble slabs supplier UAE team..."
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ portfolio.description|default:'' }}</textarea>
+        </div>
+
+        <div class="border-t pt-6">
+            <h3 class="text-lg font-semibold text-navy-900 mb-4">Featured Project</h3>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Feature Image URL</label>
+                <input type="url" name="feature_image_url" id="portfolio_feature_image_url" value="{{ portfolio.feature_image_url|default:'' }}" 
+                       placeholder="https://res.cloudinary.com/..."
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                <p class="text-sm text-gray-500 mt-2">
+                    <button type="button" onclick="openImagePickerModal('portfolio_feature_image_url')" class="text-navy-900 hover:underline">
+                        <i class="fa-solid fa-images mr-1"></i> Upload image from gallery
+                    </button>
+                </p>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Feature Image Alt Text</label>
+                <input type="text" name="feature_image_alt" value="{{ portfolio.feature_image_alt|default:'' }}" 
+                       placeholder="Luxury villa marble kitchen"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Feature Title</label>
+                <input type="text" name="feature_title" value="{{ portfolio.feature_title|default:'' }}" 
+                       placeholder="Downtown Dubai Villa Refit"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Feature Description</label>
+                <textarea name="feature_description" rows="4"
+                          placeholder="Custom kitchen island, full-height marble cladding..."
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ portfolio.feature_description|default:'' }}</textarea>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Feature Tags (JSON Array)</label>
+                <textarea name="feature_tags_json" rows="2"
+                          placeholder='["Kitchen", "4 weeks", "CNC Fabrication"]'
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20 font-mono text-sm">{% if portfolio.feature_tags_json %}{{ portfolio.feature_tags_json|safe }}{% else %}[]{% endif %}</textarea>
+                <p class="text-sm text-gray-500 mt-1">JSON array of tag strings</p>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Feature Testimonial Quote</label>
+                <textarea name="feature_testimonial_quote" rows="2"
+                          placeholder="Our marble refit delivered a showroom finish..."
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ portfolio.feature_testimonial_quote|default:'' }}</textarea>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Feature Testimonial Author</label>
+                <input type="text" name="feature_testimonial_author" value="{{ portfolio.feature_testimonial_author|default:'' }}" 
+                       placeholder="Private client — Dubai"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Feature CTA Label</label>
+                    <input type="text" name="feature_cta_label" value="{{ portfolio.feature_cta_label|default:'' }}" 
+                           placeholder="See all projects"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Feature CTA Link</label>
+                    <input type="text" name="feature_cta_href" value="{{ portfolio.feature_cta_href|default:'#contact' }}" 
+                           placeholder="#contact"
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Feature CTA Icon</label>
+                <input type="text" name="feature_cta_icon" value="{{ portfolio.feature_cta_icon|default:'' }}" 
+                       placeholder="fa-solid fa-arrow-right"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+        </div>
+
+        <div class="flex gap-4 pt-6">
+            <button type="submit" class="bg-navy-900 text-white px-8 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
+                Save Changes
+            </button>
+            <a href="{% url 'dashboard:home' %}" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-xl font-semibold hover:bg-gray-300 transition">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+

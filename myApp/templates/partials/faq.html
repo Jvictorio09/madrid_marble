@@ -1,0 +1,33 @@
+<section id="faq" class="bg-white py-24">
+    <div class="mx-auto max-w-6xl px-6 md:px-12 lg:grid lg:grid-cols-[1fr_1.3fr] lg:items-start lg:gap-16">
+        <div class="space-y-7">
+            <h2 class="text-4xl font-semibold text-navy-900 md:text-5xl">{{ content.faq.title }}</h2>
+            <p class="text-xl text-navy-700">
+                {{ content.faq.description }}
+            </p>
+            {% if content.faq.cta %}
+            <a href="{{ content.faq.cta.href }}" class="inline-flex items-center gap-3 rounded-full bg-navy-900 px-7 py-3.5 text-base font-semibold uppercase tracking-[0.3em] text-white transition hover:bg-navy-950">
+                {{ content.faq.cta.label }}
+                {% if content.faq.cta.icon %}
+                <i class="{{ content.faq.cta.icon }}"></i>
+                {% endif %}
+            </a>
+            {% endif %}
+        </div>
+        <div class="mt-12 divide-y divide-beige-200 overflow-hidden rounded-3xl border border-beige-200 lg:mt-0">
+            {% for item in content.faq.items %}
+            <details class="group px-6 py-5">
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-left">
+                    <span class="text-lg font-semibold text-navy-900">{{ item.question }}</span>
+                    <span class="text-navy-600 transition group-open:rotate-45">
+                        <i class="fa-solid fa-plus"></i>
+                    </span>
+                </summary>
+                <p class="mt-4 text-base leading-relaxed text-navy-700">{{ item.answer }}</p>
+            </details>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+

@@ -1,0 +1,601 @@
+<!-- Image Picker Modal - Reusable Component -->
+<div id="image-picker-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] flex flex-col">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+            <h2 class="text-2xl font-bold text-navy-900">Select or Upload Image</h2>
+            <button onclick="closeImagePickerModal()" class="text-gray-500 hover:text-gray-700 transition">
+                <i class="fa-solid fa-times text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Modal Tabs -->
+        <div class="border-b border-gray-200 px-6">
+            <div class="flex gap-4">
+                <button onclick="showGalleryTab()" id="gallery-tab-btn" 
+                        class="px-4 py-3 font-semibold text-navy-900 border-b-2 border-navy-900 transition">
+                    <i class="fa-solid fa-images mr-2"></i> Gallery
+                </button>
+                <button onclick="showUploadTab()" id="upload-tab-btn"
+                        class="px-4 py-3 font-semibold text-gray-600 border-b-2 border-transparent hover:text-navy-900 transition">
+                    <i class="fa-solid fa-upload mr-2"></i> Upload
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal Content -->
+        <div class="flex-1 overflow-y-auto p-6">
+            <!-- Gallery Tab -->
+            <div id="gallery-tab" class="space-y-4">
+                <div class="flex items-center justify-between mb-4">
+                    <input type="text" id="gallery-search" placeholder="Search images..." 
+                           class="w-full max-w-md px-4 py-2 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                </div>
+                
+                <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <!-- Images will be loaded here dynamically -->
+                </div>
+                
+                <div id="gallery-loading" class="text-center py-12">
+                    <i class="fa-solid fa-spinner fa-spin text-4xl text-gray-400 mb-4"></i>
+                    <p class="text-gray-600">Loading gallery...</p>
+                </div>
+                
+                <div id="gallery-empty" class="hidden text-center py-12">
+                    <i class="fa-solid fa-images text-6xl text-gray-300 mb-4"></i>
+                    <p class="text-gray-600 mb-4">No images found</p>
+                    <button onclick="showUploadTab()" class="bg-navy-900 text-white px-6 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
+                        Upload Your First Image
+                    </button>
+                </div>
+            </div>
+
+            <!-- Upload Tab -->
+            <div id="upload-tab" class="hidden space-y-4">
+                <form id="modal-upload-form" enctype="multipart/form-data" class="space-y-4">
+                    {% csrf_token %}
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Select Image(s)</label>
+                        <input type="file" name="file" id="modal-file-input" accept="image/*" multiple
+                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                        <p class="text-sm text-gray-500 mt-2">Max file size: 10MB per image. Images will be automatically compressed.</p>
+                        <p class="text-xs text-gray-400 mt-1">You can select multiple images at once for bulk upload.</p>
+                        <div id="selected-files-preview" class="mt-3 hidden">
+                            <p class="text-sm font-semibold text-gray-700 mb-2">Selected files:</p>
+                            <div id="selected-files-list" class="space-y-1 max-h-32 overflow-y-auto"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Folder (optional)</label>
+                            <input type="text" name="folder" id="modal-folder-input" value="madrid_marble/uploads" 
+                                   placeholder="madrid_marble/uploads"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Tags (optional)</label>
+                            <input type="text" name="tags" id="modal-tags-input" 
+                                   placeholder="hero, homepage, project"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                        </div>
+                    </div>
+                    
+                    <div id="modal-upload-progress" class="hidden">
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="modal-progress-bar" class="bg-navy-900 h-2 rounded-full transition-all" style="width: 0%"></div>
+                        </div>
+                        <p class="text-sm text-gray-600 mt-2">
+                            <span id="upload-status-text">Uploading and processing images...</span>
+                            <span id="upload-counter" class="ml-2 font-semibold"></span>
+                        </p>
+                        <div id="upload-errors" class="mt-2 space-y-1 hidden"></div>
+                    </div>
+                    
+                    <div class="flex gap-4 pt-4">
+                        <button type="submit" id="upload-submit-btn" class="flex-1 bg-navy-900 text-white px-6 py-3 rounded-xl font-semibold hover:bg-navy-950 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-upload mr-2"></i> <span id="upload-button-text">Upload Image(s)</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="p-6 border-t border-gray-200 flex items-center justify-between">
+            <div id="selected-image-preview" class="hidden flex items-center gap-3">
+                <img id="selected-image-thumb" src="" alt="Selected" class="w-16 h-16 object-cover rounded-lg">
+                <div>
+                    <p class="text-sm font-semibold text-navy-900" id="selected-image-title">No image selected</p>
+                    <p class="text-xs text-gray-600" id="selected-image-url"></p>
+                </div>
+            </div>
+            <div class="flex gap-4 ml-auto">
+                <button onclick="closeImagePickerModal()" id="modal-cancel-btn" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition">
+                    Cancel
+                </button>
+                <button onclick="selectImage()" id="select-image-btn" disabled
+                        class="px-6 py-3 bg-navy-900 text-white rounded-xl font-semibold hover:bg-navy-950 transition disabled:bg-gray-300 disabled:cursor-not-allowed">
+                    Select Image
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Global variables
+let imagePickerModal = null;
+let selectedImage = null;
+let targetInputField = null;
+let isGalleryMode = false; // For JSON array fields
+
+// Initialize modal
+document.addEventListener('DOMContentLoaded', function() {
+    imagePickerModal = document.getElementById('image-picker-modal');
+    
+    // Close modal on outside click
+    imagePickerModal.addEventListener('click', function(e) {
+        if (e.target === imagePickerModal) {
+            closeImagePickerModal();
+        }
+    });
+    
+    // Close modal on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !imagePickerModal.classList.contains('hidden')) {
+            closeImagePickerModal();
+        }
+    });
+    
+    // Load gallery on open
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (!imagePickerModal.classList.contains('hidden')) {
+                loadGallery();
+            }
+        });
+    });
+    observer.observe(imagePickerModal, { attributes: true, attributeFilter: ['class'] });
+});
+
+// Open image picker modal
+function openImagePickerModal(inputFieldId, previewFieldId = null) {
+    targetInputField = inputFieldId;
+    selectedImage = null;
+    isGalleryMode = false;
+    imagePickerModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    showGalleryTab();
+    loadGallery();
+}
+
+// Open image picker modal for gallery JSON array
+function openImagePickerModalForGallery(textareaFieldId) {
+    targetInputField = textareaFieldId;
+    selectedImage = null;
+    isGalleryMode = true;
+    imagePickerModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    showGalleryTab();
+    loadGallery();
+    
+    // Update button text
+    document.getElementById('select-image-btn').textContent = 'Add to Gallery';
+}
+
+// Close image picker modal
+function closeImagePickerModal() {
+    // Reset bulk mode if active
+    if (typeof isBulkMode !== 'undefined' && isBulkMode) {
+        isBulkMode = false;
+        if (typeof bulkSelectedImages !== 'undefined') {
+            bulkSelectedImages = [];
+        }
+        // Reset any selected cards
+        document.querySelectorAll('[data-asset-id]').forEach(card => {
+            card.classList.remove('border-green-500', 'bg-green-50');
+            card.classList.add('border-transparent');
+        });
+        // Reset modal header
+        const modalHeader = document.querySelector('#image-picker-modal h2');
+        if (modalHeader) {
+            modalHeader.textContent = 'Select or Upload Image';
+        }
+    }
+    
+    imagePickerModal.classList.add('hidden');
+    document.body.style.overflow = '';
+    selectedImage = null;
+    targetInputField = null;
+    isGalleryMode = false;
+    document.getElementById('selected-image-preview').classList.add('hidden');
+    document.getElementById('select-image-btn').disabled = true;
+    document.getElementById('select-image-btn').textContent = 'Select Image';
+}
+
+// Tab switching
+function showGalleryTab() {
+    document.getElementById('gallery-tab').classList.remove('hidden');
+    document.getElementById('upload-tab').classList.add('hidden');
+    document.getElementById('gallery-tab-btn').classList.add('border-navy-900', 'text-navy-900');
+    document.getElementById('gallery-tab-btn').classList.remove('border-transparent', 'text-gray-600');
+    document.getElementById('upload-tab-btn').classList.remove('border-navy-900', 'text-navy-900');
+    document.getElementById('upload-tab-btn').classList.add('border-transparent', 'text-gray-600');
+}
+
+function showUploadTab() {
+    document.getElementById('gallery-tab').classList.add('hidden');
+    document.getElementById('upload-tab').classList.remove('hidden');
+    document.getElementById('upload-tab-btn').classList.add('border-navy-900', 'text-navy-900');
+    document.getElementById('upload-tab-btn').classList.remove('border-transparent', 'text-gray-600');
+    document.getElementById('gallery-tab-btn').classList.remove('border-navy-900', 'text-navy-900');
+    document.getElementById('gallery-tab-btn').classList.add('border-transparent', 'text-gray-600');
+}
+
+// Load gallery images
+async function loadGallery() {
+    const galleryGrid = document.getElementById('gallery-grid');
+    const galleryLoading = document.getElementById('gallery-loading');
+    const galleryEmpty = document.getElementById('gallery-empty');
+    
+    galleryGrid.innerHTML = '';
+    galleryLoading.classList.remove('hidden');
+    galleryEmpty.classList.add('hidden');
+    
+    try {
+        const response = await fetch('{% url "dashboard:gallery" %}');
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const assets = doc.querySelectorAll('[data-asset-id]');
+        
+        galleryLoading.classList.add('hidden');
+        
+        if (assets.length === 0) {
+            galleryEmpty.classList.remove('hidden');
+            return Promise.resolve();
+        }
+        
+        assets.forEach(asset => {
+            const assetId = asset.getAttribute('data-asset-id');
+            const title = asset.getAttribute('data-asset-title');
+            const webUrl = asset.getAttribute('data-asset-web-url');
+            const thumbUrl = asset.getAttribute('data-asset-thumb-url');
+            const secureUrl = asset.getAttribute('data-asset-secure-url');
+            
+            const imageCard = document.createElement('div');
+            imageCard.setAttribute('data-asset-id', assetId);
+            
+            // Check if bulk mode is active
+            const cardClass = typeof isBulkMode !== 'undefined' && isBulkMode 
+                ? 'bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer border-2 border-transparent hover:border-green-500'
+                : 'bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer border-2 border-transparent hover:border-navy-900';
+            imageCard.className = cardClass;
+            
+            imageCard.onclick = () => {
+                if (typeof isBulkMode !== 'undefined' && isBulkMode && typeof toggleBulkSelection === 'function') {
+                    toggleBulkSelection({
+                        id: assetId,
+                        title: title,
+                        web_url: webUrl,
+                        thumb_url: thumbUrl,
+                        secure_url: secureUrl
+                    });
+                } else {
+                    selectImageFromGallery({
+                        id: assetId,
+                        title: title,
+                        web_url: webUrl,
+                        thumb_url: thumbUrl,
+                        secure_url: secureUrl
+                    });
+                }
+            };
+            
+            imageCard.innerHTML = `
+                <div class="relative aspect-video bg-gray-100">
+                    <img src="${thumbUrl}" alt="${title}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/0 hover:bg-black/10 transition"></div>
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm font-semibold text-navy-900 truncate">${title}</h3>
+                </div>
+            `;
+            
+            galleryGrid.appendChild(imageCard);
+        });
+        
+        return Promise.resolve();
+    } catch (error) {
+        console.error('Error loading gallery:', error);
+        galleryLoading.classList.add('hidden');
+        galleryEmpty.classList.remove('hidden');
+        return Promise.reject(error);
+    }
+}
+
+// Select image from gallery
+function selectImageFromGallery(image) {
+    selectedImage = image;
+    
+    // Update preview
+    document.getElementById('selected-image-thumb').src = image.thumb_url;
+    document.getElementById('selected-image-title').textContent = image.title;
+    document.getElementById('selected-image-url').textContent = image.web_url;
+    document.getElementById('selected-image-preview').classList.remove('hidden');
+    document.getElementById('select-image-btn').disabled = false;
+    
+    // Highlight selected image (compare as strings)
+    const galleryGrid = document.getElementById('gallery-grid');
+    if (galleryGrid) {
+        const cards = galleryGrid.querySelectorAll('[data-asset-id]');
+        cards.forEach(card => {
+            const cardId = card.getAttribute('data-asset-id');
+            const imageId = image.id ? image.id.toString() : image.id;
+            if (cardId === imageId) {
+                card.classList.add('border-navy-900');
+                card.classList.remove('border-transparent');
+            } else {
+                card.classList.remove('border-navy-900');
+                card.classList.add('border-transparent');
+            }
+        });
+    }
+}
+
+// Select image (final selection)
+function selectImage() {
+    // Handle bulk mode
+    if (typeof isBulkMode !== 'undefined' && isBulkMode && typeof bulkSelectedImages !== 'undefined' && bulkSelectedImages.length > 0) {
+        // Add all selected images to gallery
+        if (typeof galleryImages !== 'undefined' && typeof renderGallery === 'function') {
+            bulkSelectedImages.forEach(img => {
+                galleryImages.push({
+                    url: img.url,
+                    alt: img.alt
+                });
+            });
+            renderGallery();
+        }
+        
+        // Reset bulk mode
+        isBulkMode = false;
+        bulkSelectedImages = [];
+        
+        // Reset modal
+        const selectBtn = document.getElementById('select-image-btn');
+        selectBtn.textContent = 'Select Image';
+        selectBtn.disabled = true;
+        const modalHeader = document.querySelector('#image-picker-modal h2');
+        if (modalHeader) {
+            modalHeader.textContent = 'Select or Upload Image';
+        }
+        
+        // Close modal
+        closeImagePickerModal();
+        return;
+    }
+    
+    if (!selectedImage || !targetInputField) return;
+    
+    const inputField = document.getElementById(targetInputField);
+    if (!inputField) return;
+    
+    if (isGalleryMode) {
+        // Add to JSON array (gallery mode)
+        try {
+            let galleryArray = [];
+            const currentValue = inputField.value.trim();
+            if (currentValue) {
+                galleryArray = JSON.parse(currentValue);
+            }
+            
+            // Generate alt text from image title
+            const altText = selectedImage.title.split('.')[0].replace(/[-_]/g, ' ');
+            
+            // Add new image object
+            galleryArray.push({
+                url: selectedImage.web_url,
+                alt: altText
+            });
+            
+            // Update textarea with formatted JSON
+            inputField.value = JSON.stringify(galleryArray, null, 2);
+            inputField.dispatchEvent(new Event('change', { bubbles: true }));
+            
+            // Keep modal open for adding more images
+            selectedImage = null;
+            document.getElementById('selected-image-preview').classList.add('hidden');
+            document.getElementById('select-image-btn').disabled = true;
+            // Keep button text as "Add to Gallery" since we're still in gallery mode
+            document.getElementById('select-image-btn').textContent = 'Add to Gallery';
+        } catch (error) {
+            alert('Error updating gallery: ' + error.message + '\nPlease ensure the JSON is valid.');
+        }
+    } else {
+        // Single image selection (URL field)
+        inputField.value = selectedImage.web_url;
+        inputField.dispatchEvent(new Event('change', { bubbles: true }));
+        
+        // Also update image alt field if it exists
+        const altFieldId = targetInputField.replace('_url', '_alt');
+        const altField = document.getElementById(altFieldId);
+        if (altField && selectedImage.title) {
+            const altText = selectedImage.title.split('.')[0].replace(/[-_]/g, ' ');
+            altField.value = altText;
+        }
+        
+        closeImagePickerModal();
+    }
+}
+
+// Show selected files preview
+document.getElementById('modal-file-input').addEventListener('change', function(e) {
+    const files = Array.from(e.target.files);
+    const preview = document.getElementById('selected-files-preview');
+    const list = document.getElementById('selected-files-list');
+    const buttonText = document.getElementById('upload-button-text');
+    
+    if (files.length > 0) {
+        preview.classList.remove('hidden');
+        list.innerHTML = files.map((file, index) => `
+            <div class="flex items-center gap-2 text-sm text-gray-700 bg-gray-50 p-2 rounded">
+                <i class="fa-solid fa-image text-gray-400"></i>
+                <span class="flex-1 truncate">${file.name}</span>
+                <span class="text-xs text-gray-500">${(file.size / 1024 / 1024).toFixed(2)} MB</span>
+            </div>
+        `).join('');
+        
+        buttonText.textContent = files.length === 1 ? 'Upload Image' : `Upload ${files.length} Images`;
+    } else {
+        preview.classList.add('hidden');
+        buttonText.textContent = 'Upload Image(s)';
+    }
+});
+
+// Upload form handler - supports bulk upload
+document.getElementById('modal-upload-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const fileInput = document.getElementById('modal-file-input');
+    const folderInput = document.getElementById('modal-folder-input');
+    const tagsInput = document.getElementById('modal-tags-input');
+    const progressDiv = document.getElementById('modal-upload-progress');
+    const progressBar = document.getElementById('modal-progress-bar');
+    const statusText = document.getElementById('upload-status-text');
+    const counter = document.getElementById('upload-counter');
+    const errorsDiv = document.getElementById('upload-errors');
+    const submitBtn = document.getElementById('upload-submit-btn');
+    
+    const files = Array.from(fileInput.files);
+    
+    if (files.length === 0) {
+        alert('Please select at least one image file');
+        return;
+    }
+    
+    // Show progress
+    progressDiv.classList.remove('hidden');
+    errorsDiv.classList.add('hidden');
+    errorsDiv.innerHTML = '';
+    submitBtn.disabled = true;
+    progressBar.style.width = '0%';
+    
+    const folder = folderInput.value || 'madrid_marble/uploads';
+    const tags = tagsInput.value || '';
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    let uploadedCount = 0;
+    let failedCount = 0;
+    const uploadedImages = [];
+    const errors = [];
+    
+    // Upload files sequentially
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const fileIndex = i + 1;
+        
+        // Update status
+        statusText.textContent = `Uploading ${file.name}...`;
+        counter.textContent = `(${fileIndex}/${files.length})`;
+        progressBar.style.width = `${(i / files.length) * 100}%`;
+        
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('folder', folder);
+        if (tags) {
+            formData.append('tags', tags);
+        }
+        formData.append('csrfmiddlewaretoken', csrfToken);
+        
+        try {
+            const response = await fetch('{% url "dashboard:upload_image" %}', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                uploadedCount++;
+                uploadedImages.push({
+                    id: data.id,
+                    title: data.title,
+                    web_url: data.web_url,
+                    thumb_url: data.thumb_url,
+                    secure_url: data.secure_url
+                });
+            } else {
+                failedCount++;
+                errors.push({ file: file.name, error: data.error || 'Unknown error' });
+            }
+        } catch (error) {
+            failedCount++;
+            errors.push({ file: file.name, error: error.message });
+        }
+    }
+    
+    // Final progress
+    progressBar.style.width = '100%';
+    
+    // Show results
+    if (uploadedCount > 0) {
+        statusText.textContent = `Successfully uploaded ${uploadedCount} image(s)`;
+        counter.textContent = '';
+        
+        // Reload gallery to show new images
+        await loadGallery();
+        
+        // If only one image was uploaded, select it
+        if (uploadedImages.length === 1 && !isGalleryMode) {
+            setTimeout(() => {
+                selectImageFromGallery(uploadedImages[0]);
+            }, 100);
+        } else {
+            // Switch to gallery tab to show all uploaded images
+            showGalleryTab();
+        }
+    } else {
+        statusText.textContent = 'Upload failed';
+    }
+    
+    // Show errors if any
+    if (errors.length > 0) {
+        errorsDiv.classList.remove('hidden');
+        errorsDiv.innerHTML = '<p class="text-sm font-semibold text-red-600 mb-1">Errors:</p>' + 
+            errors.map(err => `
+                <p class="text-xs text-red-600">• ${err.file}: ${err.error}</p>
+            `).join('');
+    }
+    
+    // Reset form and enable button after a delay
+    setTimeout(() => {
+        document.getElementById('modal-upload-form').reset();
+        document.getElementById('selected-files-preview').classList.add('hidden');
+        progressDiv.classList.add('hidden');
+        progressBar.style.width = '0%';
+        submitBtn.disabled = false;
+        statusText.textContent = 'Uploading and processing images...';
+        counter.textContent = '';
+        document.getElementById('upload-button-text').textContent = 'Upload Image(s)';
+    }, uploadedCount > 0 ? 2000 : 1000);
+});
+
+// Gallery search
+document.getElementById('gallery-search').addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const cards = document.querySelectorAll('#gallery-grid > div');
+    
+    cards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        if (title.includes(searchTerm)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
+</script>
+
+

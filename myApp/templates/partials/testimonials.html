@@ -1,0 +1,31 @@
+<section id="testimonials" class="bg-white py-24">
+    <div class="mx-auto max-w-6xl px-6 md:px-12">
+        <div class="mx-auto max-w-3xl text-center">
+            <h2 class="text-4xl font-semibold text-navy-900 md:text-5xl">Hear from our clients</h2>
+            <p class="mt-6 text-xl text-navy-700">
+                Trusted by architects, developers, and homeowners who demand natural stone excellence across the UAE.
+            </p>
+        </div>
+        <div class="mt-16 grid gap-10 md:grid-cols-2 xl:grid-cols-3">
+            {% for testimonial in content.testimonials %}
+            <div class="rounded-3xl bg-beige-50 p-7 shadow-sm transition hover:shadow-lg">
+                <div class="flex items-center gap-1 text-beige-400">
+                    {% for _ in "12345" %}
+                    <i class="fa-solid fa-star"></i>
+                    {% endfor %}
+                </div>
+                <p class="mt-5 text-lg leading-relaxed text-navy-700">&ldquo;{{ testimonial.quote }}&rdquo;</p>
+                <div class="mt-7 flex items-center gap-5">
+                    <img src="{{ testimonial.avatar }}" alt="{{ testimonial.name }}" class="h-14 w-14 rounded-full object-cover">
+                    <div>
+                        <p class="text-base font-semibold text-navy-900">{{ testimonial.name }}</p>
+                        <p class="text-sm uppercase tracking-[0.28em] text-navy-600">{{ testimonial.role }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+

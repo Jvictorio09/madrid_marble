@@ -1,0 +1,179 @@
+<section id="contact" class="relative overflow-hidden bg-navy-950 py-24 text-white" {% if content.contact.background_image %}style="background-image: url('{{ content.contact.background_image }}'); background-size: cover; background-position: center;"{% endif %}>
+    <div class="absolute inset-0 bg-navy-950/90"></div>
+    <div class="relative mx-auto max-w-6xl px-6 md:px-12">
+        <!-- Section Header with Badge -->
+        <div class="mb-16 text-center">
+            {% if content.contact.badge %}
+            <span class="inline-flex items-center rounded-full bg-navy-800 px-5 py-1.5 text-xs font-semibold uppercase tracking-[0.32em] text-white/80 mb-4">{{ content.contact.badge }}</span>
+            {% endif %}
+            <h2 class="text-4xl font-semibold md:text-5xl mb-4">{{ content.contact.heading }}</h2>
+            <p class="text-lg text-white/90 max-w-3xl mx-auto">
+                {{ content.contact.description }}
+            </p>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="lg:grid lg:grid-cols-[1.1fr_1.2fr] lg:items-start lg:gap-16">
+            <!-- Left Column: Contact Info -->
+            <div class="space-y-10 mb-12 lg:mb-0">
+                <!-- Intro Text -->
+                <p class="text-base text-white/80 leading-relaxed">
+                    {{ content.contact.intro_text }}
+                </p>
+
+                <!-- Contact Information Blocks -->
+                <div class="space-y-8">
+                    {% for info in content.contact.info %}
+                    <div class="space-y-2">
+                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">{{ info.label }}</p>
+                        {% if info.href %}
+                        <a href="{{ info.href }}" class="contact-link text-base text-white block">
+                            {{ info.text }}
+                        </a>
+                        {% else %}
+                        <p class="text-base text-white">{{ info.text }}</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Social Media Section -->
+                {% if content.contact.socials %}
+                <div class="space-y-4 pt-4">
+                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/60">{{ content.contact.socials.label }}</p>
+                    <div class="flex items-center gap-4">
+                        {% for social in content.contact.socials.links %}
+                        <a href="{{ social.href }}" class="flex h-12 w-12 items-center justify-center rounded-full border border-white/20 text-base text-white/70 transition hover:border-beige-200 hover:text-beige-200">
+                            <i class="{{ social.icon }}"></i>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Right Column: Form -->
+            <div class="rounded-3xl bg-white p-8 shadow-2xl md:p-10">
+                <form class="space-y-7" id="contact-form" novalidate>
+                    <div class="grid gap-7 md:grid-cols-2">
+                        {% for field in content.contact.form.fields %}
+                        <div class="form-field space-y-2 {% if field.required %}required{% endif %} {% if field.span == 2 %}md:col-span-2{% endif %}">
+                            <label for="{{ field.name }}" class="text-base font-semibold text-navy-700 block">{{ field.label }}</label>
+                            {% if field.type == "textarea" %}
+                            <textarea 
+                                id="{{ field.name }}" 
+                                name="{{ field.name }}" 
+                                placeholder="{{ field.placeholder }}" 
+                                rows="{{ field.rows|default:5 }}" 
+                                {% if field.required %}required{% endif %}
+                                class="w-full rounded-xl border border-beige-200 px-5 py-3.5 text-navy-900 focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20 transition"></textarea>
+                            {% else %}
+                            <input 
+                                id="{{ field.name }}" 
+                                name="{{ field.name }}" 
+                                type="{{ field.type }}" 
+                                placeholder="{{ field.placeholder }}" 
+                                {% if field.required %}required{% endif %}
+                                {% if field.type == "email" %}pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"{% endif %}
+                                class="w-full rounded-xl border border-beige-200 px-5 py-3.5 text-navy-900 focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20 transition">
+                            {% endif %}
+                            <span class="error-message text-sm text-red-600"></span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="w-full rounded-xl bg-navy-900 px-7 py-3.5 text-lg font-semibold text-white transition hover:bg-navy-950 cursor-pointer">
+                        {{ content.contact.form.submit.label }}
+                    </button>
+                    <p class="text-sm text-navy-600 text-center">{{ content.contact.form.disclaimer }}</p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contact-form');
+    const fields = form.querySelectorAll('input[required], textarea[required]');
+
+    // Custom validation messages
+    const validationMessages = {
+        'name': 'Please enter your full name.',
+        'email': 'Please enter a valid email address.',
+        'phone': 'Please enter your phone number.',
+        'project_type': 'Please enter your project type.',
+        'project_location': 'Please enter your project location.',
+        'project_details': 'Please share a few details about your project.'
+    };
+
+    // Validate individual fields on blur
+    fields.forEach(field => {
+        field.addEventListener('blur', function() {
+            validateField(this);
+        });
+
+        field.addEventListener('input', function() {
+            if (this.classList.contains('border-red-600')) {
+                validateField(this);
+            }
+        });
+    });
+
+    // Validate form on submit
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        let isValid = true;
+        fields.forEach(field => {
+            if (!validateField(field)) {
+                isValid = false;
+            }
+        });
+
+        if (isValid) {
+            // Form is valid, proceed with submission
+            // You can add AJAX submission here or let the form submit naturally
+            console.log('Form is valid, ready to submit');
+            // Uncomment the next line if you want the form to actually submit
+            // form.submit();
+        }
+    });
+
+    function validateField(field) {
+        const errorMessage = field.parentElement.querySelector('.error-message');
+        let isValid = true;
+        let message = '';
+
+        // Remove previous error state
+        field.classList.remove('border-red-600');
+        field.style.borderColor = '';
+        
+        // Validate field
+        if (field.hasAttribute('required') && !field.value.trim()) {
+            isValid = false;
+            message = validationMessages[field.name] || 'This field is required.';
+        } else if (field.type === 'email' && field.value && !field.validity.valid) {
+            isValid = false;
+            message = 'Please enter a valid email address.';
+        }
+
+        // Apply error styling or remove it
+        if (!isValid) {
+            field.classList.add('border-red-600');
+            field.style.borderColor = '#dc2626';
+            if (errorMessage) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                errorMessage.classList.add('show');
+            }
+        } else {
+            if (errorMessage) {
+                errorMessage.style.display = 'none';
+                errorMessage.classList.remove('show');
+            }
+        }
+
+        return isValid;
+    }
+});
+</script>

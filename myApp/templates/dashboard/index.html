@@ -1,0 +1,133 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Dashboard - Madrid Marble{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <h1 class="text-4xl font-bold text-navy-900 mb-8">Dashboard</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- SEO Card -->
+        <a href="{% url 'dashboard:seo_edit' %}" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <i class="fa-solid fa-search text-3xl text-navy-900"></i>
+                <span class="text-sm text-gray-500">{% if seo %}Configured{% else %}Not configured{% endif %}</span>
+            </div>
+            <h3 class="text-lg font-semibold text-navy-900 mb-2">SEO Settings</h3>
+            <p class="text-gray-600 text-sm">Manage meta tags and SEO metadata</p>
+        </a>
+
+        <!-- Navigation Card -->
+        <a href="{% url 'dashboard:navigation_edit' %}" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <i class="fa-solid fa-bars text-3xl text-navy-900"></i>
+                <span class="text-sm text-gray-500">{% if navigation %}Configured{% else %}Not configured{% endif %}</span>
+            </div>
+            <h3 class="text-lg font-semibold text-navy-900 mb-2">Navigation</h3>
+            <p class="text-gray-600 text-sm">Edit navigation menu and logo</p>
+        </a>
+
+        <!-- Hero Card -->
+        <a href="{% url 'dashboard:hero_edit' %}" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <i class="fa-solid fa-image text-3xl text-navy-900"></i>
+                <span class="text-sm text-gray-500">{% if hero %}Configured{% else %}Not configured{% endif %}</span>
+            </div>
+            <h3 class="text-lg font-semibold text-navy-900 mb-2">Hero Section</h3>
+            <p class="text-gray-600 text-sm">Edit hero content and images</p>
+        </a>
+
+        <!-- About Card -->
+        <a href="{% url 'dashboard:about_edit' %}" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <i class="fa-solid fa-info-circle text-3xl text-navy-900"></i>
+                <span class="text-sm text-gray-500">{% if about %}Configured{% else %}Not configured{% endif %}</span>
+            </div>
+            <h3 class="text-lg font-semibold text-navy-900 mb-2">About Section</h3>
+            <p class="text-gray-600 text-sm">Edit about content and gallery</p>
+        </a>
+
+        <!-- Stats Card -->
+        <a href="{% url 'dashboard:stats_list' %}" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <i class="fa-solid fa-chart-bar text-3xl text-navy-900"></i>
+                <span class="text-sm text-gray-500">{{ stats|length }} items</span>
+            </div>
+            <h3 class="text-lg font-semibold text-navy-900 mb-2">Stats</h3>
+            <p class="text-gray-600 text-sm">Manage statistics</p>
+        </a>
+
+        <!-- Services Card -->
+        <a href="{% url 'dashboard:services_list' %}" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <i class="fa-solid fa-briefcase text-3xl text-navy-900"></i>
+                <span class="text-sm text-gray-500">{{ services|length }} services</span>
+            </div>
+            <h3 class="text-lg font-semibold text-navy-900 mb-2">Services</h3>
+            <p class="text-gray-600 text-sm">Manage services</p>
+        </a>
+
+        <!-- Portfolio Card -->
+        <a href="{% url 'dashboard:portfolio_projects_list' %}" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <i class="fa-solid fa-folder-open text-3xl text-navy-900"></i>
+                <span class="text-sm text-gray-500">{{ portfolio_projects|length }} projects</span>
+            </div>
+            <h3 class="text-lg font-semibold text-navy-900 mb-2">Portfolio</h3>
+            <p class="text-gray-600 text-sm">Manage portfolio projects</p>
+        </a>
+
+        <!-- Testimonials Card -->
+        <a href="{% url 'dashboard:testimonials_list' %}" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <i class="fa-solid fa-quote-left text-3xl text-navy-900"></i>
+                <span class="text-sm text-gray-500">{{ testimonials|length }} testimonials</span>
+            </div>
+            <h3 class="text-lg font-semibold text-navy-900 mb-2">Testimonials</h3>
+            <p class="text-gray-600 text-sm">Manage testimonials</p>
+        </a>
+
+        <!-- FAQs Card -->
+        <a href="{% url 'dashboard:faqs_list' %}" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <i class="fa-solid fa-question-circle text-3xl text-navy-900"></i>
+                <span class="text-sm text-gray-500">{{ faqs|length }} FAQs</span>
+            </div>
+            <h3 class="text-lg font-semibold text-navy-900 mb-2">FAQs</h3>
+            <p class="text-gray-600 text-sm">Manage frequently asked questions</p>
+        </a>
+
+        <!-- Contact Card -->
+        <a href="{% url 'dashboard:contact_edit' %}" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <i class="fa-solid fa-envelope text-3xl text-navy-900"></i>
+                <span class="text-sm text-gray-500">{% if contact %}Configured{% else %}Not configured{% endif %}</span>
+            </div>
+            <h3 class="text-lg font-semibold text-navy-900 mb-2">Contact</h3>
+            <p class="text-gray-600 text-sm">Edit contact section and form</p>
+        </a>
+
+        <!-- Footer Card -->
+        <a href="{% url 'dashboard:footer_edit' %}" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <i class="fa-solid fa-file text-3xl text-navy-900"></i>
+                <span class="text-sm text-gray-500">{% if footer %}Configured{% else %}Not configured{% endif %}</span>
+            </div>
+            <h3 class="text-lg font-semibold text-navy-900 mb-2">Footer</h3>
+            <p class="text-gray-600 text-sm">Edit footer content</p>
+        </a>
+
+        <!-- Gallery Card -->
+        <a href="{% url 'dashboard:gallery' %}" class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <i class="fa-solid fa-images text-3xl text-navy-900"></i>
+                <span class="text-sm text-gray-500">Media</span>
+            </div>
+            <h3 class="text-lg font-semibold text-navy-900 mb-2">Image Gallery</h3>
+            <p class="text-gray-600 text-sm">Upload and manage images</p>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+

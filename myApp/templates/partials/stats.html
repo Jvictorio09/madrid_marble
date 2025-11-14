@@ -1,0 +1,16 @@
+<section id="stats" class="relative bg-beige-50 py-20">
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1586109878273-3f6d1eeb47ed?auto=format&fit=crop&w=1400&q=60')] bg-cover bg-center opacity-5"></div>
+    <div class="relative mx-auto max-w-5xl px-6 md:px-12">
+        <div class="grid grid-cols-2 gap-12 text-center md:grid-cols-4 md:[&>div]:pl-0 md:[&>div:not(:first-child)]:border-l md:[&>div:not(:first-child)]:border-beige-200/80 md:[&>div:not(:first-child)]:pl-10">
+            {% for stat in content.stats %}
+            <div class="space-y-2">
+                <p class="text-5xl font-semibold text-navy-900">{{ stat.value }}</p>
+                <p class="text-base font-semibold text-navy-700">{{ stat.label }}</p>
+                <p class="text-sm text-navy-600">{{ stat.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+

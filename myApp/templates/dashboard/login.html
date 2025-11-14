@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-navy-900">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login - Madrid Marble Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="h-full flex items-center justify-center">
+    <div class="w-full max-w-md">
+        <div class="bg-white rounded-2xl shadow-2xl p-8">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-navy-900 mb-2">Madrid Marble</h1>
+                <p class="text-gray-600">Dashboard Login</p>
+            </div>
+
+            {% if form.errors %}
+            <div class="mb-4 p-4 bg-red-100 text-red-800 rounded-lg">
+                <p>Please correct the errors below:</p>
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
+            <form method="post" action="{% url 'dashboard:login' %}" id="login-form">
+                {% csrf_token %}
+                {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                {% else %}
+                <input type="hidden" name="next" value="{% url 'dashboard:home' %}">
+                {% endif %}
+                <div class="space-y-4">
+                    <div>
+                        <label for="id_username" class="block text-sm font-semibold text-gray-700 mb-2">Username</label>
+                        <input type="text" name="username" id="id_username" autocomplete="username" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                    </div>
+                    <div>
+                        <label for="id_password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+                        <input type="password" name="password" id="id_password" autocomplete="current-password" required 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                    </div>
+                    <button type="submit" class="w-full bg-navy-900 text-white px-6 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
+                        Sign In
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+
+

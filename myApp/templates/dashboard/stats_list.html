@@ -1,0 +1,61 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Stats - Madrid Marble Dashboard{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="text-4xl font-bold text-navy-900">Stats</h1>
+        <div class="flex gap-4">
+            <a href="{% url 'dashboard:stat_add' %}" class="bg-navy-900 text-white px-6 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
+                <i class="fa-solid fa-plus mr-2"></i> Add Stat
+            </a>
+            <a href="{% url 'dashboard:home' %}" class="text-gray-600 hover:text-navy-900">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Back
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <table class="w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Value</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Label</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Description</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Sort Order</th>
+                    <th class="px-6 py-4 text-right text-sm font-semibold text-gray-700">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for stat in stats %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 text-sm font-semibold text-navy-900">{{ stat.value }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-700">{{ stat.label }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-600">{{ stat.description }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-600">{{ stat.sort_order }}</td>
+                    <td class="px-6 py-4 text-right text-sm">
+                        <a href="{% url 'dashboard:stat_edit' stat.id %}" class="text-navy-900 hover:text-navy-700 mr-4">
+                            <i class="fa-solid fa-edit"></i> Edit
+                        </a>
+                        <a href="{% url 'dashboard:stat_delete' stat.id %}" 
+                           onclick="return confirm('Are you sure you want to delete this stat?')"
+                           class="text-red-600 hover:text-red-800">
+                            <i class="fa-solid fa-trash"></i> Delete
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="px-6 py-12 text-center text-gray-500">
+                        No stats found. <a href="{% url 'dashboard:stat_add' %}" class="text-navy-900 hover:underline">Add your first stat</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+

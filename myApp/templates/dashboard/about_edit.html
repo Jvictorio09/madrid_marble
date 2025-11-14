@@ -1,0 +1,424 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Edit About Section - Madrid Marble Dashboard{% endblock %}
+
+{% block content %}
+<!-- Include Image Picker Modal -->
+{% include "dashboard/image_picker_modal.html" %}
+
+<div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="text-4xl font-bold text-navy-900">Edit About Section</h1>
+        <a href="{% url 'dashboard:home' %}" class="text-gray-600 hover:text-navy-900">
+            <i class="fa-solid fa-arrow-left mr-2"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <form method="post" class="bg-white rounded-xl shadow-sm p-8 space-y-6">
+        {% csrf_token %}
+        
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Badge</label>
+            <input type="text" name="badge" value="{{ about.badge|default:'' }}" 
+                   placeholder="About us"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+            <input type="text" name="title" value="{{ about.title|default:'' }}" required
+                   placeholder="Marble & Stone Specialists"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Copy (JSON Array of Paragraphs)</label>
+            <textarea name="copy_json" rows="6" required
+                      placeholder='["First paragraph...", "Second paragraph..."]'
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20 font-mono text-sm">{% if about.copy_json %}{{ about.copy_json|safe }}{% else %}[]{% endif %}</textarea>
+            <p class="text-sm text-gray-500 mt-1">JSON array of paragraph strings (e.g., ["Paragraph 1", "Paragraph 2"])</p>
+        </div>
+
+        <div>
+            <div class="flex items-center justify-between mb-2">
+                <label class="block text-sm font-semibold text-gray-700">Gallery Images</label>
+                <div class="flex gap-2">
+                    <button type="button" onclick="addGalleryImage()" class="text-sm bg-navy-900 text-white px-4 py-2 rounded-lg font-semibold hover:bg-navy-950 transition">
+                        <i class="fa-solid fa-plus mr-1"></i> Add Single
+                    </button>
+                    <button type="button" onclick="openBulkImagePicker()" class="text-sm bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition">
+                        <i class="fa-solid fa-layer-group mr-1"></i> Bulk Add
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Visual Gallery Manager -->
+            <div id="gallery-manager" class="space-y-4 border border-gray-200 rounded-xl p-4 bg-gray-50 min-h-[200px]">
+                <!-- Images will be dynamically added here -->
+                <div id="gallery-empty" class="text-center py-12 text-gray-500">
+                    <i class="fa-solid fa-images text-4xl mb-3"></i>
+                    <p>No images added yet. Click "Add Image" to get started.</p>
+                </div>
+            </div>
+            
+            <!-- Hidden textarea for form submission -->
+            <textarea name="gallery_json" id="about_gallery_json" required class="hidden">{{ gallery_json_str|default:"[]" }}</textarea>
+            
+            <p class="text-xs text-gray-500 mt-2">
+                <i class="fa-solid fa-info-circle mr-1"></i> 
+                Use the up/down arrows to reorder images. Click "Pick" on each card to select from gallery or upload new images.
+            </p>
+        </div>
+
+        <div class="flex gap-4 pt-6">
+            <button type="submit" class="bg-navy-900 text-white px-8 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
+                Save Changes
+            </button>
+            <a href="{% url 'dashboard:home' %}" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-xl font-semibold hover:bg-gray-300 transition">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+// Gallery Manager for About Section
+let galleryImages = [];
+
+// Initialize gallery on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const galleryJsonField = document.getElementById('about_gallery_json');
+    let galleryJsonValue = galleryJsonField ? galleryJsonField.value : '[]';
+    
+    // If the value looks like a Python list (starts with [), try to parse it
+    // Otherwise, it might already be a JSON string
+    try {
+        // First try direct JSON parsing
+        if (galleryJsonValue && galleryJsonValue.trim() !== '') {
+            // Remove any extra whitespace
+            galleryJsonValue = galleryJsonValue.trim();
+            
+            // If it's already a JSON string, parse it
+            if (galleryJsonValue.startsWith('[') || galleryJsonValue.startsWith('{')) {
+                galleryImages = JSON.parse(galleryJsonValue);
+            } else {
+                // Try to evaluate as Python literal (fallback)
+                galleryImages = [];
+                console.warn('Gallery JSON format unexpected, using empty array');
+            }
+        } else {
+            galleryImages = [];
+        }
+    } catch (e) {
+        console.error('Error parsing gallery JSON:', e, 'Raw value:', galleryJsonValue);
+        galleryImages = [];
+    }
+    
+    // Ensure galleryImages is an array
+    if (!Array.isArray(galleryImages)) {
+        console.warn('Gallery images is not an array, resetting to empty array');
+        galleryImages = [];
+    }
+    
+    renderGallery();
+});
+
+// Render gallery images
+function renderGallery() {
+    const manager = document.getElementById('gallery-manager');
+    const textarea = document.getElementById('about_gallery_json');
+    
+    if (galleryImages.length === 0) {
+        manager.innerHTML = '<div id="gallery-empty" class="text-center py-12 text-gray-500"><i class="fa-solid fa-images text-4xl mb-3"></i><p>No images added yet. Click "Add Image" to get started.</p></div>';
+    } else {
+        manager.innerHTML = galleryImages.map((img, index) => `
+            <div class="gallery-item bg-white rounded-lg border-2 border-gray-200 p-4 hover:border-navy-900 transition" data-index="${index}">
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0">
+                        <div class="relative w-32 h-24 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                            <img src="${img.url || ''}" alt="${img.alt || ''}" 
+                                 class="w-full h-full object-cover"
+                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect fill=%27%23e5e7eb%27 width=%27100%27 height=%27100%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 text-anchor=%27middle%27 dy=%27.3em%27 fill=%27%239ca3af%27%3ENo Image%3C/text%3E%3C/svg%3E'">
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Image URL</label>
+                            <div class="flex gap-2">
+                                <input type="url" 
+                                       value="${img.url || ''}" 
+                                       placeholder="https://res.cloudinary.com/..."
+                                       class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20"
+                                       onchange="updateGalleryImage(${index}, 'url', this.value)"
+                                       oninput="updateGalleryImagePreview(${index}, this.value)">
+                                <input type="hidden" id="gallery-item-url-input-${index}" value="${img.url || ''}">
+                                <button type="button" 
+                                        onclick="openImagePickerForGalleryItem(${index})"
+                                        class="px-3 py-2 bg-navy-900 text-white text-xs font-semibold rounded-lg hover:bg-navy-950 transition">
+                                    <i class="fa-solid fa-images mr-1"></i> Pick
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Alt Text (Description)</label>
+                            <input type="text" 
+                                   value="${img.alt || ''}" 
+                                   placeholder="Describe this image..."
+                                   class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20"
+                                   onchange="updateGalleryImage(${index}, 'alt', this.value)">
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0 flex flex-col gap-2">
+                        <button type="button" 
+                                onclick="moveGalleryImage(${index}, 'up')"
+                                ${index === 0 ? 'disabled' : ''}
+                                class="px-3 py-1.5 bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                        <button type="button" 
+                                onclick="moveGalleryImage(${index}, 'down')"
+                                ${index === galleryImages.length - 1 ? 'disabled' : ''}
+                                class="px-3 py-1.5 bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </button>
+                        <button type="button" 
+                                onclick="removeGalleryImage(${index})"
+                                class="px-3 py-1.5 bg-red-600 text-white text-xs font-semibold rounded-lg hover:bg-red-700 transition">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    // Update hidden textarea
+    textarea.value = JSON.stringify(galleryImages, null, 2);
+    
+    // Setup listeners for new inputs after rendering
+    setTimeout(setupGalleryItemListeners, 100);
+}
+
+// Add new gallery image
+function addGalleryImage() {
+    galleryImages.push({ url: '', alt: '' });
+    renderGallery();
+    // Scroll to the new item
+    setTimeout(() => {
+        const items = document.querySelectorAll('.gallery-item');
+        if (items.length > 0) {
+            items[items.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, 100);
+}
+
+// Remove gallery image
+function removeGalleryImage(index) {
+    if (confirm('Are you sure you want to remove this image?')) {
+        galleryImages.splice(index, 1);
+        renderGallery();
+    }
+}
+
+// Update gallery image property
+function updateGalleryImage(index, property, value) {
+    if (galleryImages[index]) {
+        galleryImages[index][property] = value;
+        const textarea = document.getElementById('about_gallery_json');
+        textarea.value = JSON.stringify(galleryImages, null, 2);
+        
+        // Also update hidden input if it exists
+        const hiddenInput = document.getElementById('gallery-item-url-input-' + index);
+        if (hiddenInput && property === 'url') {
+            hiddenInput.value = value;
+        }
+    }
+}
+
+// Update gallery image preview
+function updateGalleryImagePreview(index, url) {
+    const item = document.querySelector(`.gallery-item[data-index="${index}"]`);
+    if (item) {
+        const img = item.querySelector('img');
+        if (img && url) {
+            img.src = url;
+            img.onerror = function() {
+                this.src = 'data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect fill=%27%23e5e7eb%27 width=%27100%27 height=%27100%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 text-anchor=%27middle%27 dy=%27.3em%27 fill=%27%239ca3af%27%3ENo Image%3C/text%3E%3C/svg%3E';
+            };
+        }
+    }
+}
+
+// Move gallery image up/down
+function moveGalleryImage(index, direction) {
+    if (direction === 'up' && index > 0) {
+        [galleryImages[index - 1], galleryImages[index]] = [galleryImages[index], galleryImages[index - 1]];
+        renderGallery();
+    } else if (direction === 'down' && index < galleryImages.length - 1) {
+        [galleryImages[index], galleryImages[index + 1]] = [galleryImages[index + 1], galleryImages[index]];
+        renderGallery();
+    }
+}
+
+// Open image picker for specific gallery item
+function openImagePickerForGalleryItem(index) {
+    if (typeof openImagePickerModal === 'function') {
+        const inputId = 'gallery-item-url-input-' + index;
+        const currentValue = galleryImages[index] ? galleryImages[index].url : '';
+        
+        openImagePickerModal(inputId);
+        
+        // Watch for changes to the input field (modal will update it)
+        const checkInterval = setInterval(function() {
+            const input = document.getElementById(inputId);
+            if (input && input.value !== currentValue && input.value) {
+                clearInterval(checkInterval);
+                
+                // Get the selected image details from the modal - check both global selectedImage and input value
+                let imageUrl = input.value;
+                let imageAlt = '';
+                
+                // Try to get from modal's selectedImage first
+                if (typeof selectedImage !== 'undefined' && selectedImage && selectedImage.web_url) {
+                    imageUrl = selectedImage.web_url;
+                    if (selectedImage.title) {
+                        imageAlt = selectedImage.title.split('.')[0].replace(/[-_]/g, ' ');
+                    }
+                } else if (input.value) {
+                    // Fallback to input value
+                    imageUrl = input.value;
+                    imageAlt = input.value.split('/').pop().split('.')[0].replace(/[-_]/g, ' ');
+                }
+                
+                // Update gallery image
+                if (imageUrl) {
+                    updateGalleryImage(index, 'url', imageUrl);
+                    if (!galleryImages[index].alt && imageAlt) {
+                        updateGalleryImage(index, 'alt', imageAlt);
+                    }
+                    // Force re-render to update preview
+                    renderGallery();
+                }
+                
+                // Also update the visible URL input
+                const urlInput = document.querySelector(`.gallery-item[data-index="${index}"] input[type="url"]`);
+                if (urlInput) {
+                    urlInput.value = input.value;
+                }
+            }
+        }, 200);
+        
+        // Clean up after 30 seconds
+        setTimeout(function() {
+            clearInterval(checkInterval);
+        }, 30000);
+    }
+}
+
+// Bulk selection mode
+let bulkSelectedImages = [];
+let isBulkMode = false;
+
+// Open bulk image picker for adding multiple images
+function openBulkImagePicker() {
+    if (typeof openImagePickerModal === 'function') {
+        bulkSelectedImages = [];
+        isBulkMode = true;
+        
+        // Open modal and switch to gallery tab
+        const modal = document.getElementById('image-picker-modal');
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        showGalleryTab();
+        loadGallery();
+        
+        // Change button text
+        const selectBtn = document.getElementById('select-image-btn');
+        selectBtn.textContent = 'Done - Add Selected';
+        selectBtn.disabled = true;
+        
+        // Hide the cancel button functionality temporarily - we'll handle it ourselves
+        // Show instructions
+        const modalHeader = modal.querySelector('h2');
+        if (modalHeader) {
+            modalHeader.textContent = 'Bulk Select Images - Click images to select multiple';
+        }
+    }
+}
+
+// Toggle image selection in bulk mode
+function toggleBulkSelection(image) {
+    if (!isBulkMode) return;
+    
+    const existingIndex = bulkSelectedImages.findIndex(img => img.id === image.id);
+    
+    if (existingIndex >= 0) {
+        // Deselect
+        bulkSelectedImages.splice(existingIndex, 1);
+        const card = document.querySelector(`[data-asset-id="${image.id}"]`);
+        if (card) {
+            card.classList.remove('border-green-500', 'bg-green-50');
+            card.classList.add('border-transparent');
+        }
+    } else {
+        // Select
+        const altText = image.title ? image.title.split('.')[0].replace(/[-_]/g, ' ') : '';
+        bulkSelectedImages.push({
+            url: image.web_url,
+            alt: altText,
+            id: image.id
+        });
+        const card = document.querySelector(`[data-asset-id="${image.id}"]`);
+        if (card) {
+            card.classList.add('border-green-500', 'bg-green-50');
+            card.classList.remove('border-transparent');
+        }
+    }
+    
+    // Update button
+    const selectBtn = document.getElementById('select-image-btn');
+    if (bulkSelectedImages.length > 0) {
+        selectBtn.disabled = false;
+        selectBtn.textContent = `Add ${bulkSelectedImages.length} Image(s)`;
+    } else {
+        selectBtn.disabled = true;
+        selectBtn.textContent = 'Done - Add Selected';
+    }
+}
+
+// Listen for changes to gallery item inputs after they're created
+function setupGalleryItemListeners() {
+    // This will be called after renderGallery creates new items
+    document.querySelectorAll('[id^="gallery-item-url-input-"]').forEach(input => {
+        const index = parseInt(input.id.replace('gallery-item-url-input-', ''));
+        input.addEventListener('change', function() {
+            if (this.value) {
+                updateGalleryImage(index, 'url', this.value);
+            }
+        });
+    });
+}
+
+// Also handle the case when image picker adds to gallery (for the "Add images from gallery" button)
+const originalOpenImagePickerModalForGallery = window.openImagePickerModalForGallery;
+window.openImagePickerModalForGallery = function(textareaFieldId) {
+    if (textareaFieldId === 'about_gallery_json') {
+        // Use the new gallery manager instead
+        addGalleryImage();
+        // Optionally open picker for the last item
+        setTimeout(() => {
+            if (galleryImages.length > 0) {
+                openImagePickerForGalleryItem(galleryImages.length - 1);
+            }
+        }, 100);
+    } else {
+        // Call original function
+        if (originalOpenImagePickerModalForGallery) {
+            originalOpenImagePickerModalForGallery.call(this, textareaFieldId);
+        }
+    }
+};
+</script>
+{% endblock %}
+
+

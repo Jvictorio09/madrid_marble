@@ -1,0 +1,382 @@
+{
+  "seo": {
+    "title": "Premium Marble Supplier in UAE | Slabs, Cut-to-Size & Installation",
+    "description": "Madrid Marble supplies premium slabs and tiles in the UAE. Cut-to-size, finishing, fast delivery, and installation. Get a same-day quote.",
+    "canonical": "https://madridmarble-production.up.railway.app/",
+    "og": {
+      "title": "Madrid Marble — Premium UAE Marble Supplier",
+      "description": "Slabs, tiles, countertops, cut-to-size, and installation. Trusted by architects and contractors across the UAE.",
+      "image": "https://images.unsplash.com/photo-1530731141654-5993c3016c77?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+    },
+    "favicon": "https://via.placeholder.com/32x32.png?text=MM",
+    "preload_hero": "https://images.unsplash.com/photo-1530731141654-5993c3016c77?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+  },
+  "nav": {
+    "logo_text": "MM",
+    "logo_image_url": "",
+    "brand": "Madrid Marble",
+    "links": [
+      { "label": "Services", "href": "#services" },
+      { "label": "Work", "href": "#portfolio" },
+      { "label": "Contact", "href": "#contact" }
+    ],
+    "cta": {
+      "label": "Start a project",
+      "href": "#contact"
+    }
+  },
+  "hero": {
+    "badge": "Available for work",
+    "headline": "Your trusted partner for quality marble works in the UAE",
+    "description": "Madrid Marble delivers luxury marble installation in Dubai, Abu Dhabi, and across the UAE. From precision CNC marble cutting services to on-site fabrication and seamless installation, we collaborate with architects and interior designers to transform villa, hotel, and commercial spaces.",
+    "primary_cta": {
+      "label": "Discuss your project",
+      "href": "#contact",
+      "icon": "fa-solid fa-arrow-right"
+    },
+    "secondary_cta": {
+      "label": "See recent work",
+      "href": "#portfolio"
+    },
+    "image": {
+      "url": "https://images.unsplash.com/photo-1616628188505-404cf8634f82?auto=format&fit=crop&w=1600&q=80",
+      "alt": "Luxury marble kitchen island in Dubai villa"
+    },
+    "testimonial": {
+      "quote": "Madrid Marble transformed our villa spaces with timeless precision.",
+      "name": "Residential client",
+      "meta": "Dubai",
+      "stars": 5
+    }
+  },
+  "about": {
+    "badge": "About us",
+    "title": "Marble & Stone Specialists",
+    "copy": [
+      "For more than a decade, Madrid Marble has supplied premium marble slabs, custom fabrication, and flawless installation throughout the UAE. Our ISO-certified workflows, rapid in-country logistics, and master craftsmen ensure every villa, hotel, and commercial lobby achieves enduring luxury.",
+      "From bespoke cut-to-size staircases to natural stone cladding, we partner with architects and interior designers to deliver projects on time with uncompromising precision."
+    ],
+    "gallery": [
+      {
+        "url": "https://images.unsplash.com/photo-1570129476769-55d2a7e0aa4b?auto=format&fit=crop&w=1400&q=80",
+        "alt": "Luxury marble staircase with ambient lighting"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1400&q=80",
+        "alt": "Marble vanity countertop with soft lighting"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1400&q=80",
+        "alt": "Modern villa exterior with marble accents"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1400&q=80",
+        "alt": "Craftsman inspecting marble slab in showroom"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1615529328331-f8917597711f?auto=format&fit=crop&w=1400&q=80",
+        "alt": "Sunlit marble bedroom interior"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1400&q=80",
+        "alt": "Marble courtyard with serene landscaping"
+      }
+    ]
+  },
+  "stats": [
+    {
+      "value": "12+",
+      "label": "Years of Excellence",
+      "description": "Premium marble supplier in UAE since 2012."
+    },
+    {
+      "value": "380+",
+      "label": "Projects Delivered",
+      "description": "Luxury marble installation Dubai to Abu Dhabi."
+    },
+    {
+      "value": "45+",
+      "label": "Master Craftsmen",
+      "description": "CNC marble cutting services & artisans."
+    },
+    {
+      "value": "100%",
+      "label": "Client Satisfaction",
+      "description": "Trusted by architects & designers across UAE."
+    }
+  ],
+  "services": {
+    "title": "What we do",
+    "description": "Comprehensive marble fabrication & installation UAE wide—with precision tooling, on-site teams, and dedicated project managers for villas, hotels, and commercial towers.",
+    "image": {
+      "url": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1400&q=80",
+      "alt": "Stone mason cutting marble slab"
+    },
+    "items": [
+      {
+        "title": "Marble Installation",
+        "description": "Precision setting for villas, hotels, and corporate lobbies with meticulous leveling, mitred edges, and joint finishing. On-site teams deliver fast UAE installation schedules.",
+        "icon": "fa-solid fa-sink",
+        "open": true
+      },
+      {
+        "title": "Custom Fabrication",
+        "description": "CNC profiling, waterjet cutting, bookmatching, and bespoke inlays crafted in our Dubai facility, ensuring flawless execution for architectural marble works.",
+        "icon": "fa-solid fa-cubes"
+      },
+      {
+        "title": "Restoration & Polishing",
+        "description": "Renew worn surfaces with crystallization, sealing, and scratch removal, preserving the brilliance of luxury marble installation Dubai wide.",
+        "icon": "fa-solid fa-broom"
+      },
+      {
+        "title": "Architectural Consultation",
+        "description": "Material sourcing, sampling, and technical submittals for architects and designers, ensuring optimal stone selection for every application.",
+        "icon": "fa-solid fa-compass-drafting"
+      },
+      {
+        "title": "Maintenance Contracts",
+        "description": "Scheduled inspection and upkeep programs for hotels, resorts, and commercial towers to maintain impeccable stone surfaces year-round.",
+        "icon": "fa-solid fa-toolbox"
+      }
+    ]
+  },
+  "portfolio": {
+    "heading": "Get inspired by our projects",
+    "description": "Explore how our premium marble slabs supplier UAE team crafts enduring interiors across villas, hotels, and commercial developments.",
+    "feature": {
+      "image": {
+        "url": "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=80",
+        "alt": "Luxury villa marble kitchen refit in Downtown Dubai"
+      },
+      "title": "Downtown Dubai Villa Refit",
+      "description": "Custom kitchen island, full-height marble cladding, and bookmatched feature walls delivered within a four-week program. Our team managed CNC fabrication, transport, and installation to exceed client expectations.",
+      "tags": ["Kitchen", "4 weeks", "CNC Fabrication"],
+      "testimonial": {
+        "quote": "Our marble refit delivered a showroom finish ahead of schedule.",
+        "author": "Private client — Dubai"
+      },
+      "cta": {
+        "label": "See all projects",
+        "href": "#contact",
+        "icon": "fa-solid fa-arrow-right"
+      }
+    },
+    "projects": [
+      {
+        "image": {
+          "url": "https://images.unsplash.com/photo-1590077428593-a55bb06c2d8b?auto=format&fit=crop&w=1100&q=80",
+          "alt": "Hotel lobby marble staircase"
+        },
+        "title": "Marina Towers Lobby",
+        "description": "Curved marble staircase, illuminated wall cladding, and signature reception desk for a hospitality landmark."
+      },
+      {
+        "image": {
+          "url": "https://images.unsplash.com/photo-1598908313490-dc9c86a8aa06?auto=format&fit=crop&w=1100&q=80",
+          "alt": "Corporate reception with marble wall"
+        },
+        "title": "Business Bay HQ",
+        "description": "Reception feature wall, stone flooring, and meeting room tables with precision mitred edges."
+      },
+      {
+        "image": {
+          "url": "https://images.unsplash.com/photo-1615529328331-f8917597711f?auto=format&fit=crop&w=1100&q=80",
+          "alt": "Luxury bathroom with marble surfaces"
+        },
+        "title": "Palm Jumeirah Residence",
+        "description": "Spa bathrooms, bookmatched feature walls, and outdoor entertaining areas in premium natural stone."
+      }
+    ]
+  },
+  "testimonials": [
+    {
+      "quote": "The team was exceptional—installation was fast, clean, and beyond expectations. Highly recommended!",
+      "name": "Sarah Al Maktoum",
+      "role": "Villa Owner — Dubai",
+      "avatar": "https://i.pravatar.cc/80?img=32"
+    },
+    {
+      "quote": "Madrid Marble managed CNC cutting, transport, and site coordination seamlessly for our hospitality project.",
+      "name": "Omar Rahman",
+      "role": "Project Manager — Abu Dhabi",
+      "avatar": "https://i.pravatar.cc/80?img=28"
+    },
+    {
+      "quote": "Their quality control and ISO-certified processes gave us confidence from sampling to handover.",
+      "name": "Leila Fahd",
+      "role": "Interior Designer — Sharjah",
+      "avatar": "https://i.pravatar.cc/80?img=45"
+    },
+    {
+      "quote": "Maintenance teams keep our hotel lobby pristine; guests compliment the marble daily.",
+      "name": "Noura Qasim",
+      "role": "Operations Lead — Dubai Marina",
+      "avatar": "https://i.pravatar.cc/80?img=24"
+    },
+    {
+      "quote": "Precision fabrication made every mitre perfect. They are our go-to marble supplier in UAE.",
+      "name": "James Carter",
+      "role": "Architect — DIFC",
+      "avatar": "https://i.pravatar.cc/80?img=15"
+    },
+    {
+      "quote": "Responsive, collaborative, and able to deliver on aggressive timelines without compromising finish.",
+      "name": "Aisha Rahim",
+      "role": "Developer — Abu Dhabi",
+      "avatar": "https://i.pravatar.cc/80?img=5"
+    }
+  ],
+  "faq": {
+    "title": "Answering your questions",
+    "description": "Still exploring marble suppliers in Dubai or Abu Dhabi? Our team is ready to guide you with samples, site visits, and detailed quotations.",
+    "cta": {
+      "label": "Get in touch",
+      "href": "#contact",
+      "icon": "fa-solid fa-arrow-right"
+    },
+    "items": [
+      {
+        "question": "Do you provide free quotations?",
+        "answer": "Yes. Share your drawings or scope and we will provide a detailed quotation with material options within 24 hours."
+      },
+      {
+        "question": "What’s the average lead time for installation?",
+        "answer": "Standard villa or apartment fit-outs take 3–5 weeks from approval. Larger commercial projects are scheduled with phased delivery plans."
+      },
+      {
+        "question": "Do you import marble or stock locally?",
+        "answer": "We maintain ready stock in our Dubai warehouse and source globally from Italy, Turkey, and Greece for specialty finishes."
+      },
+      {
+        "question": "Can I visit your Dubai showroom?",
+        "answer": "Absolutely. Book a showroom visit to review slabs, finishes, and consult with our material specialists."
+      },
+      {
+        "question": "Do you handle cutting & polishing on-site?",
+        "answer": "Our mobile teams handle on-site adjustments, polishing, and sealing to ensure a flawless installation."
+      },
+      {
+        "question": "Do you provide warranty on installation?",
+        "answer": "Yes, all installations include a workmanship warranty along with maintenance guidance tailored to your project."
+      },
+      {
+        "question": "Can you work directly with architects or designers?",
+        "answer": "We collaborate closely with architectural and design teams, providing samples, technical submittals, and value engineering."
+      }
+    ]
+  },
+  "contact": {
+    "badge": "CONTACT",
+    "heading": "Speak with the Madrid Marble team",
+    "description": "Share your drawings, timelines, and project details — our team will respond within 24 hours with tailored stone recommendations and showroom availability.",
+    "intro_text": "For project inquiries and showroom appointments, share your details below. We'll review your scope and respond within 24 hours with tailored stone recommendations, next steps, and available visit slots.",
+    "background_image": "https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=1400&q=70",
+    "info": [
+      {
+        "label": "SHOWROOM & WAREHOUSE",
+        "text": "Warehouse 4, Dubai Investment Park 2, UAE",
+        "type": "address"
+      },
+      {
+        "label": "EMAIL",
+        "text": "hello@madridmarble.ae",
+        "href": "mailto:hello@madridmarble.ae",
+        "type": "email"
+      },
+      {
+        "label": "PHONE",
+        "text": "+971 4 422 3355",
+        "href": "tel:+97144223355",
+        "type": "phone"
+      }
+    ],
+    "socials": {
+      "label": "FOLLOW MADRID MARBLE",
+      "links": [
+        {
+          "icon": "fa-brands fa-instagram",
+          "href": "#"
+        },
+        {
+          "icon": "fa-brands fa-tiktok",
+          "href": "#"
+        },
+        {
+          "icon": "fa-brands fa-linkedin-in",
+          "href": "#"
+        }
+      ]
+    },
+    "form": {
+      "fields": [
+        {
+          "name": "name",
+          "label": "Name",
+          "type": "text",
+          "placeholder": "Your full name",
+          "span": 1,
+          "required": true
+        },
+        {
+          "name": "email",
+          "label": "Email",
+          "type": "email",
+          "placeholder": "name@company.com",
+          "span": 1,
+          "required": true
+        },
+        {
+          "name": "phone",
+          "label": "Phone",
+          "type": "tel",
+          "placeholder": "+971 50 000 0000",
+          "span": 2,
+          "required": true
+        },
+        {
+          "name": "project_type",
+          "label": "Project type",
+          "type": "text",
+          "placeholder": "Villa, apartment, hotel, commercial…",
+          "span": 1,
+          "required": true
+        },
+        {
+          "name": "project_location",
+          "label": "Project location",
+          "type": "text",
+          "placeholder": "Dubai Hills, Palm Jumeirah, JVC…",
+          "span": 1,
+          "required": true
+        },
+        {
+          "name": "project_details",
+          "label": "Project details",
+          "type": "textarea",
+          "placeholder": "Share your drawings, scope, timelines, and preferred marble finishes.",
+          "rows": 5,
+          "span": 2,
+          "required": true
+        }
+      ],
+      "submit": {
+        "label": "Submit inquiry"
+      },
+      "disclaimer": "By submitting this form, you agree to be contacted by the Madrid Marble team regarding your project."
+    }
+  },
+  "footer": {
+    "logo_text": "MM",
+    "note": "Madrid Marble. All rights reserved.",
+    "links": [
+      { "label": "About", "href": "#about" },
+      { "label": "Work", "href": "#portfolio" },
+      { "label": "Testimonials", "href": "#testimonials" },
+      { "label": "FAQs", "href": "#faq" },
+      { "label": "Contact", "href": "#contact" }
+    ]
+  }
+}
+
+

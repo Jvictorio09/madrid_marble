@@ -1,0 +1,114 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Edit Contact Section - Madrid Marble Dashboard{% endblock %}
+
+{% block content %}
+<!-- Include Image Picker Modal -->
+{% include "dashboard/image_picker_modal.html" %}
+
+<div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="text-4xl font-bold text-navy-900">Edit Contact Section</h1>
+        <div class="flex gap-4">
+            <a href="{% url 'dashboard:contact_info_list' %}" class="text-gray-600 hover:text-navy-900">
+                <i class="fa-solid fa-address-book mr-2"></i> Contact Info
+            </a>
+            <a href="{% url 'dashboard:contact_form_fields_list' %}" class="text-gray-600 hover:text-navy-900">
+                <i class="fa-solid fa-list mr-2"></i> Form Fields
+            </a>
+            <a href="{% url 'dashboard:social_links_list' %}" class="text-gray-600 hover:text-navy-900">
+                <i class="fa-solid fa-share-alt mr-2"></i> Social Links
+            </a>
+            <a href="{% url 'dashboard:home' %}" class="text-gray-600 hover:text-navy-900">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Back
+            </a>
+        </div>
+    </div>
+
+    <form method="post" class="bg-white rounded-xl shadow-sm p-8 space-y-6">
+        {% csrf_token %}
+        
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Badge</label>
+            <input type="text" name="badge" value="{{ contact.badge|default:'CONTACT' }}" 
+                   placeholder="CONTACT"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Heading</label>
+            <input type="text" name="heading" value="{{ contact.heading|default:'' }}" required
+                   placeholder="Speak with the Madrid Marble team"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+            <textarea name="description" rows="2" required
+                      placeholder="Share your drawings, timelines, and project details..."
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ contact.description|default:'' }}</textarea>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Intro Text</label>
+            <textarea name="intro_text" rows="3" required
+                      placeholder="For project inquiries and showroom appointments..."
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ contact.intro_text|default:'' }}</textarea>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Background Image URL</label>
+            <input type="url" name="background_image" id="contact_background_image" value="{{ contact.background_image|default:'' }}" 
+                   placeholder="https://res.cloudinary.com/..."
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            <p class="text-sm text-gray-500 mt-2">
+                <button type="button" onclick="openImagePickerModal('contact_background_image')" class="text-navy-900 hover:underline">
+                    <i class="fa-solid fa-images mr-1"></i> Upload image from gallery
+                </button>
+            </p>
+        </div>
+
+        <div class="border-t pt-6">
+            <h3 class="text-lg font-semibold text-navy-900 mb-4">Form Settings</h3>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Submit Button Label</label>
+                <input type="text" name="form_submit_label" value="{{ contact.form_submit_label|default:'Submit inquiry' }}" 
+                       placeholder="Submit inquiry"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Form Disclaimer</label>
+                <textarea name="form_disclaimer" rows="2"
+                          placeholder="By submitting this form, you agree to be contacted..."
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ contact.form_disclaimer|default:'' }}</textarea>
+            </div>
+        </div>
+
+        <div class="border-t pt-6">
+            <h3 class="text-lg font-semibold text-navy-900 mb-4">Social Media</h3>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Social Links Label</label>
+                <input type="text" name="socials_label" value="{{ contact.socials_label|default:'FOLLOW MADRID MARBLE' }}" 
+                       placeholder="FOLLOW MADRID MARBLE"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <p class="text-sm text-gray-500 mt-2">
+                <a href="{% url 'dashboard:social_links_list' %}" class="text-navy-900 hover:underline">
+                    <i class="fa-solid fa-share-alt mr-1"></i> Manage social links
+                </a>
+            </p>
+        </div>
+
+        <div class="flex gap-4 pt-6">
+            <button type="submit" class="bg-navy-900 text-white px-8 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
+                Save Changes
+            </button>
+            <a href="{% url 'dashboard:home' %}" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-xl font-semibold hover:bg-gray-300 transition">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+

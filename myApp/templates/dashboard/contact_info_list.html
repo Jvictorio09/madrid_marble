@@ -5,7 +5,10 @@
 {% block content %}
 <div class="max-w-7xl mx-auto">
     <div class="flex items-center justify-between mb-8">
-        <h1 class="text-4xl font-bold text-navy-900">Contact Info</h1>
+        <div>
+            <h1 class="text-4xl font-bold text-navy-900">Contact Info Cards</h1>
+            <p class="text-gray-600 mt-2">Edit the contact cards shown on the Contact page (Phone, WhatsApp, Email, Address)</p>
+        </div>
         <div class="flex gap-4">
             <a href="{% url 'dashboard:contact_info_add' %}" class="bg-navy-900 text-white px-6 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
                 <i class="fa-solid fa-plus mr-2"></i> Add Contact Info
@@ -16,56 +19,110 @@
         </div>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-        <table class="w-full">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Label</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Text</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Type</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Link</th>
-                    <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Sort</th>
-                    <th class="px-6 py-4 text-right text-sm font-semibold text-gray-700">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200">
-                {% for info in info_items %}
-                <tr class="hover:bg-gray-50">
-                    <td class="px-6 py-4 text-sm font-semibold text-navy-900">{{ info.label }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-700">{{ info.text }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-600">{{ info.info_type|title }}</td>
-                    <td class="px-6 py-4 text-sm text-gray-600">
-                        {% if info.href %}
-                        <a href="{{ info.href }}" target="_blank" class="text-navy-900 hover:underline">
-                            <i class="fa-solid fa-external-link-alt"></i>
-                        </a>
-                        {% else %}
-                        <span class="text-gray-400">—</span>
-                        {% endif %}
-                    </td>
-                    <td class="px-6 py-4 text-sm text-gray-600">{{ info.sort_order }}</td>
-                    <td class="px-6 py-4 text-right text-sm">
-                        <a href="{% url 'dashboard:contact_info_edit' info.id %}" class="text-navy-900 hover:text-navy-700 mr-4">
-                            <i class="fa-solid fa-edit"></i> Edit
-                        </a>
-                        <a href="{% url 'dashboard:contact_info_delete' info.id %}" 
-                           onclick="return confirm('Are you sure you want to delete this contact info?')"
-                           class="text-red-600 hover:text-red-800">
-                            <i class="fa-solid fa-trash"></i> Delete
-                        </a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6" class="px-6 py-12 text-center text-gray-500">
-                        No contact info found. <a href="{% url 'dashboard:contact_info_add' %}" class="text-navy-900 hover:underline">Add your first contact info</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    {% if info_items %}
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+        {% for info in info_items %}
+        <div class="bg-white rounded-xl border-2 {% if info.info_type == 'phone' %}border-blue-200{% elif info.info_type == 'whatsapp' %}border-green-200{% elif info.info_type == 'email' %}border-navy-200{% else %}border-beige-200{% endif %} p-6 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                    {% if info.info_type == 'phone' %}
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-white text-xl">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    {% elif info.info_type == 'whatsapp' %}
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-[#25D366] text-white text-xl">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                    {% elif info.info_type == 'email' %}
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-white text-xl">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    {% else %}
+                    <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-white text-xl">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <h3 class="text-base font-semibold text-navy-900">{{ info.info_type|title }}</h3>
+                        <span class="text-xs text-gray-500">Sort: {{ info.sort_order }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-2 mb-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase">Label</p>
+                <p class="text-sm font-semibold text-navy-900">{{ info.label }}</p>
+            </div>
+            
+            <div class="space-y-2 mb-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase">Text/Value</p>
+                <p class="text-sm text-navy-700">{{ info.text }}</p>
+            </div>
+            
+            {% if info.href %}
+            <div class="space-y-2 mb-4">
+                <p class="text-xs font-semibold text-gray-500 uppercase">Link</p>
+                <p class="text-xs text-navy-600 break-all">{{ info.href }}</p>
+            </div>
+            {% endif %}
+            
+            <div class="flex gap-2 pt-4 border-t">
+                <a href="{% url 'dashboard:contact_info_edit' info.id %}" class="flex-1 bg-navy-900 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-navy-950 transition text-center">
+                    <i class="fa-solid fa-edit mr-2"></i> Edit
+                </a>
+                <a href="{% url 'dashboard:contact_info_delete' info.id %}" 
+                   onclick="return confirm('Are you sure you want to delete this contact info?')"
+                   class="bg-red-100 text-red-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-200 transition">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="bg-white rounded-xl shadow-sm p-12 text-center">
+        <p class="text-gray-500 mb-4">No contact info found.</p>
+        <a href="{% url 'dashboard:contact_info_add' %}" class="inline-block bg-navy-900 text-white px-6 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
+            <i class="fa-solid fa-plus mr-2"></i> Add Your First Contact Info
+        </a>
+    </div>
+    {% endif %}
+
+    <div class="bg-beige-50 rounded-xl p-6 mt-8">
+        <h3 class="text-lg font-semibold text-navy-900 mb-4">Quick Setup Guide</h3>
+        <div class="grid md:grid-cols-4 gap-4 text-sm">
+            <div>
+                <p class="font-semibold text-navy-900 mb-2">📞 Phone</p>
+                <p class="text-gray-600">Type: <strong>Phone</strong></p>
+                <p class="text-gray-600">Link: <code class="bg-white px-1 rounded">tel:+971552218761</code></p>
+                <p class="text-gray-600">Text: <strong>+971 55 221 8761</strong></p>
+            </div>
+            <div>
+                <p class="font-semibold text-navy-900 mb-2">💬 WhatsApp</p>
+                <p class="text-gray-600">Type: <strong>WhatsApp</strong></p>
+                <p class="text-gray-600">Link: <code class="bg-white px-1 rounded">https://wa.me/971552218761</code></p>
+                <p class="text-gray-600">Text: <strong>+971 55 221 8761</strong></p>
+            </div>
+            <div>
+                <p class="font-semibold text-navy-900 mb-2">✉️ Email</p>
+                <p class="text-gray-600">Type: <strong>Email</strong></p>
+                <p class="text-gray-600">Link: <code class="bg-white px-1 rounded">mailto:hello@madridmarble.ae</code></p>
+                <p class="text-gray-600">Text: <strong>hello@madridmarble.ae</strong></p>
+            </div>
+            <div>
+                <p class="font-semibold text-navy-900 mb-2">📍 Address</p>
+                <p class="text-gray-600">Type: <strong>Address</strong></p>
+                <p class="text-gray-600">Link: <em>(optional)</em></p>
+                <p class="text-gray-600">Text: <strong>Sharjah</strong></p>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
+
+
+
+
+
 
 

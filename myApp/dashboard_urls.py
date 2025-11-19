@@ -84,5 +84,85 @@ urlpatterns = [
     path('testimonials/add/', dashboard_views.testimonial_edit, name='testimonial_add'),
     path('testimonials/<int:testimonial_id>/edit/', dashboard_views.testimonial_edit, name='testimonial_edit'),
     path('testimonials/<int:testimonial_id>/delete/', dashboard_views.testimonial_delete, name='testimonial_delete'),
+    
+    # Promise Section
+    path('promise/', dashboard_views.promise_edit, name='promise_edit'),
+    path('promise/cards/', dashboard_views.promise_cards_list, name='promise_cards_list'),
+    path('promise/cards/add/', dashboard_views.promise_card_edit, name='promise_card_add'),
+    path('promise/cards/<int:card_id>/edit/', dashboard_views.promise_card_edit, name='promise_card_edit'),
+    path('promise/cards/<int:card_id>/delete/', dashboard_views.promise_card_delete, name='promise_card_delete'),
+    
+    # Featured Services
+    path('featured-services/', dashboard_views.featured_services_edit, name='featured_services_edit'),
+    path('featured-services/items/', dashboard_views.featured_services_list, name='featured_services_list'),
+    path('featured-services/items/add/', dashboard_views.featured_service_edit, name='featured_service_add'),
+    path('featured-services/items/<int:service_id>/edit/', dashboard_views.featured_service_edit, name='featured_service_edit'),
+    path('featured-services/items/<int:service_id>/delete/', dashboard_views.featured_service_delete, name='featured_service_delete'),
+    
+    # Why Trust
+    path('why-trust/', dashboard_views.why_trust_edit, name='why_trust_edit'),
+    path('why-trust/factors/', dashboard_views.why_trust_factors_list, name='why_trust_factors_list'),
+    path('why-trust/factors/add/', dashboard_views.why_trust_factor_edit, name='why_trust_factor_add'),
+    path('why-trust/factors/<int:factor_id>/edit/', dashboard_views.why_trust_factor_edit, name='why_trust_factor_edit'),
+    path('why-trust/factors/<int:factor_id>/delete/', dashboard_views.why_trust_factor_delete, name='why_trust_factor_delete'),
+    
+    # Individual Pages - About Page
+    path('pages/about/', dashboard_views.about_page_edit, name='about_page_edit'),
+    path('pages/about/timeline/', dashboard_views.about_timeline_list, name='about_timeline_list'),
+    path('pages/about/timeline/add/', dashboard_views.about_timeline_edit, name='about_timeline_add'),
+    path('pages/about/timeline/<int:item_id>/edit/', dashboard_views.about_timeline_edit, name='about_timeline_edit'),
+    path('pages/about/timeline/<int:item_id>/delete/', dashboard_views.about_timeline_delete, name='about_timeline_delete'),
+    path('pages/about/mission-cards/', dashboard_views.about_mission_cards_list, name='about_mission_cards_list'),
+    path('pages/about/mission-cards/add/', dashboard_views.about_mission_card_edit, name='about_mission_card_add'),
+    path('pages/about/mission-cards/<int:card_id>/edit/', dashboard_views.about_mission_card_edit, name='about_mission_card_edit'),
+    path('pages/about/mission-cards/<int:card_id>/delete/', dashboard_views.about_mission_card_delete, name='about_mission_card_delete'),
+    path('pages/about/feature-cards/', dashboard_views.about_feature_cards_list, name='about_feature_cards_list'),
+    path('pages/about/feature-cards/add/', dashboard_views.about_feature_card_edit, name='about_feature_card_add'),
+    path('pages/about/feature-cards/<int:card_id>/edit/', dashboard_views.about_feature_card_edit, name='about_feature_card_edit'),
+    path('pages/about/feature-cards/<int:card_id>/delete/', dashboard_views.about_feature_card_delete, name='about_feature_card_delete'),
+    path('pages/about/values/', dashboard_views.about_values_list, name='about_values_list'),
+    path('pages/about/values/add/', dashboard_views.about_value_edit, name='about_value_add'),
+    path('pages/about/values/<int:value_id>/edit/', dashboard_views.about_value_edit, name='about_value_edit'),
+    path('pages/about/values/<int:value_id>/delete/', dashboard_views.about_value_delete, name='about_value_delete'),
+    path('pages/about/team/', dashboard_views.about_team_members_list, name='about_team_members_list'),
+    path('pages/about/team/add/', dashboard_views.about_team_member_edit, name='about_team_member_add'),
+    path('pages/about/team/<int:member_id>/edit/', dashboard_views.about_team_member_edit, name='about_team_member_edit'),
+    path('pages/about/team/<int:member_id>/delete/', dashboard_views.about_team_member_delete, name='about_team_member_delete'),
+    
+    # Individual Pages - Services Page
+    path('pages/services/', dashboard_views.services_page_edit, name='services_page_edit'),
+    path('pages/services/service-sections/', dashboard_views.services_page_services_list, name='services_page_services_list'),
+    path('pages/services/service-sections/add/', dashboard_views.services_page_service_edit, name='services_page_service_add'),
+    path('pages/services/service-sections/<int:service_id>/edit/', dashboard_views.services_page_service_edit, name='services_page_service_edit'),
+    path('pages/services/service-sections/<int:service_id>/delete/', dashboard_views.services_page_service_delete, name='services_page_service_delete'),
+    path('pages/services/process-steps/', dashboard_views.services_page_process_steps_list, name='services_page_process_steps_list'),
+    path('pages/services/process-steps/add/', dashboard_views.services_page_process_step_edit, name='services_page_process_step_add'),
+    path('pages/services/process-steps/<int:step_id>/edit/', dashboard_views.services_page_process_step_edit, name='services_page_process_step_edit'),
+    path('pages/services/process-steps/<int:step_id>/delete/', dashboard_views.services_page_process_step_delete, name='services_page_process_step_delete'),
+    
+    # Individual Pages - Portfolio Page
+    path('pages/portfolio/', dashboard_views.portfolio_page_edit, name='portfolio_page_edit'),
+    path('pages/portfolio/categories/', dashboard_views.portfolio_page_categories_list, name='portfolio_page_categories_list'),
+    path('pages/portfolio/categories/add/', dashboard_views.portfolio_page_category_edit, name='portfolio_page_category_add'),
+    path('pages/portfolio/categories/<int:category_id>/edit/', dashboard_views.portfolio_page_category_edit, name='portfolio_page_category_edit'),
+    path('pages/portfolio/categories/<int:category_id>/delete/', dashboard_views.portfolio_page_category_delete, name='portfolio_page_category_delete'),
+    
+    # Individual Pages - FAQ Page
+    path('pages/faq/', dashboard_views.faq_page_edit, name='faq_page_edit'),
+    path('pages/faq/sections/', dashboard_views.faq_page_sections_list, name='faq_page_sections_list'),
+    path('pages/faq/sections/add/', dashboard_views.faq_page_section_edit, name='faq_page_section_add'),
+    path('pages/faq/sections/<int:section_id>/edit/', dashboard_views.faq_page_section_edit, name='faq_page_section_edit'),
+    path('pages/faq/sections/<int:section_id>/delete/', dashboard_views.faq_page_section_delete, name='faq_page_section_delete'),
+    path('pages/faq/sections/<int:section_id>/questions/', dashboard_views.faq_page_questions_list, name='faq_page_questions_list'),
+    path('pages/faq/sections/<int:section_id>/questions/add/', dashboard_views.faq_page_question_edit, name='faq_page_question_add'),
+    path('pages/faq/sections/<int:section_id>/questions/<int:question_id>/edit/', dashboard_views.faq_page_question_edit, name='faq_page_question_edit'),
+    path('pages/faq/sections/<int:section_id>/questions/<int:question_id>/delete/', dashboard_views.faq_page_question_delete, name='faq_page_question_delete'),
+    path('pages/faq/sections/<int:section_id>/tips/', dashboard_views.faq_page_tips_list, name='faq_page_tips_list'),
+    path('pages/faq/sections/<int:section_id>/tips/add/', dashboard_views.faq_page_tip_edit, name='faq_page_tip_add'),
+    path('pages/faq/sections/<int:section_id>/tips/<int:tip_id>/edit/', dashboard_views.faq_page_tip_edit, name='faq_page_tip_edit'),
+    path('pages/faq/sections/<int:section_id>/tips/<int:tip_id>/delete/', dashboard_views.faq_page_tip_delete, name='faq_page_tip_delete'),
+    
+    # Individual Pages - Contact Page
+    path('pages/contact/', dashboard_views.contact_page_edit, name='contact_page_edit'),
 ]
 

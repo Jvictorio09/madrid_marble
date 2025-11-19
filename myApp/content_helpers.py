@@ -4,7 +4,8 @@ Helper functions to convert database models to JSON format for templates
 from .models import (
     SEO, Navigation, Hero, About, Stat, Service, Services,
     Portfolio, PortfolioProject, Testimonial, FAQ, FAQSection,
-    Contact, ContactInfo, ContactFormField, SocialLink, Footer
+    Contact, ContactInfo, ContactFormField, SocialLink, Footer,
+    Promise, PromiseCard, FeaturedServices, FeaturedService, WhyTrust, WhyTrustFactor
 )
 
 
@@ -17,8 +18,14 @@ def get_homepage_content_from_db():
     hero = Hero.objects.first()
     about = About.objects.first()
     stats = Stat.objects.all().order_by('sort_order')
+    promise = Promise.objects.first()
+    promise_cards = PromiseCard.objects.all().order_by('sort_order')
+    featured_services_section = FeaturedServices.objects.first()
+    featured_services = FeaturedService.objects.all().order_by('sort_order')
     services_section = Services.objects.first()
     services = Service.objects.all().order_by('sort_order')
+    why_trust = WhyTrust.objects.first()
+    why_trust_factors = WhyTrustFactor.objects.all().order_by('sort_order')
     portfolio = Portfolio.objects.first()
     portfolio_projects = PortfolioProject.objects.all().order_by('sort_order')
     testimonials = Testimonial.objects.all().order_by('sort_order')
@@ -56,6 +63,7 @@ def get_homepage_content_from_db():
         },
         "hero": {
             "badge": hero.badge if hero else "",
+            "eyebrow": hero.eyebrow if hero else "",
             "headline": hero.headline if hero else "",
             "description": hero.description if hero else "",
             "primary_cta": {
@@ -76,7 +84,8 @@ def get_homepage_content_from_db():
                 "name": hero.testimonial_name if hero else "",
                 "meta": hero.testimonial_meta if hero else "",
                 "stars": hero.testimonial_stars if hero else 5,
-            }
+            },
+            "stats": hero.stats_json if hero and hero.stats_json else [],
         },
         "about": {
             "badge": about.badge if about else "",
@@ -92,6 +101,32 @@ def get_homepage_content_from_db():
             }
             for stat in stats
         ],
+        "promise": {
+            "title": promise.title if promise else "Our Promise",
+            "main_statement": promise.main_statement if promise else "",
+            "substatement": promise.substatement if promise else "",
+            "closing_statement": promise.closing_statement if promise else "",
+            "cards": [
+                {
+                    "title": card.title,
+                    "description": card.description,
+                    "icon": card.icon,
+                }
+                for card in promise_cards
+            ]
+        },
+        "featured_services": {
+            "title": featured_services_section.title if featured_services_section else "Featured Services",
+            "description": featured_services_section.description if featured_services_section else "",
+            "items": [
+                {
+                    "title": service.title,
+                    "description": service.description,
+                    "icon": service.icon,
+                }
+                for service in featured_services
+            ]
+        },
         "services": {
             "title": services_section.title if services_section else "",
             "description": services_section.description if services_section else "",
@@ -140,6 +175,18 @@ def get_homepage_content_from_db():
                     "description": project.description,
                 }
                 for project in portfolio_projects.filter(is_active=True)
+            ]
+        },
+        "why_trust": {
+            "title": why_trust.title if why_trust else "Why Clients Trust Madrid Marble",
+            "subtitle": why_trust.subtitle if why_trust else "",
+            "factors": [
+                {
+                    "title": factor.title,
+                    "description": factor.description,
+                    "icon": factor.icon,
+                }
+                for factor in why_trust_factors
             ]
         },
         "testimonials": [

@@ -1,0 +1,357 @@
+{% extends "base.html" %}
+
+{% block title %}Frequently Asked Questions - {{ content.nav.brand|default:"Madrid Marble" }}{% endblock %}
+{% block meta_description %}Find answers to common questions about our marble products, services, and installation process — and get in touch for a tailored quotation.{% endblock %}
+
+{% block content %}
+<div class="pt-24">
+
+    <!-- FAQ HERO -->
+    <section class="bg-gradient-to-b from-beige-50 via-white to-white">
+        <div class="mx-auto max-w-6xl px-6 pb-16 pt-16 md:px-12 md:pb-20 md:pt-20">
+            <div class="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
+                <!-- Left: Copy -->
+                <div class="space-y-7">
+                    <div class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-navy-700 shadow-sm">
+                        <span class="h-1.5 w-1.5 rounded-full bg-beige-400"></span>
+                        FAQ • {{ content.nav.brand|default:"Madrid Marble" }}
+                    </div>
+
+                    <div class="space-y-4">
+                        <h1 class="text-balance text-3xl font-semibold tracking-tight text-navy-900 sm:text-4xl md:text-5xl">
+                            Questions, answered clearly.
+                        </h1>
+                        <p class="text-lg leading-relaxed text-navy-700 md:text-xl">
+                            Here are the questions clients ask us most about timelines, pricing, durability, and warranty — in one place, without the jargon.
+                        </p>
+                    </div>
+
+                    <p class="text-sm text-navy-600 md:text-base">
+                        Still unsure what’s possible for your kitchen, bathroom, or full project? Share your drawings or photos and let our team respond with practical options and a clear quotation.
+                    </p>
+
+                    <!-- Primary CTA row -->
+                    <div class="flex flex-wrap items-center gap-3 pt-1">
+                        <a href="/contact/"
+                           class="inline-flex items-center justify-center rounded-full bg-navy-900 px-7 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-white hover:bg-navy-950 hover:shadow-lg transition">
+                            Request a Project Review
+                        </a>
+                        <a href="/contact/#inquiry-form"
+                           class="inline-flex items-center justify-center rounded-full border border-navy-900/20 bg-white px-7 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-navy-900 hover:border-navy-900 hover:bg-beige-50 transition">
+                            Send Drawings &amp; Measurements
+                        </a>
+                    </div>
+
+                    <!-- Category chips -->
+                    <div class="flex flex-wrap gap-3 pt-4">
+                        <a href="#faq-general" class="rounded-full bg-navy-900 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white hover:bg-navy-950 transition">
+                            General
+                        </a>
+                        <a href="#faq-pricing" class="rounded-full border border-navy-900/15 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-navy-900 hover:border-navy-900 hover:bg-beige-50 transition">
+                            Pricing
+                        </a>
+                        <a href="#faq-durability" class="rounded-full border border-navy-900/15 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-navy-900 hover:border-navy-900 hover:bg-beige-50 transition">
+                            Durability
+                        </a>
+                        <a href="#faq-warranty" class="rounded-full border border-navy-900/15 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-navy-900 hover:border-navy-900 hover:bg-beige-50 transition">
+                            Warranty
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Illustration / dummy image -->
+                <div class="lg:pl-6">
+                    <div class="overflow-hidden rounded-3xl border border-beige-200/80 bg-beige-50 shadow-[0_18px_60px_rgba(15,23,42,0.16)]">
+                        <div class="aspect-[4/5]">
+                            <img
+                                src="https://images.unsplash.com/photo-1600607687920-4e2a534abf1c?w=1200&auto=format&fit=crop"
+                                alt="Marble interior with clean lines"
+                                class="h-full w-full object-cover"
+                            >
+                        </div>
+                    </div>
+                    <div class="mt-3 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-navy-800 shadow-sm">
+                        <span class="h-1.5 w-1.5 rounded-full bg-navy-900"></span>
+                        Designed for real projects, not just catalogues.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MICRO CTA STRIP: CAN'T FIND YOUR QUESTION? -->
+    <section class="border-y border-beige-200/70 bg-white">
+        <div class="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-6 md:flex-row md:items-center md:justify-between md:px-12">
+            <div class="space-y-1">
+                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">
+                    Can’t find your exact question?
+                </p>
+                <p class="text-sm text-navy-700 md:text-base">
+                    Send us a quick note with photos or drawings and we’ll respond with tailored options for your project.
+                </p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+                <a href="/contact/#inquiry-form"
+                   class="inline-flex items-center justify-center rounded-full bg-navy-900 px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.24em] text-white hover:bg-navy-950 transition">
+                    Ask a Question
+                </a>
+                <a href="/contact/"
+                   class="inline-flex items-center justify-center rounded-full border border-navy-900/20 bg-white px-6 py-2.5 text-xs font-semibold uppercase tracking-[0.24em] text-navy-900 hover:border-navy-900 hover:bg-beige-50 transition">
+                    Talk to Our Team
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- GENERAL QUESTIONS -->
+    <section id="faq-general" class="bg-white py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="grid gap-10 lg:grid-cols-[0.9fr_1.4fr] lg:items-start">
+                <!-- Left: Section intro -->
+                <div class="space-y-4">
+                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-beige-100 text-navy-900">
+                        <i class="fa-solid fa-circle-question"></i>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-navy-900 md:text-3xl">
+                        General Questions
+                    </h2>
+                    <p class="text-sm text-navy-600 md:text-base">
+                        A quick overview of timelines and how we work, so you know what to expect before the first measurement is taken.
+                    </p>
+                </div>
+
+                <!-- Right: Accordions -->
+                <div class="space-y-6">
+                    <details class="group rounded-2xl border border-beige-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-4">
+                            <span class="text-base font-semibold text-navy-900 md:text-lg">
+                                How long does a project take?
+                            </span>
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full border border-beige-200 bg-beige-50 text-navy-600 transition group-open:rotate-45">
+                                <i class="fa-solid fa-plus text-sm"></i>
+                            </span>
+                        </summary>
+                        <p class="mt-4 text-sm leading-relaxed text-navy-700 md:text-base">
+                            Most projects take between 3–10 working days once measurements are confirmed and materials are ready.
+                            Larger villa or commercial projects may require phased timelines, which we outline clearly before we start.
+                        </p>
+                    </details>
+
+                    <details class="group rounded-2xl border border-beige-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-4">
+                            <span class="text-base font-semibold text-navy-900 md:text-lg">
+                                Do you supply marble or just install?
+                            </span>
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full border border-beige-200 bg-beige-50 text-navy-600 transition group-open:rotate-45">
+                                <i class="fa-solid fa-plus text-sm"></i>
+                            </span>
+                        </summary>
+                        <p class="mt-4 text-sm leading-relaxed text-navy-700 md:text-base">
+                            We handle both. {{ content.nav.brand|default:"Madrid Marble" }} can source the stone, fabricate everything
+                            in our workshop, and manage the full installation on site.
+                        </p>
+                    </details>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="faq-pricing" class="bg-beige-50 py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="grid gap-10 lg:grid-cols-[0.9fr_1.4fr] lg:items-start">
+                <!-- Left: Section intro -->
+                <div class="space-y-4">
+                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-beige-100 text-navy-900">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-navy-900 md:text-3xl">
+                        Pricing
+                    </h2>
+                    <p class="text-sm text-navy-600 md:text-base">
+                        How we calculate rates and why every quote is tied to real measurements, materials, and details.
+                    </p>
+                </div>
+
+                <!-- Right: Accordion + CTA -->
+                <div class="space-y-6">
+                    <details class="group rounded-2xl border border-beige-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-4">
+                            <span class="text-base font-semibold text-navy-900 md:text-lg">
+                                How are rates calculated?
+                            </span>
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full border border-beige-200 bg-beige-50 text-navy-600 transition group-open:rotate-45">
+                                <i class="fa-solid fa-plus text-sm"></i>
+                            </span>
+                        </summary>
+                        <p class="mt-4 text-sm leading-relaxed text-navy-700 md:text-base">
+                            Pricing depends on the stone type, thickness, finish, cut complexity, and total area.
+                            Once we understand your drawings or measurements, we prepare a clear, itemized quotation so you can
+                            see exactly where costs are coming from.
+                        </p>
+                    </details>
+
+                    <div class="rounded-2xl border border-dashed border-beige-300/80 bg-white/70 px-5 py-4 text-sm text-navy-700">
+                        For accurate pricing, it helps to share <span class="font-semibold">drawings, photos, or basic measurements</span>
+                        of the space. Our team can also visit the site when needed.
+                    </div>
+
+                    <!-- Inline CTA: pricing-focused -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-beige-200/90 bg-white px-5 py-4 text-sm">
+                        <p class="text-navy-700">
+                            Ready for numbers? Send us your plan and we’ll reply with a clear, itemized quotation.
+                        </p>
+                        <a href="/contact/#inquiry-form"
+                           class="inline-flex items-center justify-center rounded-full bg-navy-900 px-5 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-white hover:bg-navy-950 transition">
+                            Get a Free Cost Overview
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DURABILITY & MAINTENANCE -->
+    <section id="faq-durability" class="bg-white py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="grid gap-10 lg:grid-cols-[0.9fr_1.4fr] lg:items-start">
+                <!-- Left: Section intro -->
+                <div class="space-y-4">
+                    <div class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-beige-100 text-navy-900">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-navy-900 md:text-3xl">
+                        Durability &amp; Maintenance
+                    </h2>
+                    <p class="text-sm text-navy-600 md:text-base">
+                        Marble is a natural material — with the right care, it ages beautifully. Here’s what we usually recommend.
+                    </p>
+                </div>
+
+                <!-- Right: Accordion + tips -->
+                <div class="space-y-6">
+                    <details class="group rounded-2xl border border-beige-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+                        <summary class="flex cursor-pointer list-none items-center justify-between gap-4">
+                            <span class="text-base font-semibold text-navy-900 md:text-lg">
+                                How do I maintain marble?
+                            </span>
+                            <span class="flex h-8 w-8 items-center justify-center rounded-full border border-beige-200 bg-beige-50 text-navy-600 transition group-open:rotate-45">
+                                <i class="fa-solid fa-plus text-sm"></i>
+                            </span>
+                        </summary>
+                        <p class="mt-4 text-sm leading-relaxed text-navy-700 md:text-base">
+                            We provide basic after-care guidelines after every project. Typically, we recommend gentle pH-neutral cleaners,
+                            prompt wipe-up of spills, and periodic sealing for certain stone types and finishes. Our team can also advise
+                            on suitable sealants and maintenance routines based on how the space is used.
+                        </p>
+                    </details>
+
+                    <!-- Quick care tips -->
+                    <div class="grid gap-4 md:grid-cols-3">
+                        <div class="rounded-2xl border border-beige-200/80 bg-beige-50/80 px-4 py-3 text-xs text-navy-700">
+                            <p class="font-semibold text-navy-900">Daily</p>
+                            <p class="mt-1">Soft cloth + pH-neutral cleaner for general wipe-down.</p>
+                        </div>
+                        <div class="rounded-2xl border border-beige-200/80 bg-beige-50/80 px-4 py-3 text-xs text-navy-700">
+                            <p class="font-semibold text-navy-900">Spills</p>
+                            <p class="mt-1">Wipe quickly, especially for acidic liquids like coffee or juice.</p>
+                        </div>
+                        <div class="rounded-2xl border border-beige-200/80 bg-beige-50/80 px-4 py-3 text-xs text-navy-700">
+                            <p class="font-semibold text-navy-900">Periodic</p>
+                            <p class="mt-1">Sealing as recommended for the stone and finish used.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WARRANTY -->
+    <section id="faq-warranty" class="relative overflow-hidden bg-navy-950 py-24 text-white">
+        <!-- Subtle background pattern -->
+        <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.18),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(15,23,42,0.9),_#020617)] opacity-90"></div>
+
+        <div class="relative mx-auto max-w-6xl px-6 md:px-12">
+            <div class="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:items-center">
+                <div class="space-y-6">
+                    <div class="flex justify-start">
+                        <div class="flex h-16 w-16 items-center justify-center rounded-xl bg-white/10 text-3xl text-white">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                    </div>
+                    <h2 class="text-3xl font-semibold md:text-4xl">
+                        Warranty &amp; Peace of Mind
+                    </h2>
+                    <p class="text-lg leading-relaxed text-white/90">
+                        Every installation comes with a workmanship guarantee that covers installation-related issues within a defined period.
+                        We want you to feel confident that if something doesn't look or perform as it should, our team will step in to review and resolve it.
+                    </p>
+                    <p class="text-sm text-white/75">
+                        Exact coverage details — including duration and inclusions — are confirmed in your quotation and project agreement.
+                    </p>
+                </div>
+
+                <!-- Highlight card -->
+                <div class="lg:pl-8">
+                    <div class="rounded-3xl border border-white/15 bg-white/5 p-6 backdrop-blur">
+                        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-200/90">
+                            In simple terms
+                        </p>
+                        <p class="mt-3 text-sm text-white/85">
+                            If there is an issue linked to how we <span class="font-semibold">cut, fix, or finish</span> the stone,
+                            we treat it as our responsibility to investigate and propose a solution — not something you have to chase.
+                        </p>
+                        <p class="mt-4 text-xs text-white/70">
+                            Natural variations in stone (veining, colour shifts, micro-pitting) are part of marble’s character and are not
+                            considered defects — but we do our best to align expectations before fabrication starts.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CONVERSION BAND -->
+    <section class="bg-beige-50 py-20">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mx-auto max-w-4xl rounded-3xl border border-beige-200/90 bg-white px-6 py-10 shadow-[0_18px_60px_rgba(15,23,42,0.10)] md:px-10 md:py-12">
+                <div class="space-y-6 text-center">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">
+                        Ready for the next step?
+                    </p>
+                    <h2 class="text-2xl font-semibold text-navy-900 md:text-3xl">
+                        Turn your questions into a clear plan for your space.
+                    </h2>
+                    <p class="text-sm text-navy-700 md:text-base">
+                        Share your idea, drawings, or a few photos of your existing space. Our team will review and respond with
+                        realistic options, material suggestions, and a transparent quotation — no hard sell, just expert guidance.
+                    </p>
+
+                    <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+                        <a href="/contact/#inquiry-form"
+                           class="inline-flex items-center justify-center rounded-full bg-navy-900 px-8 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-white hover:bg-navy-950 hover:shadow-lg transition">
+                            Send My Project Details
+                        </a>
+                        <a href="/contact/"
+                           class="inline-flex items-center justify-center rounded-full border border-navy-900/20 bg-white px-8 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-navy-900 hover:border-navy-900 hover:bg-beige-50 transition">
+                            Book a Quick Call
+                        </a>
+                    </div>
+
+                    <div class="mt-4 flex flex-wrap justify-center gap-4 text-[0.7rem] text-navy-500">
+                        <div class="flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-beige-400"></span>
+                            Typical response time: within 1–2 working days
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 rounded-full bg-beige-400"></span>
+                            Ideal for villas, apartments, and commercial spaces in the UAE
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

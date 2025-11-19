@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-white">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ content.seo.title|default:"Premium Marble Supplier in UAE | Slabs, Cut-to-Size & Installation" }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ content.seo.description|default:'Madrid Marble supplies premium slabs and tiles in the UAE. Cut-to-size, finishing, fast delivery, and installation. Get a same-day quote.' }}{% endblock %}">
+    <link rel="canonical" href="{% block canonical %}{{ content.seo.canonical|default:'' }}{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}{{ content.seo.og.title|default:'Madrid Marble — Premium UAE Marble Supplier' }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ content.seo.og.description|default:'Slabs, tiles, countertops, cut-to-size, and installation. Trusted by architects and contractors across the UAE.' }}{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{% block og_url %}{{ content.seo.canonical|default:'' }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ content.seo.og.image|default:'' }}{% endblock %}">
+    <link rel="icon" href="{{ content.seo.favicon|default:'https://via.placeholder.com/32x32.png?text=MM' }}">
+    {% if content.seo.preload_hero %}
+    <link rel="preload" as="image" href="{{ content.seo.preload_hero }}">
+    {% endif %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'beige': {
+                            50: '#F5F0E8',
+                            100: '#E8DCC6',
+                            200: '#D4C4A8',
+                            300: '#C0AC8A',
+                            400: '#AC946C',
+                            500: '#987C4E',
+                            600: '#7A643E',
+                            700: '#5C4C2E',
+                            800: '#3E341F',
+                            900: '#201C0F',
+                        },
+                        'navy': {
+                            50: '#E8EBF0',
+                            100: '#C8CFDB',
+                            200: '#A8B3C6',
+                            300: '#8897B1',
+                            400: '#687B9C',
+                            500: '#485F87',
+                            600: '#3A4C6C',
+                            700: '#2C3951',
+                            800: '#1E2636',
+                            900: '#0A1628',
+                            950: '#050A14',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    {% load static %}
+    <style>
+        /* Font Face Declarations */
+        @font-face {
+            font-family: 'Gotham';
+            src: url('{% static "FONT FILES/Gotham Light.otf" %}') format('opentype');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Gotham';
+            src: url('{% static "FONT FILES/Gotham Book.ttf" %}') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Gotham';
+            src: url('{% static "FONT FILES/Gotham Medium.ttf" %}') format('truetype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Gotham';
+            src: url('{% static "FONT FILES/Gotham Bold.ttf" %}') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Cormorant Garamond';
+            src: url('{% static "FONT FILES/CormorantGaramond-Bold.ttf" %}') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* Apply Gotham as primary font */
+        body {
+            font-family: 'Gotham', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* Marquee Animation */
+        @keyframes marquee-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-track {
+            display: inline-flex;
+            width: max-content;
+            animation: marquee-scroll 40s linear infinite;
+        }
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        /* Form Validation Styles */
+        .form-field input.border-red-600,
+        .form-field textarea.border-red-600 {
+            border-color: #dc2626 !important;
+        }
+        .form-field input.border-red-600:focus,
+        .form-field textarea.border-red-600:focus {
+            border-color: #dc2626 !important;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+        }
+        .error-message {
+            display: none;
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            line-height: 1.25rem;
+        }
+        .error-message.show {
+            display: block;
+        }
+        .form-field.required label::after {
+            content: ' *';
+            color: #dc2626;
+        }
+
+        /* Contact Link Hover Effects */
+        .contact-link {
+            transition: color 0.2s ease, text-decoration 0.2s ease;
+        }
+        .contact-link:hover {
+            color: #D4C4A8;
+            text-decoration: underline;
+        }
+        
+        /* Update form focus ring colors */
+        .form-field input:focus,
+        .form-field textarea:focus {
+            --tw-ring-color: rgba(10, 22, 40, 0.2);
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Section fade-in animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Section transition classes */
+        .section-transition {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .section-transition.visible {
+            opacity: 1;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Stagger children animations */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .section-transition.visible .stagger-children > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-transition.visible .stagger-children > *:nth-child(1) { transition-delay: 0.1s; }
+        .section-transition.visible .stagger-children > *:nth-child(2) { transition-delay: 0.2s; }
+        .section-transition.visible .stagger-children > *:nth-child(3) { transition-delay: 0.3s; }
+        .section-transition.visible .stagger-children > *:nth-child(4) { transition-delay: 0.4s; }
+        .section-transition.visible .stagger-children > *:nth-child(5) { transition-delay: 0.5s; }
+        .section-transition.visible .stagger-children > *:nth-child(6) { transition-delay: 0.6s; }
+        .section-transition.visible .stagger-children > *:nth-child(7) { transition-delay: 0.7s; }
+        .section-transition.visible .stagger-children > *:nth-child(8) { transition-delay: 0.8s; }
+
+        /* Global transition for all interactive elements */
+        a, button, input, textarea, select {
+            transition: all 0.3s ease;
+        }
+
+        /* Enhanced transitions for cards and interactive elements */
+        .group {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Image transitions */
+        img {
+            transition: transform 0.5s ease, opacity 0.3s ease;
+        }
+
+        /* Section hover effects */
+        section {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* Smooth transitions for common interactive elements */
+        a, button, .group, [class*="hover:"], [class*="transition"] {
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 300ms;
+        }
+
+        /* WhatsApp Floating Button */
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            50%, 100% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 9999;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .whatsapp-button {
+            position: relative;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4), 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: visible;
+        }
+
+        .whatsapp-button::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #25D366;
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5), 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .whatsapp-button:active {
+            transform: scale(0.95);
+        }
+
+        .whatsapp-icon {
+            position: relative;
+            z-index: 1;
+            font-size: 32px;
+            color: white;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        .whatsapp-tooltip {
+            position: absolute;
+            right: 80px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(10, 22, 40, 0.95);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .whatsapp-tooltip::after {
+            content: '';
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 8px solid transparent;
+            border-left-color: rgba(10, 22, 40, 0.95);
+        }
+
+        .whatsapp-float:hover .whatsapp-tooltip {
+            opacity: 1;
+            transform: translateY(-50%) translateX(-8px);
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                bottom: 20px;
+                right: 20px;
+            }
+            .whatsapp-button {
+                width: 56px;
+                height: 56px;
+            }
+            .whatsapp-icon {
+                font-size: 28px;
+            }
+            .whatsapp-tooltip {
+                display: none;
+            }
+        }
+    </style>
+    <script>
+        // Intersection Observer for scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all sections
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.add('section-transition');
+                observer.observe(section);
+            });
+        });
+    </script>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="font-sans text-navy-900 antialiased text-lg">
+    <div class="min-h-full flex flex-col bg-white">
+        {% include "partials/header.html" %}
+
+        <main class="flex-1">
+            {% block content %}{% endblock %}
+        </main>
+
+        {% include "partials/footer.html" %}
+    </div>
+
+    <!-- WhatsApp Floating Button -->
+    <div class="whatsapp-float">
+        <a href="https://wa.me/971552218761" target="_blank" rel="noopener noreferrer" class="whatsapp-button" aria-label="Contact us on WhatsApp">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+            <div class="whatsapp-tooltip">
+                Chat with us on WhatsApp
+            </div>
+        </a>
+    </div>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
+
+
+

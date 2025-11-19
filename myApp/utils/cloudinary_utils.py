@@ -106,3 +106,4 @@ def upload_to_cloudinary(file_bytes: bytes, folder: str, public_id: str, tags=No
         raise Exception(f"Upload error: {str(e)}")
 
 
+

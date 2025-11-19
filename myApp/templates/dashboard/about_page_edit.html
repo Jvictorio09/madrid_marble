@@ -1,0 +1,213 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Edit About Page - Madrid Marble Dashboard{% endblock %}
+
+{% block content %}
+<!-- Include Image Picker Modal -->
+{% include "dashboard/image_picker_modal.html" %}
+
+<div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="text-4xl font-bold text-navy-900">Edit About Page</h1>
+        <div class="flex gap-4">
+            <a href="{% url 'dashboard:about_timeline_list' %}" class="bg-beige-200 text-navy-900 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-beige-300 transition">
+                <i class="fa-solid fa-list mr-2"></i> Timeline
+            </a>
+            <a href="{% url 'dashboard:about_mission_cards_list' %}" class="bg-beige-200 text-navy-900 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-beige-300 transition">
+                <i class="fa-solid fa-list mr-2"></i> Mission Cards
+            </a>
+            <a href="{% url 'dashboard:about_feature_cards_list' %}" class="bg-beige-200 text-navy-900 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-beige-300 transition">
+                <i class="fa-solid fa-list mr-2"></i> Features
+            </a>
+            <a href="{% url 'dashboard:about_values_list' %}" class="bg-beige-200 text-navy-900 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-beige-300 transition">
+                <i class="fa-solid fa-list mr-2"></i> Values
+            </a>
+            <a href="{% url 'dashboard:about_team_members_list' %}" class="bg-beige-200 text-navy-900 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-beige-300 transition">
+                <i class="fa-solid fa-list mr-2"></i> Team
+            </a>
+            <a href="{% url 'dashboard:home' %}" class="text-gray-600 hover:text-navy-900">
+                <i class="fa-solid fa-arrow-left mr-2"></i> Back
+            </a>
+        </div>
+    </div>
+
+    <form method="post" class="bg-white rounded-xl shadow-sm p-8 space-y-6">
+        {% csrf_token %}
+        
+        <div class="border-b pb-6">
+            <h2 class="text-2xl font-semibold text-navy-900 mb-4">Hero Section</h2>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Badge</label>
+                <input type="text" name="badge" value="{{ page.badge|default:'' }}" 
+                       placeholder="About Madrid Marble"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                <input type="text" name="title" value="{{ page.title|default:'' }}" required
+                       placeholder="The studio behind the stone."
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Intro Paragraph 1</label>
+                <textarea name="intro_paragraph_1" rows="2" required
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ page.intro_paragraph_1|default:'' }}</textarea>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Intro Paragraph 2</label>
+                <textarea name="intro_paragraph_2" rows="3" required
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ page.intro_paragraph_2|default:'' }}</textarea>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Hero Image URL</label>
+                <input type="url" name="hero_image_url" id="hero_image_url" value="{{ page.hero_image_url|default:'' }}" 
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                <p class="text-sm text-gray-500 mt-2">
+                    <button type="button" onclick="openImagePickerModal('hero_image_url')" class="text-navy-900 hover:underline">
+                        <i class="fa-solid fa-images mr-1"></i> Upload image from gallery
+                    </button>
+                </p>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Image Alt Text</label>
+                <input type="text" name="hero_image_alt" value="{{ page.hero_image_alt|default:'' }}" 
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Since Badge</label>
+                <input type="text" name="since_badge" value="{{ page.since_badge|default:'' }}" 
+                       placeholder="Since 20XX"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+        </div>
+
+        <div class="border-b pb-6">
+            <h2 class="text-2xl font-semibold text-navy-900 mb-4">Story Timeline</h2>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                <input type="text" name="story_title" value="{{ page.story_title|default:'' }}" 
+                       placeholder="From a focused workshop to a trusted project partner."
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                <textarea name="story_description" rows="2"
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ page.story_description|default:'' }}</textarea>
+            </div>
+        </div>
+
+        <div class="border-b pb-6">
+            <h2 class="text-2xl font-semibold text-navy-900 mb-4">Mission & Philosophy</h2>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                <input type="text" name="mission_title" value="{{ page.mission_title|default:'' }}" 
+                       placeholder="Our Mission & Philosophy"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                <textarea name="mission_description" rows="2"
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ page.mission_description|default:'' }}</textarea>
+            </div>
+        </div>
+
+        <div class="border-b pb-6">
+            <h2 class="text-2xl font-semibold text-navy-900 mb-4">What Sets Us Apart</h2>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                <input type="text" name="sets_apart_title" value="{{ page.sets_apart_title|default:'' }}" 
+                       placeholder="What Sets Us Apart"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                <textarea name="sets_apart_description" rows="2"
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ page.sets_apart_description|default:'' }}</textarea>
+            </div>
+        </div>
+
+        <div class="border-b pb-6">
+            <h2 class="text-2xl font-semibold text-navy-900 mb-4">Workshop Section</h2>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Badge</label>
+                <input type="text" name="workshop_badge" value="{{ page.workshop_badge|default:'' }}" 
+                       placeholder="Inside the workshop"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                <input type="text" name="workshop_title" value="{{ page.workshop_title|default:'' }}" 
+                       placeholder="Where design decisions meet precise execution."
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                <textarea name="workshop_description" rows="3"
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ page.workshop_description|default:'' }}</textarea>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Workshop Image URL</label>
+                <input type="url" name="workshop_image_url" id="workshop_image_url" value="{{ page.workshop_image_url|default:'' }}" 
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                <p class="text-sm text-gray-500 mt-2">
+                    <button type="button" onclick="openImagePickerModal('workshop_image_url')" class="text-navy-900 hover:underline">
+                        <i class="fa-solid fa-images mr-1"></i> Upload image from gallery
+                    </button>
+                </p>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Image Alt Text</label>
+                <input type="text" name="workshop_image_alt" value="{{ page.workshop_image_alt|default:'' }}" 
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Workshop Stats JSON</label>
+                <textarea name="workshop_stats_json" id="workshop_stats_json" rows="6"
+                          placeholder='[{"value": "3", "label": "Core processes", "description": "Selection, fabrication, installation."}]'
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20 font-mono text-sm">{{ stats_json_str|default:'[]' }}</textarea>
+                <p class="text-sm text-gray-500 mt-2">
+                    <i class="fa-solid fa-info-circle mr-1"></i> 
+                    Format: Array of objects with "value", "label", and "description" fields.
+                </p>
+            </div>
+        </div>
+
+        <div class="border-b pb-6">
+            <h2 class="text-2xl font-semibold text-navy-900 mb-4">Our Values</h2>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                <input type="text" name="values_title" value="{{ page.values_title|default:'' }}" 
+                       placeholder="Our Values"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                <textarea name="values_description" rows="2"
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ page.values_description|default:'' }}</textarea>
+            </div>
+        </div>
+
+        <div class="pb-6">
+            <h2 class="text-2xl font-semibold text-navy-900 mb-4">Meet the Team</h2>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                <input type="text" name="team_title" value="{{ page.team_title|default:'' }}" 
+                       placeholder="Meet the Team"
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                <textarea name="team_description" rows="3"
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ page.team_description|default:'' }}</textarea>
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-4 pt-6 border-t">
+            <button type="submit" class="bg-navy-900 text-white px-8 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
+                <i class="fa-solid fa-save mr-2"></i> Save Changes
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

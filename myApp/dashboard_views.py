@@ -8,7 +8,13 @@ from django.utils.text import slugify
 from .models import (
     SEO, Navigation, Hero, About, Stat, Service, Services, 
     Portfolio, PortfolioProject, Testimonial, FAQ, FAQSection,
-    Contact, ContactInfo, ContactFormField, SocialLink, Footer, MediaAsset
+    Contact, ContactInfo, ContactFormField, SocialLink, Footer, MediaAsset,
+    Promise, PromiseCard, FeaturedServices, FeaturedService, WhyTrust, WhyTrustFactor,
+    AboutPage, AboutTimelineItem, AboutMissionCard, AboutFeatureCard, AboutValue, AboutTeamMember,
+    ServicesPage, ServicesPageService, ServicesPageProcessStep,
+    PortfolioPage, PortfolioPageCategory,
+    FAQPage, FAQPageSection, FAQPageQuestion, FAQPageTip,
+    ContactPage
 )
 from .utils.cloudinary_utils import smart_compress_to_bytes, upload_to_cloudinary, TARGET_BYTES
 import json
@@ -185,6 +191,7 @@ def hero_edit(request):
     
     if request.method == 'POST':
         hero.badge = request.POST.get('badge', '')
+        hero.eyebrow = request.POST.get('eyebrow', '')
         hero.headline = request.POST.get('headline', '')
         hero.description = request.POST.get('description', '')
         hero.image_url = request.POST.get('image_url', '')
@@ -198,11 +205,26 @@ def hero_edit(request):
         hero.testimonial_name = request.POST.get('testimonial_name', '')
         hero.testimonial_meta = request.POST.get('testimonial_meta', '')
         hero.testimonial_stars = int(request.POST.get('testimonial_stars', 5))
+        
+        # Parse stats JSON
+        stats_json_str = request.POST.get('stats_json', '[]')
+        try:
+            hero.stats_json = json.loads(stats_json_str)
+        except:
+            hero.stats_json = []
+        
         hero.save()
         messages.success(request, 'Hero section updated successfully!')
         return redirect('dashboard:hero_edit')
     
-    return render(request, 'dashboard/hero_edit.html', {'hero': hero})
+    # Format stats_json for display
+    import json as json_lib
+    stats_json_str = json_lib.dumps(hero.stats_json, indent=2) if hero.stats_json else '[]'
+    
+    return render(request, 'dashboard/hero_edit.html', {
+        'hero': hero,
+        'stats_json_str': stats_json_str
+    })
 
 
 # About Management
@@ -731,4 +753,881 @@ def testimonial_delete(request, testimonial_id):
     testimonial.delete()
     messages.success(request, 'Testimonial deleted successfully!')
     return redirect('dashboard:testimonials_list')
+
+
+# Promise Section Management
+@login_required
+def promise_edit(request):
+    """Edit Promise section configuration"""
+    promise = Promise.objects.first()
+    if not promise:
+        promise = Promise.objects.create(
+            title="Our Promise",
+            main_statement="Every surface we touch must look exceptional on day one — and still feel impressive years later.",
+            substatement="Clients choose Madrid Marble because we combine technical precision with boutique-level service.",
+            closing_statement="We don't just install stone. We engineer statement pieces that hold their value over time."
+        )
+    
+    if request.method == 'POST':
+        promise.title = request.POST.get('title', '')
+        promise.main_statement = request.POST.get('main_statement', '')
+        promise.substatement = request.POST.get('substatement', '')
+        promise.closing_statement = request.POST.get('closing_statement', '')
+        promise.save()
+        messages.success(request, 'Promise section updated successfully!')
+        return redirect('dashboard:promise_edit')
+    
+    return render(request, 'dashboard/promise_edit.html', {'promise': promise})
+
+
+@login_required
+def promise_cards_list(request):
+    """List all promise cards"""
+    cards = PromiseCard.objects.all().order_by('sort_order')
+    return render(request, 'dashboard/promise_cards_list.html', {'cards': cards})
+
+
+@login_required
+def promise_card_edit(request, card_id=None):
+    """Create or edit promise card"""
+    if card_id:
+        card = get_object_or_404(PromiseCard, id=card_id)
+    else:
+        card = None
+    
+    if request.method == 'POST':
+        if not card:
+            card = PromiseCard()
+        card.title = request.POST.get('title', '')
+        card.description = request.POST.get('description', '')
+        card.icon = request.POST.get('icon', '')
+        card.sort_order = int(request.POST.get('sort_order', 0))
+        card.save()
+        messages.success(request, f'Promise card {"updated" if card_id else "created"} successfully!')
+        return redirect('dashboard:promise_cards_list')
+    
+    return render(request, 'dashboard/promise_card_edit.html', {'card': card})
+
+
+@login_required
+def promise_card_delete(request, card_id):
+    """Delete promise card"""
+    card = get_object_or_404(PromiseCard, id=card_id)
+    card.delete()
+    messages.success(request, 'Promise card deleted successfully!')
+    return redirect('dashboard:promise_cards_list')
+
+
+# Featured Services Management
+@login_required
+def featured_services_edit(request):
+    """Edit Featured Services section configuration"""
+    section = FeaturedServices.objects.first()
+    if not section:
+        section = FeaturedServices.objects.create(
+            title="Featured Services",
+            description="From first sketch to final polish, we support your project through every stage — design, fabrication, and installation — with a focus on precision and long-term performance."
+        )
+    
+    if request.method == 'POST':
+        section.title = request.POST.get('title', '')
+        section.description = request.POST.get('description', '')
+        section.save()
+        messages.success(request, 'Featured Services section updated successfully!')
+        return redirect('dashboard:featured_services_edit')
+    
+    return render(request, 'dashboard/featured_services_edit.html', {'section': section})
+
+
+@login_required
+def featured_services_list(request):
+    """List all featured services"""
+    services = FeaturedService.objects.all().order_by('sort_order')
+    return render(request, 'dashboard/featured_services_list.html', {'services': services})
+
+
+@login_required
+def featured_service_edit(request, service_id=None):
+    """Create or edit featured service"""
+    if service_id:
+        service = get_object_or_404(FeaturedService, id=service_id)
+    else:
+        service = None
+    
+    if request.method == 'POST':
+        if not service:
+            service = FeaturedService()
+        service.title = request.POST.get('title', '')
+        service.description = request.POST.get('description', '')
+        service.icon = request.POST.get('icon', '')
+        service.sort_order = int(request.POST.get('sort_order', 0))
+        service.save()
+        messages.success(request, f'Featured service {"updated" if service_id else "created"} successfully!')
+        return redirect('dashboard:featured_services_list')
+    
+    return render(request, 'dashboard/featured_service_edit.html', {'service': service})
+
+
+@login_required
+def featured_service_delete(request, service_id):
+    """Delete featured service"""
+    service = get_object_or_404(FeaturedService, id=service_id)
+    service.delete()
+    messages.success(request, 'Featured service deleted successfully!')
+    return redirect('dashboard:featured_services_list')
+
+
+# Why Trust Management
+@login_required
+def why_trust_edit(request):
+    """Edit Why Trust section configuration"""
+    section = WhyTrust.objects.first()
+    if not section:
+        section = WhyTrust.objects.create(
+            title="Why Clients Trust Madrid Marble",
+            subtitle="We combine the reliability of a specialist contractor with the eye of a design partner."
+        )
+    
+    if request.method == 'POST':
+        section.title = request.POST.get('title', '')
+        section.subtitle = request.POST.get('subtitle', '')
+        section.save()
+        messages.success(request, 'Why Trust section updated successfully!')
+        return redirect('dashboard:why_trust_edit')
+    
+    return render(request, 'dashboard/why_trust_edit.html', {'section': section})
+
+
+@login_required
+def why_trust_factors_list(request):
+    """List all why trust factors"""
+    factors = WhyTrustFactor.objects.all().order_by('sort_order')
+    return render(request, 'dashboard/why_trust_factors_list.html', {'factors': factors})
+
+
+@login_required
+def why_trust_factor_edit(request, factor_id=None):
+    """Create or edit why trust factor"""
+    if factor_id:
+        factor = get_object_or_404(WhyTrustFactor, id=factor_id)
+    else:
+        factor = None
+    
+    if request.method == 'POST':
+        if not factor:
+            factor = WhyTrustFactor()
+        factor.title = request.POST.get('title', '')
+        factor.description = request.POST.get('description', '')
+        factor.icon = request.POST.get('icon', '')
+        factor.sort_order = int(request.POST.get('sort_order', 0))
+        factor.save()
+        messages.success(request, f'Why Trust factor {"updated" if factor_id else "created"} successfully!')
+        return redirect('dashboard:why_trust_factors_list')
+    
+    return render(request, 'dashboard/why_trust_factor_edit.html', {'factor': factor})
+
+
+@login_required
+def why_trust_factor_delete(request, factor_id):
+    """Delete why trust factor"""
+    factor = get_object_or_404(WhyTrustFactor, id=factor_id)
+    factor.delete()
+    messages.success(request, 'Why Trust factor deleted successfully!')
+    return redirect('dashboard:why_trust_factors_list')
+
+
+# ==================== INDIVIDUAL PAGES ====================
+
+# About Page
+@login_required
+def about_page_edit(request):
+    """Edit About Page"""
+    page = AboutPage.objects.first()
+    if not page:
+        page = AboutPage.objects.create(
+            title="The studio behind the stone.",
+            intro_paragraph_1="Madrid Marble was built on a simple belief: every space deserves materials that look as premium as they feel.",
+            intro_paragraph_2="What started as a small, highly focused workshop has grown into a trusted marble partner for homeowners, designers, and contractors across the UAE. Over the years, we've invested in better machines, a stronger team, and more refined processes — but our core hasn't changed: deliver precise work, treat every project with respect, and leave clients proud to show their spaces."
+        )
+    
+    if request.method == 'POST':
+        page.badge = request.POST.get('badge', '')
+        page.title = request.POST.get('title', '')
+        page.intro_paragraph_1 = request.POST.get('intro_paragraph_1', '')
+        page.intro_paragraph_2 = request.POST.get('intro_paragraph_2', '')
+        page.hero_image_url = request.POST.get('hero_image_url', '')
+        page.hero_image_alt = request.POST.get('hero_image_alt', '')
+        page.since_badge = request.POST.get('since_badge', '')
+        page.story_title = request.POST.get('story_title', '')
+        page.story_description = request.POST.get('story_description', '')
+        page.mission_title = request.POST.get('mission_title', '')
+        page.mission_description = request.POST.get('mission_description', '')
+        page.sets_apart_title = request.POST.get('sets_apart_title', '')
+        page.sets_apart_description = request.POST.get('sets_apart_description', '')
+        page.workshop_badge = request.POST.get('workshop_badge', '')
+        page.workshop_title = request.POST.get('workshop_title', '')
+        page.workshop_description = request.POST.get('workshop_description', '')
+        page.workshop_image_url = request.POST.get('workshop_image_url', '')
+        page.workshop_image_alt = request.POST.get('workshop_image_alt', '')
+        page.values_title = request.POST.get('values_title', '')
+        page.values_description = request.POST.get('values_description', '')
+        page.team_title = request.POST.get('team_title', '')
+        page.team_description = request.POST.get('team_description', '')
+        
+        # Parse workshop stats JSON
+        stats_json_str = request.POST.get('workshop_stats_json', '[]')
+        try:
+            page.workshop_stats_json = json.loads(stats_json_str)
+        except:
+            page.workshop_stats_json = []
+        
+        page.save()
+        messages.success(request, 'About Page updated successfully!')
+        return redirect('dashboard:about_page_edit')
+    
+    # Format stats_json for display
+    stats_json_str = json.dumps(page.workshop_stats_json, indent=2) if page.workshop_stats_json else '[]'
+    
+    return render(request, 'dashboard/about_page_edit.html', {
+        'page': page,
+        'stats_json_str': stats_json_str
+    })
+
+
+@login_required
+def about_timeline_list(request):
+    """List timeline items"""
+    page = AboutPage.objects.first()
+    if not page:
+        return redirect('dashboard:about_page_edit')
+    timeline_items = page.timeline_items.all().order_by('sort_order')
+    return render(request, 'dashboard/about_timeline_list.html', {'timeline_items': timeline_items, 'page': page})
+
+
+@login_required
+def about_timeline_edit(request, item_id=None):
+    """Create or edit timeline item"""
+    page = AboutPage.objects.first()
+    if not page:
+        return redirect('dashboard:about_page_edit')
+    
+    if item_id:
+        item = get_object_or_404(AboutTimelineItem, id=item_id, about_page=page)
+    else:
+        item = None
+    
+    if request.method == 'POST':
+        if not item:
+            item = AboutTimelineItem(about_page=page)
+        item.period = request.POST.get('period', '')
+        item.description = request.POST.get('description', '')
+        item.sort_order = int(request.POST.get('sort_order', 0))
+        item.save()
+        messages.success(request, f'Timeline item {"updated" if item_id else "created"} successfully!')
+        return redirect('dashboard:about_timeline_list')
+    
+    return render(request, 'dashboard/about_timeline_edit.html', {'item': item, 'page': page})
+
+
+@login_required
+def about_timeline_delete(request, item_id):
+    """Delete timeline item"""
+    item = get_object_or_404(AboutTimelineItem, id=item_id)
+    item.delete()
+    messages.success(request, 'Timeline item deleted successfully!')
+    return redirect('dashboard:about_timeline_list')
+
+
+@login_required
+def about_mission_cards_list(request):
+    """List mission cards"""
+    page = AboutPage.objects.first()
+    if not page:
+        return redirect('dashboard:about_page_edit')
+    cards = page.mission_cards.all().order_by('sort_order')
+    return render(request, 'dashboard/about_mission_cards_list.html', {'cards': cards, 'page': page})
+
+
+@login_required
+def about_mission_card_edit(request, card_id=None):
+    """Create or edit mission card"""
+    page = AboutPage.objects.first()
+    if not page:
+        return redirect('dashboard:about_page_edit')
+    
+    if card_id:
+        card = get_object_or_404(AboutMissionCard, id=card_id, about_page=page)
+    else:
+        card = None
+    
+    if request.method == 'POST':
+        if not card:
+            card = AboutMissionCard(about_page=page)
+        card.label = request.POST.get('label', '')
+        card.description = request.POST.get('description', '')
+        card.sort_order = int(request.POST.get('sort_order', 0))
+        card.save()
+        messages.success(request, f'Mission card {"updated" if card_id else "created"} successfully!')
+        return redirect('dashboard:about_mission_cards_list')
+    
+    return render(request, 'dashboard/about_mission_card_edit.html', {'card': card, 'page': page})
+
+
+@login_required
+def about_mission_card_delete(request, card_id):
+    """Delete mission card"""
+    card = get_object_or_404(AboutMissionCard, id=card_id)
+    card.delete()
+    messages.success(request, 'Mission card deleted successfully!')
+    return redirect('dashboard:about_mission_cards_list')
+
+
+@login_required
+def about_feature_cards_list(request):
+    """List feature cards"""
+    page = AboutPage.objects.first()
+    if not page:
+        return redirect('dashboard:about_page_edit')
+    cards = page.feature_cards.all().order_by('sort_order')
+    return render(request, 'dashboard/about_feature_cards_list.html', {'cards': cards, 'page': page})
+
+
+@login_required
+def about_feature_card_edit(request, card_id=None):
+    """Create or edit feature card"""
+    page = AboutPage.objects.first()
+    if not page:
+        return redirect('dashboard:about_page_edit')
+    
+    if card_id:
+        card = get_object_or_404(AboutFeatureCard, id=card_id, about_page=page)
+    else:
+        card = None
+    
+    if request.method == 'POST':
+        if not card:
+            card = AboutFeatureCard(about_page=page)
+        card.title = request.POST.get('title', '')
+        card.description = request.POST.get('description', '')
+        card.icon = request.POST.get('icon', '')
+        card.sort_order = int(request.POST.get('sort_order', 0))
+        card.save()
+        messages.success(request, f'Feature card {"updated" if card_id else "created"} successfully!')
+        return redirect('dashboard:about_feature_cards_list')
+    
+    return render(request, 'dashboard/about_feature_card_edit.html', {'card': card, 'page': page})
+
+
+@login_required
+def about_feature_card_delete(request, card_id):
+    """Delete feature card"""
+    card = get_object_or_404(AboutFeatureCard, id=card_id)
+    card.delete()
+    messages.success(request, 'Feature card deleted successfully!')
+    return redirect('dashboard:about_feature_cards_list')
+
+
+@login_required
+def about_values_list(request):
+    """List values"""
+    page = AboutPage.objects.first()
+    if not page:
+        return redirect('dashboard:about_page_edit')
+    values = page.values.all().order_by('sort_order')
+    return render(request, 'dashboard/about_values_list.html', {'values': values, 'page': page})
+
+
+@login_required
+def about_value_edit(request, value_id=None):
+    """Create or edit value"""
+    page = AboutPage.objects.first()
+    if not page:
+        return redirect('dashboard:about_page_edit')
+    
+    if value_id:
+        value = get_object_or_404(AboutValue, id=value_id, about_page=page)
+    else:
+        value = None
+    
+    if request.method == 'POST':
+        if not value:
+            value = AboutValue(about_page=page)
+        value.title = request.POST.get('title', '')
+        value.description = request.POST.get('description', '')
+        value.icon = request.POST.get('icon', '')
+        value.sort_order = int(request.POST.get('sort_order', 0))
+        value.save()
+        messages.success(request, f'Value {"updated" if value_id else "created"} successfully!')
+        return redirect('dashboard:about_values_list')
+    
+    return render(request, 'dashboard/about_value_edit.html', {'value': value, 'page': page})
+
+
+@login_required
+def about_value_delete(request, value_id):
+    """Delete value"""
+    value = get_object_or_404(AboutValue, id=value_id)
+    value.delete()
+    messages.success(request, 'Value deleted successfully!')
+    return redirect('dashboard:about_values_list')
+
+
+@login_required
+def about_team_members_list(request):
+    """List team members"""
+    page = AboutPage.objects.first()
+    if not page:
+        return redirect('dashboard:about_page_edit')
+    members = page.team_members.all().order_by('sort_order')
+    return render(request, 'dashboard/about_team_members_list.html', {'members': members, 'page': page})
+
+
+@login_required
+def about_team_member_edit(request, member_id=None):
+    """Create or edit team member"""
+    page = AboutPage.objects.first()
+    if not page:
+        return redirect('dashboard:about_page_edit')
+    
+    if member_id:
+        member = get_object_or_404(AboutTeamMember, id=member_id, about_page=page)
+    else:
+        member = None
+    
+    if request.method == 'POST':
+        if not member:
+            member = AboutTeamMember(about_page=page)
+        member.name = request.POST.get('name', '')
+        member.role = request.POST.get('role', '')
+        member.description = request.POST.get('description', '')
+        member.avatar_url = request.POST.get('avatar_url', '')
+        member.avatar_alt = request.POST.get('avatar_alt', '')
+        member.sort_order = int(request.POST.get('sort_order', 0))
+        member.save()
+        messages.success(request, f'Team member {"updated" if member_id else "created"} successfully!')
+        return redirect('dashboard:about_team_members_list')
+    
+    return render(request, 'dashboard/about_team_member_edit.html', {'member': member, 'page': page})
+
+
+@login_required
+def about_team_member_delete(request, member_id):
+    """Delete team member"""
+    member = get_object_or_404(AboutTeamMember, id=member_id)
+    member.delete()
+    messages.success(request, 'Team member deleted successfully!')
+    return redirect('dashboard:about_team_members_list')
+
+
+# Services Page
+@login_required
+def services_page_edit(request):
+    """Edit Services Page"""
+    page = ServicesPage.objects.first()
+    if not page:
+        page = ServicesPage.objects.create(
+            title="Full Marble Solutions for Modern Spaces.",
+            description="From a single kitchen to full villa interiors and commercial fit-outs, Madrid Marble handles stone selection, technical planning, fabrication, installation, and after-care — all under one specialist team."
+        )
+    
+    if request.method == 'POST':
+        page.badge = request.POST.get('badge', '')
+        page.title = request.POST.get('title', '')
+        page.description = request.POST.get('description', '')
+        page.hero_image_1_url = request.POST.get('hero_image_1_url', '')
+        page.hero_image_1_alt = request.POST.get('hero_image_1_alt', '')
+        page.hero_image_2_url = request.POST.get('hero_image_2_url', '')
+        page.hero_image_2_alt = request.POST.get('hero_image_2_alt', '')
+        page.hero_image_3_url = request.POST.get('hero_image_3_url', '')
+        page.hero_image_3_alt = request.POST.get('hero_image_3_alt', '')
+        page.hero_label = request.POST.get('hero_label', '')
+        page.solutions_title = request.POST.get('solutions_title', '')
+        page.solutions_description = request.POST.get('solutions_description', '')
+        page.process_title = request.POST.get('process_title', '')
+        page.process_description = request.POST.get('process_description', '')
+        page.save()
+        messages.success(request, 'Services Page updated successfully!')
+        return redirect('dashboard:services_page_edit')
+    
+    return render(request, 'dashboard/services_page_edit.html', {'page': page})
+
+
+@login_required
+def services_page_services_list(request):
+    """List service sections"""
+    page = ServicesPage.objects.first()
+    if not page:
+        return redirect('dashboard:services_page_edit')
+    services = page.services.all().order_by('sort_order')
+    return render(request, 'dashboard/services_page_services_list.html', {'services': services, 'page': page})
+
+
+@login_required
+def services_page_service_edit(request, service_id=None):
+    """Create or edit service section"""
+    page = ServicesPage.objects.first()
+    if not page:
+        return redirect('dashboard:services_page_edit')
+    
+    if service_id:
+        service = get_object_or_404(ServicesPageService, id=service_id, services_page=page)
+    else:
+        service = None
+    
+    if request.method == 'POST':
+        if not service:
+            service = ServicesPageService(services_page=page)
+        service.service_id = request.POST.get('service_id', '')
+        service.title = request.POST.get('title', '')
+        service.description = request.POST.get('description', '')
+        service.icon = request.POST.get('icon', '')
+        service.image_url = request.POST.get('image_url', '')
+        service.image_alt = request.POST.get('image_alt', '')
+        service.additional_text = request.POST.get('additional_text', '')
+        service.image_position = request.POST.get('image_position', 'right')
+        service.sort_order = int(request.POST.get('sort_order', 0))
+        
+        # Parse features JSON
+        features_json_str = request.POST.get('features_json', '[]')
+        try:
+            service.features_json = json.loads(features_json_str)
+        except:
+            service.features_json = []
+        
+        service.save()
+        messages.success(request, f'Service section {"updated" if service_id else "created"} successfully!')
+        return redirect('dashboard:services_page_services_list')
+    
+    features_json_str = json.dumps(service.features_json, indent=2) if service and service.features_json else '[]'
+    return render(request, 'dashboard/services_page_service_edit.html', {
+        'service': service,
+        'page': page,
+        'features_json_str': features_json_str
+    })
+
+
+@login_required
+def services_page_service_delete(request, service_id):
+    """Delete service section"""
+    service = get_object_or_404(ServicesPageService, id=service_id)
+    service.delete()
+    messages.success(request, 'Service section deleted successfully!')
+    return redirect('dashboard:services_page_services_list')
+
+
+@login_required
+def services_page_process_steps_list(request):
+    """List process steps"""
+    page = ServicesPage.objects.first()
+    if not page:
+        return redirect('dashboard:services_page_edit')
+    steps = page.process_steps.all().order_by('sort_order')
+    return render(request, 'dashboard/services_page_process_steps_list.html', {'steps': steps, 'page': page})
+
+
+@login_required
+def services_page_process_step_edit(request, step_id=None):
+    """Create or edit process step"""
+    page = ServicesPage.objects.first()
+    if not page:
+        return redirect('dashboard:services_page_edit')
+    
+    if step_id:
+        step = get_object_or_404(ServicesPageProcessStep, id=step_id, services_page=page)
+    else:
+        step = None
+    
+    if request.method == 'POST':
+        if not step:
+            step = ServicesPageProcessStep(services_page=page)
+        step.number = request.POST.get('number', '')
+        step.title = request.POST.get('title', '')
+        step.description = request.POST.get('description', '')
+        step.sort_order = int(request.POST.get('sort_order', 0))
+        step.save()
+        messages.success(request, f'Process step {"updated" if step_id else "created"} successfully!')
+        return redirect('dashboard:services_page_process_steps_list')
+    
+    return render(request, 'dashboard/services_page_process_step_edit.html', {'step': step, 'page': page})
+
+
+@login_required
+def services_page_process_step_delete(request, step_id):
+    """Delete process step"""
+    step = get_object_or_404(ServicesPageProcessStep, id=step_id)
+    step.delete()
+    messages.success(request, 'Process step deleted successfully!')
+    return redirect('dashboard:services_page_process_steps_list')
+
+
+# Portfolio Page
+@login_required
+def portfolio_page_edit(request):
+    """Edit Portfolio Page"""
+    page = PortfolioPage.objects.first()
+    if not page:
+        page = PortfolioPage.objects.create(
+            title="Our Masterpieces",
+            description="Browse a selection of projects where marble plays a central role in the design. Each project highlights our approach: thoughtful stone selection, precision fabrication, and clean, detail-driven installation."
+        )
+    
+    if request.method == 'POST':
+        page.title = request.POST.get('title', '')
+        page.description = request.POST.get('description', '')
+        page.residential_title = request.POST.get('residential_title', '')
+        page.residential_description = request.POST.get('residential_description', '')
+        page.commercial_title = request.POST.get('commercial_title', '')
+        page.commercial_description = request.POST.get('commercial_description', '')
+        page.before_after_title = request.POST.get('before_after_title', '')
+        page.before_after_description = request.POST.get('before_after_description', '')
+        page.save()
+        messages.success(request, 'Portfolio Page updated successfully!')
+        return redirect('dashboard:portfolio_page_edit')
+    
+    return render(request, 'dashboard/portfolio_page_edit.html', {'page': page})
+
+
+@login_required
+def portfolio_page_categories_list(request):
+    """List portfolio categories"""
+    page = PortfolioPage.objects.first()
+    if not page:
+        return redirect('dashboard:portfolio_page_edit')
+    categories = page.categories.all().order_by('category_type', 'sort_order')
+    return render(request, 'dashboard/portfolio_page_categories_list.html', {'categories': categories, 'page': page})
+
+
+@login_required
+def portfolio_page_category_edit(request, category_id=None):
+    """Create or edit portfolio category"""
+    page = PortfolioPage.objects.first()
+    if not page:
+        return redirect('dashboard:portfolio_page_edit')
+    
+    if category_id:
+        category = get_object_or_404(PortfolioPageCategory, id=category_id, portfolio_page=page)
+    else:
+        category = None
+    
+    if request.method == 'POST':
+        if not category:
+            category = PortfolioPageCategory(portfolio_page=page)
+        category.category_type = request.POST.get('category_type', 'residential')
+        category.title = request.POST.get('title', '')
+        category.icon = request.POST.get('icon', '')
+        category.sort_order = int(request.POST.get('sort_order', 0))
+        category.save()
+        messages.success(request, f'Portfolio category {"updated" if category_id else "created"} successfully!')
+        return redirect('dashboard:portfolio_page_categories_list')
+    
+    return render(request, 'dashboard/portfolio_page_category_edit.html', {'category': category, 'page': page})
+
+
+@login_required
+def portfolio_page_category_delete(request, category_id):
+    """Delete portfolio category"""
+    category = get_object_or_404(PortfolioPageCategory, id=category_id)
+    category.delete()
+    messages.success(request, 'Portfolio category deleted successfully!')
+    return redirect('dashboard:portfolio_page_categories_list')
+
+
+# FAQ Page
+@login_required
+def faq_page_edit(request):
+    """Edit FAQ Page"""
+    page = FAQPage.objects.first()
+    if not page:
+        page = FAQPage.objects.create(
+            title="Questions, answered clearly.",
+            description="Here are the questions clients ask us most about timelines, pricing, durability, and warranty — in one place, without the jargon."
+        )
+    
+    if request.method == 'POST':
+        page.badge = request.POST.get('badge', '')
+        page.title = request.POST.get('title', '')
+        page.description = request.POST.get('description', '')
+        page.hero_image_url = request.POST.get('hero_image_url', '')
+        page.hero_image_alt = request.POST.get('hero_image_alt', '')
+        page.hero_label = request.POST.get('hero_label', '')
+        page.micro_cta_title = request.POST.get('micro_cta_title', '')
+        page.micro_cta_description = request.POST.get('micro_cta_description', '')
+        page.final_cta_title = request.POST.get('final_cta_title', '')
+        page.final_cta_description = request.POST.get('final_cta_description', '')
+        page.final_cta_note_1 = request.POST.get('final_cta_note_1', '')
+        page.final_cta_note_2 = request.POST.get('final_cta_note_2', '')
+        page.save()
+        messages.success(request, 'FAQ Page updated successfully!')
+        return redirect('dashboard:faq_page_edit')
+    
+    return render(request, 'dashboard/faq_page_edit.html', {'page': page})
+
+
+@login_required
+def faq_page_sections_list(request):
+    """List FAQ sections"""
+    page = FAQPage.objects.first()
+    if not page:
+        return redirect('dashboard:faq_page_edit')
+    sections = page.sections.all().order_by('sort_order')
+    return render(request, 'dashboard/faq_page_sections_list.html', {'sections': sections, 'page': page})
+
+
+@login_required
+def faq_page_section_edit(request, section_id=None):
+    """Create or edit FAQ section"""
+    page = FAQPage.objects.first()
+    if not page:
+        return redirect('dashboard:faq_page_edit')
+    
+    if section_id:
+        section = get_object_or_404(FAQPageSection, id=section_id, faq_page=page)
+    else:
+        section = None
+    
+    if request.method == 'POST':
+        if not section:
+            section = FAQPageSection(faq_page=page)
+        section.section_id = request.POST.get('section_id', '')
+        section.title = request.POST.get('title', '')
+        section.description = request.POST.get('description', '')
+        section.icon = request.POST.get('icon', '')
+        section.sort_order = int(request.POST.get('sort_order', 0))
+        section.save()
+        messages.success(request, f'FAQ section {"updated" if section_id else "created"} successfully!')
+        return redirect('dashboard:faq_page_sections_list')
+    
+    return render(request, 'dashboard/faq_page_section_edit.html', {'section': section, 'page': page})
+
+
+@login_required
+def faq_page_section_delete(request, section_id):
+    """Delete FAQ section"""
+    section = get_object_or_404(FAQPageSection, id=section_id)
+    section.delete()
+    messages.success(request, 'FAQ section deleted successfully!')
+    return redirect('dashboard:faq_page_sections_list')
+
+
+@login_required
+def faq_page_questions_list(request, section_id):
+    """List questions for a FAQ section"""
+    section = get_object_or_404(FAQPageSection, id=section_id)
+    questions = section.questions.all().order_by('sort_order')
+    return render(request, 'dashboard/faq_page_questions_list.html', {'questions': questions, 'section': section})
+
+
+@login_required
+def faq_page_question_edit(request, section_id, question_id=None):
+    """Create or edit FAQ question"""
+    section = get_object_or_404(FAQPageSection, id=section_id)
+    
+    if question_id:
+        question = get_object_or_404(FAQPageQuestion, id=question_id, faq_section=section)
+    else:
+        question = None
+    
+    if request.method == 'POST':
+        if not question:
+            question = FAQPageQuestion(faq_section=section)
+        question.question = request.POST.get('question', '')
+        question.answer = request.POST.get('answer', '')
+        question.sort_order = int(request.POST.get('sort_order', 0))
+        question.save()
+        messages.success(request, f'FAQ question {"updated" if question_id else "created"} successfully!')
+        return redirect('dashboard:faq_page_questions_list', section_id=section_id)
+    
+    return render(request, 'dashboard/faq_page_question_edit.html', {'question': question, 'section': section})
+
+
+@login_required
+def faq_page_question_delete(request, question_id):
+    """Delete FAQ question"""
+    question = get_object_or_404(FAQPageQuestion, id=question_id)
+    section_id = question.faq_section.id
+    question.delete()
+    messages.success(request, 'FAQ question deleted successfully!')
+    return redirect('dashboard:faq_page_questions_list', section_id=section_id)
+
+
+@login_required
+def faq_page_tips_list(request, section_id):
+    """List tips for a FAQ section"""
+    section = get_object_or_404(FAQPageSection, id=section_id)
+    tips = section.tips.all().order_by('sort_order')
+    return render(request, 'dashboard/faq_page_tips_list.html', {'tips': tips, 'section': section})
+
+
+@login_required
+def faq_page_tip_edit(request, section_id, tip_id=None):
+    """Create or edit FAQ tip"""
+    section = get_object_or_404(FAQPageSection, id=section_id)
+    
+    if tip_id:
+        tip = get_object_or_404(FAQPageTip, id=tip_id, faq_section=section)
+    else:
+        tip = None
+    
+    if request.method == 'POST':
+        if not tip:
+            tip = FAQPageTip(faq_section=section)
+        tip.title = request.POST.get('title', '')
+        tip.description = request.POST.get('description', '')
+        tip.sort_order = int(request.POST.get('sort_order', 0))
+        tip.save()
+        messages.success(request, f'FAQ tip {"updated" if tip_id else "created"} successfully!')
+        return redirect('dashboard:faq_page_tips_list', section_id=section_id)
+    
+    return render(request, 'dashboard/faq_page_tip_edit.html', {'tip': tip, 'section': section})
+
+
+@login_required
+def faq_page_tip_delete(request, tip_id):
+    """Delete FAQ tip"""
+    tip = get_object_or_404(FAQPageTip, id=tip_id)
+    section_id = tip.faq_section.id
+    tip.delete()
+    messages.success(request, 'FAQ tip deleted successfully!')
+    return redirect('dashboard:faq_page_tips_list', section_id=section_id)
+
+
+# Contact Page
+@login_required
+def contact_page_edit(request):
+    """Edit Contact Page"""
+    page = ContactPage.objects.first()
+    if not page:
+        page = ContactPage.objects.create(
+            title="Let's turn your ideas into solid marble reality.",
+            description="Share your drawings, inspiration photos, or even a rough concept — our team will help you refine it into a buildable plan with the right stone, finish, and budget."
+        )
+    
+    if request.method == 'POST':
+        page.badge = request.POST.get('badge', '')
+        page.title = request.POST.get('title', '')
+        page.description = request.POST.get('description', '')
+        page.hero_feature_1_text = request.POST.get('hero_feature_1_text', '')
+        page.hero_feature_2_text = request.POST.get('hero_feature_2_text', '')
+        page.hero_background_image_url = request.POST.get('hero_background_image_url', '')
+        page.contact_details_title = request.POST.get('contact_details_title', '')
+        page.contact_details_description = request.POST.get('contact_details_description', '')
+        page.business_hours_title = request.POST.get('business_hours_title', '')
+        page.business_hours_description = request.POST.get('business_hours_description', '')
+        
+        # Parse business hours JSON
+        hours_json_str = request.POST.get('business_hours_json', '[]')
+        try:
+            page.business_hours_json = json.loads(hours_json_str)
+        except:
+            page.business_hours_json = []
+        
+        page.save()
+        messages.success(request, 'Contact Page updated successfully!')
+        return redirect('dashboard:contact_page_edit')
+    
+    hours_json_str = json.dumps(page.business_hours_json, indent=2) if page.business_hours_json else '[]'
+    return render(request, 'dashboard/contact_page_edit.html', {
+        'page': page,
+        'hours_json_str': hours_json_str
+    })
 

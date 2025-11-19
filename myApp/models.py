@@ -86,6 +86,7 @@ class Navigation(models.Model):
 class Hero(models.Model):
     """Hero section content"""
     badge = models.CharField(max_length=100, blank=True)
+    eyebrow = models.CharField(max_length=200, blank=True, help_text="Text above headline (e.g., 'Premium Marble Works for Homes, Hotels...')")
     headline = models.CharField(max_length=200)
     description = models.TextField()
     image_url = models.URLField(max_length=500, blank=True)
@@ -99,6 +100,7 @@ class Hero(models.Model):
     testimonial_name = models.CharField(max_length=100, blank=True)
     testimonial_meta = models.CharField(max_length=100, blank=True)
     testimonial_stars = models.IntegerField(default=5)
+    stats_json = models.JSONField(default=list, blank=True, help_text="Array of {value, label, description} objects for hero stats")
 
     class Meta:
         verbose_name = "Hero"
@@ -264,11 +266,12 @@ class ContactInfo(models.Model):
     """Contact information item"""
     label = models.CharField(max_length=100)
     text = models.CharField(max_length=200)
-    href = models.URLField(blank=True, help_text="Optional link (mailto: or tel:)")
+    href = models.URLField(blank=True, help_text="Optional link (mailto:, tel:, or https://wa.me/)")
     info_type = models.CharField(max_length=20, choices=[
         ('address', 'Address'),
         ('email', 'Email'),
         ('phone', 'Phone'),
+        ('whatsapp', 'WhatsApp'),
     ], default='address')
     sort_order = models.IntegerField(default=0)
 
@@ -353,3 +356,443 @@ class Footer(models.Model):
 
     def __str__(self):
         return "Footer"
+
+
+class PromiseCard(models.Model):
+    """Promise section card item"""
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    icon = models.CharField(max_length=50, help_text="Font Awesome icon class (e.g., 'fa-solid fa-gem')")
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "Promise Card"
+        verbose_name_plural = "Promise Cards"
+
+    def __str__(self):
+        return self.title
+
+
+class Promise(models.Model):
+    """Our Promise section configuration"""
+    title = models.CharField(max_length=200, default="Our Promise")
+    main_statement = models.TextField(help_text="Main promise statement")
+    substatement = models.TextField(blank=True, help_text="Supporting statement")
+    closing_statement = models.TextField(blank=True, help_text="Closing statement (italic text)")
+
+    class Meta:
+        verbose_name = "Promise Section"
+        verbose_name_plural = "Promise Section"
+
+    def __str__(self):
+        return "Promise Section"
+
+
+class FeaturedService(models.Model):
+    """Featured service item"""
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    icon = models.CharField(max_length=50, help_text="Font Awesome icon class")
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "Featured Service"
+        verbose_name_plural = "Featured Services"
+
+    def __str__(self):
+        return self.title
+
+
+class FeaturedServices(models.Model):
+    """Featured Services section configuration"""
+    title = models.CharField(max_length=200, default="Featured Services")
+    description = models.TextField()
+
+    class Meta:
+        verbose_name = "Featured Services Section"
+        verbose_name_plural = "Featured Services Section"
+
+    def __str__(self):
+        return "Featured Services Section"
+
+
+class WhyTrustFactor(models.Model):
+    """Why Clients Trust Us factor item"""
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    icon = models.CharField(max_length=50, help_text="Font Awesome icon class")
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "Why Trust Factor"
+        verbose_name_plural = "Why Trust Factors"
+
+    def __str__(self):
+        return self.title
+
+
+class WhyTrust(models.Model):
+    """Why Clients Trust Us section configuration"""
+    title = models.CharField(max_length=200, default="Why Clients Trust Madrid Marble")
+    subtitle = models.TextField(blank=True, help_text="Subtitle/description")
+
+    class Meta:
+        verbose_name = "Why Trust Section"
+        verbose_name_plural = "Why Trust Section"
+
+    def __str__(self):
+        return "Why Trust Section"
+
+
+# Individual Page Models
+class AboutPage(models.Model):
+    """About Page content"""
+    # Hero Section
+    badge = models.CharField(max_length=100, blank=True)
+    title = models.CharField(max_length=200)
+    intro_paragraph_1 = models.TextField()
+    intro_paragraph_2 = models.TextField()
+    hero_image_url = models.URLField(max_length=500, blank=True)
+    hero_image_alt = models.CharField(max_length=200, blank=True)
+    since_badge = models.CharField(max_length=50, blank=True, help_text="e.g., 'Since 20XX'")
+    
+    # Story Timeline
+    story_title = models.CharField(max_length=200, blank=True)
+    story_description = models.TextField(blank=True)
+    
+    # Mission & Philosophy
+    mission_title = models.CharField(max_length=200, blank=True)
+    mission_description = models.TextField(blank=True)
+    
+    # What Sets Us Apart
+    sets_apart_title = models.CharField(max_length=200, blank=True)
+    sets_apart_description = models.TextField(blank=True)
+    
+    # Workshop Section
+    workshop_badge = models.CharField(max_length=100, blank=True)
+    workshop_title = models.CharField(max_length=200, blank=True)
+    workshop_description = models.TextField(blank=True)
+    workshop_image_url = models.URLField(max_length=500, blank=True)
+    workshop_image_alt = models.CharField(max_length=200, blank=True)
+    workshop_stats_json = models.JSONField(default=list, blank=True, help_text="Array of {value, label, description} objects")
+    
+    # Our Values
+    values_title = models.CharField(max_length=200, blank=True)
+    values_description = models.TextField(blank=True)
+    
+    # Meet the Team
+    team_title = models.CharField(max_length=200, blank=True)
+    team_description = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = "About Page"
+        verbose_name_plural = "About Page"
+
+    def __str__(self):
+        return "About Page"
+
+
+class AboutTimelineItem(models.Model):
+    """About Page timeline item"""
+    about_page = models.ForeignKey(AboutPage, on_delete=models.CASCADE, related_name='timeline_items')
+    period = models.CharField(max_length=100, help_text="e.g., 'The early workshop days'")
+    description = models.TextField()
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "Timeline Item"
+        verbose_name_plural = "Timeline Items"
+
+    def __str__(self):
+        return self.period
+
+
+class AboutMissionCard(models.Model):
+    """About Page mission/philosophy card"""
+    about_page = models.ForeignKey(AboutPage, on_delete=models.CASCADE, related_name='mission_cards')
+    label = models.CharField(max_length=100, help_text="e.g., 'Our Mission', 'Who We Serve'")
+    description = models.TextField()
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "Mission Card"
+        verbose_name_plural = "Mission Cards"
+
+    def __str__(self):
+        return self.label
+
+
+class AboutFeatureCard(models.Model):
+    """About Page 'What Sets Us Apart' feature card"""
+    about_page = models.ForeignKey(AboutPage, on_delete=models.CASCADE, related_name='feature_cards')
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    icon = models.CharField(max_length=50, help_text="Font Awesome icon class")
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "Feature Card"
+        verbose_name_plural = "Feature Cards"
+
+    def __str__(self):
+        return self.title
+
+
+class AboutValue(models.Model):
+    """About Page value item"""
+    about_page = models.ForeignKey(AboutPage, on_delete=models.CASCADE, related_name='values')
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    icon = models.CharField(max_length=50, help_text="Font Awesome icon class")
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "Value"
+        verbose_name_plural = "Values"
+
+    def __str__(self):
+        return self.title
+
+
+class AboutTeamMember(models.Model):
+    """About Page team member"""
+    about_page = models.ForeignKey(AboutPage, on_delete=models.CASCADE, related_name='team_members')
+    name = models.CharField(max_length=200)
+    role = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    avatar_url = models.URLField(max_length=500, blank=True)
+    avatar_alt = models.CharField(max_length=200, blank=True)
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "Team Member"
+        verbose_name_plural = "Team Members"
+
+    def __str__(self):
+        return f"{self.name} - {self.role}"
+
+
+class ServicesPage(models.Model):
+    """Services Page content"""
+    # Hero Section
+    badge = models.CharField(max_length=100, blank=True)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    hero_image_1_url = models.URLField(max_length=500, blank=True)
+    hero_image_1_alt = models.CharField(max_length=200, blank=True)
+    hero_image_2_url = models.URLField(max_length=500, blank=True)
+    hero_image_2_alt = models.CharField(max_length=200, blank=True)
+    hero_image_3_url = models.URLField(max_length=500, blank=True)
+    hero_image_3_alt = models.CharField(max_length=200, blank=True)
+    hero_label = models.CharField(max_length=200, blank=True, help_text="Floating label text")
+    
+    # Full Marble Solutions
+    solutions_title = models.CharField(max_length=200, blank=True)
+    solutions_description = models.TextField(blank=True)
+    
+    # Process Section
+    process_title = models.CharField(max_length=200, blank=True)
+    process_description = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = "Services Page"
+        verbose_name_plural = "Services Page"
+
+    def __str__(self):
+        return "Services Page"
+
+
+class ServicesPageService(models.Model):
+    """Services Page individual service section"""
+    services_page = models.ForeignKey(ServicesPage, on_delete=models.CASCADE, related_name='services')
+    service_id = models.CharField(max_length=100, help_text="Anchor ID (e.g., 'kitchen-marble-work')")
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    icon = models.CharField(max_length=50, help_text="Font Awesome icon class")
+    image_url = models.URLField(max_length=500, blank=True)
+    image_alt = models.CharField(max_length=200, blank=True)
+    features_json = models.JSONField(default=list, blank=True, help_text="Array of feature strings")
+    additional_text = models.TextField(blank=True)
+    image_position = models.CharField(max_length=20, choices=[('left', 'Left'), ('right', 'Right')], default='right')
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "Service Section"
+        verbose_name_plural = "Service Sections"
+
+    def __str__(self):
+        return self.title
+
+
+class ServicesPageProcessStep(models.Model):
+    """Services Page process step"""
+    services_page = models.ForeignKey(ServicesPage, on_delete=models.CASCADE, related_name='process_steps')
+    number = models.CharField(max_length=10, help_text="e.g., '01', '02'")
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "Process Step"
+        verbose_name_plural = "Process Steps"
+
+    def __str__(self):
+        return f"{self.number} - {self.title}"
+
+
+class PortfolioPage(models.Model):
+    """Portfolio Page content"""
+    # Hero Section
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    
+    # Residential Designs
+    residential_title = models.CharField(max_length=200, blank=True)
+    residential_description = models.TextField(blank=True)
+    
+    # Commercial Spaces
+    commercial_title = models.CharField(max_length=200, blank=True)
+    commercial_description = models.TextField(blank=True)
+    
+    # Before & After
+    before_after_title = models.CharField(max_length=200, blank=True)
+    before_after_description = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = "Portfolio Page"
+        verbose_name_plural = "Portfolio Page"
+
+    def __str__(self):
+        return "Portfolio Page"
+
+
+class PortfolioPageCategory(models.Model):
+    """Portfolio Page category card"""
+    portfolio_page = models.ForeignKey(PortfolioPage, on_delete=models.CASCADE, related_name='categories')
+    category_type = models.CharField(max_length=20, choices=[('residential', 'Residential'), ('commercial', 'Commercial')], default='residential')
+    title = models.CharField(max_length=200)
+    icon = models.CharField(max_length=50, help_text="Font Awesome icon class")
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "Portfolio Category"
+        verbose_name_plural = "Portfolio Categories"
+
+    def __str__(self):
+        return f"{self.category_type} - {self.title}"
+
+
+class FAQPage(models.Model):
+    """FAQ Page content"""
+    # Hero Section
+    badge = models.CharField(max_length=100, blank=True)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    hero_image_url = models.URLField(max_length=500, blank=True)
+    hero_image_alt = models.CharField(max_length=200, blank=True)
+    hero_label = models.CharField(max_length=200, blank=True)
+    
+    # Micro CTA Strip
+    micro_cta_title = models.CharField(max_length=200, blank=True)
+    micro_cta_description = models.TextField(blank=True)
+    
+    # Final Conversion Band
+    final_cta_title = models.CharField(max_length=200, blank=True)
+    final_cta_description = models.TextField(blank=True)
+    final_cta_note_1 = models.CharField(max_length=200, blank=True)
+    final_cta_note_2 = models.CharField(max_length=200, blank=True)
+
+    class Meta:
+        verbose_name = "FAQ Page"
+        verbose_name_plural = "FAQ Page"
+
+    def __str__(self):
+        return "FAQ Page"
+
+
+class FAQPageSection(models.Model):
+    """FAQ Page section (General, Pricing, Durability, Warranty)"""
+    faq_page = models.ForeignKey(FAQPage, on_delete=models.CASCADE, related_name='sections')
+    section_id = models.CharField(max_length=100, help_text="Anchor ID (e.g., 'faq-general')")
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    icon = models.CharField(max_length=50, help_text="Font Awesome icon class")
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "FAQ Section"
+        verbose_name_plural = "FAQ Sections"
+
+    def __str__(self):
+        return self.title
+
+
+class FAQPageQuestion(models.Model):
+    """FAQ Page question item"""
+    faq_section = models.ForeignKey(FAQPageSection, on_delete=models.CASCADE, related_name='questions')
+    question = models.CharField(max_length=300)
+    answer = models.TextField()
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "FAQ Question"
+        verbose_name_plural = "FAQ Questions"
+
+    def __str__(self):
+        return self.question
+
+
+class FAQPageTip(models.Model):
+    """FAQ Page tip card (e.g., maintenance tips)"""
+    faq_section = models.ForeignKey(FAQPageSection, on_delete=models.CASCADE, related_name='tips')
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    sort_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['sort_order']
+        verbose_name = "FAQ Tip"
+        verbose_name_plural = "FAQ Tips"
+
+    def __str__(self):
+        return self.title
+
+
+class ContactPage(models.Model):
+    """Contact Page content"""
+    # Hero Section
+    badge = models.CharField(max_length=100, blank=True)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    hero_feature_1_text = models.CharField(max_length=200, blank=True)
+    hero_feature_2_text = models.CharField(max_length=200, blank=True)
+    hero_background_image_url = models.URLField(max_length=500, blank=True)
+    
+    # Contact Details Section
+    contact_details_title = models.CharField(max_length=200, blank=True)
+    contact_details_description = models.TextField(blank=True)
+    
+    # Business Hours Section
+    business_hours_title = models.CharField(max_length=200, blank=True)
+    business_hours_description = models.TextField(blank=True)
+    business_hours_json = models.JSONField(default=list, blank=True, help_text="Array of {day, hours} objects")
+
+    class Meta:
+        verbose_name = "Contact Page"
+        verbose_name_plural = "Contact Page"
+
+    def __str__(self):
+        return "Contact Page"

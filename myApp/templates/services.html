@@ -1,0 +1,372 @@
+{% extends "base.html" %}
+
+{% block title %}Our Services - {{ content.nav.brand|default:"Madrid Marble" }}{% endblock %}
+{% block meta_description %}Explore our comprehensive marble services including slabs, cut-to-size, finishing, and installation in the UAE.{% endblock %}
+
+{% block content %}
+<div class="pt-24">
+
+    <!-- HERO: FULL MARBLE SOLUTIONS -->
+    <section class="bg-gradient-to-b from-beige-50 via-white to-white">
+        <div class="mx-auto max-w-6xl px-6 pb-20 pt-16 md:px-12 md:pb-24 md:pt-20">
+            <div class="grid gap-12 lg:grid-cols-[1.25fr_1fr] lg:items-center">
+                <!-- Left: hero copy -->
+                <div class="space-y-7">
+                    <div class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-navy-700 shadow-sm">
+                        <span class="h-1.5 w-1.5 rounded-full bg-beige-400"></span>
+                        Our Services
+                    </div>
+
+                    <div class="space-y-4">
+                        <h1 class="text-balance text-3xl font-semibold tracking-tight text-navy-900 sm:text-4xl md:text-5xl">
+                            Full Marble Solutions for Modern Spaces.
+                        </h1>
+                        <p class="text-lg leading-relaxed text-navy-700 md:text-xl">
+                            From a single kitchen to full villa interiors and commercial fit-outs, {{ content.nav.brand|default:"Madrid Marble" }}
+                            handles stone selection, technical planning, fabrication, installation, and after-care — all under one specialist team.
+                        </p>
+                    </div>
+
+                    <p class="text-sm text-navy-600 md:text-base">
+                        We support homeowners, designers, and contractors with services that balance aesthetics, durability, and realistic site conditions.
+                    </p>
+
+                    <!-- CTA row -->
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <a href="#services-overview"
+                           class="inline-flex items-center justify-center rounded-full bg-navy-900 px-7 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-white hover:bg-navy-950 hover:shadow-lg transition">
+                            View All Services
+                        </a>
+                        <a href="/contact/"
+                           class="inline-flex items-center justify-center rounded-full border border-navy-900/20 bg-white px-7 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-navy-900 hover:border-navy-900 hover:bg-beige-50 transition">
+                            Request a Quotation
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: hero collage with dummy images -->
+                <div class="lg:pl-6">
+                    <div class="grid gap-4 sm:grid-cols-[1.2fr_0.9fr]">
+                        <!-- Main image -->
+                        <div class="overflow-hidden rounded-3xl border border-beige-200/80 bg-beige-50 shadow-[0_18px_60px_rgba(15,23,42,0.18)]">
+                            <div class="aspect-[4/5]">
+                                <img
+                                    src="https://images.unsplash.com/photo-1600585154340-0ef3c08c0632?w=1200&auto=format&fit=crop"
+                                    alt="Marble kitchen island and dining space"
+                                    class="h-full w-full object-cover"
+                                >
+                            </div>
+                        </div>
+
+                        <!-- Stacked images and label -->
+                        <div class="flex flex-col gap-4">
+                            <div class="overflow-hidden rounded-2xl border border-beige-200/80 bg-beige-50">
+                                <div class="aspect-[4/3]">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=900&auto=format&fit=crop"
+                                        alt="Marble bathroom vanity"
+                                        class="h-full w-full object-cover"
+                                    >
+                                </div>
+                            </div>
+                            <div class="overflow-hidden rounded-2xl border border-beige-200/80 bg-beige-50">
+                                <div class="aspect-[4/3]">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1600607687920-4e2a534abf1c?w=900&auto=format&fit=crop"
+                                        alt="Marble staircase and flooring"
+                                        class="h-full w-full object-cover"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Floating label -->
+                    <div class="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-navy-800 shadow-sm">
+                        <span class="h-1.5 w-1.5 rounded-full bg-navy-900"></span>
+                        Kitchens • Bathrooms • Flooring • Custom Pieces
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES OVERVIEW STRIP -->
+    <section id="services-overview" class="border-y border-beige-200/70 bg-white">
+        <div class="mx-auto max-w-6xl px-6 py-10 md:px-12">
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 stagger-children">
+                <a href="#kitchen-marble-work"
+                   class="group flex flex-col gap-1 rounded-2xl bg-beige-50/70 px-4 py-4 transition hover:-translate-y-0.5 hover:bg-beige-50 hover:shadow-md">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">01</p>
+                    <p class="text-sm font-semibold text-navy-900">Kitchen Marble Work</p>
+                    <p class="text-xs text-navy-600">Countertops, islands, and backsplashes designed for daily use.</p>
+                </a>
+
+                <a href="#bathroom-vanity"
+                   class="group flex flex-col gap-1 rounded-2xl bg-beige-50/70 px-4 py-4 transition hover:-translate-y-0.5 hover:bg-beige-50 hover:shadow-md">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">02</p>
+                    <p class="text-sm font-semibold text-navy-900">Bathroom & Vanity</p>
+                    <p class="text-xs text-navy-600">Spa-like bathrooms, vanities, and wet areas.</p>
+                </a>
+
+                <a href="#flooring-staircase"
+                   class="group flex flex-col gap-1 rounded-2xl bg-beige-50/70 px-4 py-4 transition hover:-translate-y-0.5 hover:bg-beige-50 hover:shadow-md">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">03</p>
+                    <p class="text-sm font-semibold text-navy-900">Flooring & Staircase</p>
+                    <p class="text-xs text-navy-600">Large-format floors, cladding, and sculptural stairs.</p>
+                </a>
+
+                <a href="#custom-fabrication"
+                   class="group flex flex-col gap-1 rounded-2xl bg-beige-50/70 px-4 py-4 transition hover:-translate-y-0.5 hover:bg-beige-50 hover:shadow-md">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">04</p>
+                    <p class="text-sm font-semibold text-navy-900">Custom Fabrication</p>
+                    <p class="text-xs text-navy-600">Feature walls, reception counters, and statement pieces.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FULL MARBLE SOLUTIONS TEXT BAND -->
+    <section class="bg-white py-20">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mx-auto max-w-4xl text-center space-y-6">
+                <h2 class="text-3xl font-semibold text-navy-900 md:text-4xl">Full Marble Solutions</h2>
+                <p class="text-lg leading-relaxed text-navy-700 md:text-xl">
+                    Whether you're designing a new villa, upgrading a kitchen, or fitting out a commercial property,
+                    {{ content.nav.brand|default:"Madrid Marble" }} provides an end-to-end solution: stone selection, technical guidance,
+                    fabrication, installation, and after-care recommendations — all managed by one specialist team.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- KITCHEN MARBLE WORK -->
+    <section id="kitchen-marble-work" class="bg-beige-50 py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+                <!-- Text -->
+                <div>
+                    <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-navy-900 text-2xl text-white mb-5">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <h2 class="text-3xl font-semibold text-navy-900 md:text-4xl mb-4">
+                        Kitchen Marble Work
+                    </h2>
+                    <ul class="space-y-3 text-base text-navy-700 md:text-lg">
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-navy-900"></i>
+                            <span>Countertops</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-navy-900"></i>
+                            <span>Islands</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-navy-900"></i>
+                            <span>Backsplashes</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-check text-navy-900"></i>
+                            <span>Custom cuts & edge profiles</span>
+                        </li>
+                    </ul>
+                    <p class="mt-6 text-base text-navy-600 md:text-lg">
+                        We design kitchen surfaces that feel luxurious yet practical — with careful planning for seams, sink cutouts,
+                        and appliances so you enjoy a clean, seamless look every day.
+                    </p>
+                </div>
+
+                <!-- Image -->
+                <div class="lg:pl-6">
+                    <div class="overflow-hidden rounded-3xl border border-beige-200/80 bg-white p-3 shadow-[0_18px_60px_rgba(15,23,42,0.12)]">
+                        <div class="aspect-[4/3] overflow-hidden rounded-2xl">
+                            <img
+                                src="https://images.unsplash.com/photo-1600585154340-0ef3c08c0632?w=1400&auto=format&fit=crop"
+                                alt="Modern kitchen with marble island and backsplash"
+                                class="h-full w-full object-cover"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BATHROOM & VANITY WORKS -->
+    <section id="bathroom-vanity" class="bg-white py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+                <!-- Image -->
+                <div class="lg:order-1">
+                    <div class="overflow-hidden rounded-3xl border border-beige-200/80 bg-white p-3 shadow-[0_18px_60px_rgba(15,23,42,0.12)]">
+                        <div class="aspect-[4/3] overflow-hidden rounded-2xl">
+                            <img
+                                src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=1400&auto=format&fit=crop"
+                                alt="Marble bathroom and vanity"
+                                class="h-full w-full object-cover"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text -->
+                <div class="lg:order-2">
+                    <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-navy-900 text-2xl text-white mb-5">
+                        <i class="fa-solid fa-bath"></i>
+                    </div>
+                    <h2 class="text-3xl font-semibold text-navy-900 md:text-4xl mb-4">
+                        Bathroom & Vanity Works
+                    </h2>
+                    <p class="text-base leading-relaxed text-navy-700 md:text-lg mb-4">
+                        From vanity tops and integrated basins to shower walls and floors, we create bathrooms that feel like a private spa.
+                        Our team advises on finishes, slip-resistance, and maintenance so your bathroom stays beautiful and functional over time.
+                    </p>
+                    <p class="text-sm text-navy-600">
+                        We pay attention to junctions, slopes, and detailing — the parts that protect against water ingress while still
+                        looking clean and minimal.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLOORING & STAIRCASE -->
+    <section id="flooring-staircase" class="bg-beige-50 py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+                <!-- Text -->
+                <div>
+                    <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-navy-900 text-2xl text-white mb-5">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h2 class="text-3xl font-semibold text-navy-900 md:text-4xl mb-4">
+                        Flooring & Staircase
+                    </h2>
+                    <p class="text-base leading-relaxed text-navy-700 md:text-lg mb-4">
+                        We install large-format marble flooring, wall cladding, and sculptural staircases that unify your space.
+                        Careful planning of joints, borders, and transitions ensures the final result looks intentional — not just installed.
+                    </p>
+                    <p class="text-sm text-navy-600">
+                        Our team considers circulation routes, natural light, and how the stone will read from different angles before the first cut is made.
+                    </p>
+                </div>
+
+                <!-- Image -->
+                <div class="lg:pl-6">
+                    <div class="overflow-hidden rounded-3xl border border-beige-200/80 bg-white p-3 shadow-[0_18px_60px_rgba(15,23,42,0.12)]">
+                        <div class="aspect-[4/3] overflow-hidden rounded-2xl">
+                            <img
+                                src="https://images.unsplash.com/photo-1600607687920-4e2a534abf1c?w=1400&auto=format&fit=crop"
+                                alt="Marble staircase and flooring detail"
+                                class="h-full w-full object-cover"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CUSTOM FABRICATION -->
+    <section id="custom-fabrication" class="bg-white py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+                <!-- Text -->
+                <div class="space-y-6 text-center lg:text-left">
+                    <div class="flex justify-center lg:justify-start">
+                        <div class="flex h-16 w-16 items-center justify-center rounded-xl bg-navy-900 text-3xl text-white">
+                            <i class="fa-solid fa-magic"></i>
+                        </div>
+                    </div>
+                    <h2 class="text-3xl font-semibold text-navy-900 md:text-4xl">
+                        Custom Fabrication
+                    </h2>
+                    <p class="text-lg leading-relaxed text-navy-700 md:text-xl">
+                        Have a unique design in mind? We handle custom profiles, feature walls, reception counters, tabletops,
+                        and one-off statement pieces. Share your drawings or concept, and our team will help translate it into
+                        a buildable, durable marble solution.
+                    </p>
+                    <p class="text-sm text-navy-600 md:text-base">
+                        We support both fully detailed drawings and early-stage concepts — advising on thickness, support,
+                        fixing details, and finishes so your idea works in real life.
+                    </p>
+                </div>
+
+                <!-- Image / concept board -->
+                <div class="lg:pl-6">
+                    <div class="rounded-3xl border border-beige-200/80 bg-beige-50 p-4 shadow-[0_18px_60px_rgba(15,23,42,0.12)]">
+                        <div class="grid gap-3 sm:grid-cols-2">
+                            <div class="overflow-hidden rounded-2xl bg-white">
+                                <div class="aspect-[4/3]">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1000&auto=format&fit=crop"
+                                        alt="Custom marble reception counter"
+                                        class="h-full w-full object-cover"
+                                    >
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-3">
+                                <div class="overflow-hidden rounded-2xl bg-white">
+                                    <div class="aspect-[4/3]">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1600566753151-384129cf4e3e?w=1000&auto=format&fit=crop"
+                                            alt="Marble detail close-up"
+                                            class="h-full w-full object-cover"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="rounded-2xl border border-dashed border-beige-300/80 bg-beige-50 px-4 py-3">
+                                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-800">
+                                        Concept to install
+                                    </p>
+                                    <p class="mt-1 text-xs text-navy-700">
+                                        Ideal for reception desks, feature walls, bespoke furniture, and branded statement pieces.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS STRIP -->
+    <section class="bg-beige-50 py-20">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mx-auto mb-10 max-w-3xl text-center">
+                <h2 class="text-2xl font-semibold text-navy-900 md:text-3xl">
+                    How We Work
+                </h2>
+                <p class="mt-3 text-base text-navy-600 md:text-lg">
+                    A clear, structured process from first conversation to final polish.
+                </p>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-4 stagger-children">
+                <div class="space-y-2 rounded-2xl border border-beige-200/80 bg-white p-5 text-center">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">01</p>
+                    <p class="text-sm font-semibold text-navy-900">Consult & Plan</p>
+                    <p class="text-xs text-navy-600">Drawings, measurements, and material direction.</p>
+                </div>
+                <div class="space-y-2 rounded-2xl border border-beige-200/80 bg-white p-5 text-center">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">02</p>
+                    <p class="text-sm font-semibold text-navy-900">Select & Confirm</p>
+                    <p class="text-xs text-navy-600">Slab selection, finishes, and final scope.</p>
+                </div>
+                <div class="space-y-2 rounded-2xl border border-beige-200/80 bg-white p-5 text-center">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">03</p>
+                    <p class="text-sm font-semibold text-navy-900">Fabricate</p>
+                    <p class="text-xs text-navy-600">Cut-to-size, profiling, and pre-installation checks.</p>
+                </div>
+                <div class="space-y-2 rounded-2xl border border-beige-200/80 bg-white p-5 text-center">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">04</p>
+                    <p class="text-sm font-semibold text-navy-900">Install & Hand Over</p>
+                    <p class="text-xs text-navy-600">On-site fitting, finishing, and after-care guidance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

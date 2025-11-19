@@ -9,7 +9,8 @@ from django.apps import apps
 from myApp.models import (
     SEO, Navigation, Hero, About, Stat, Service, Services,
     Portfolio, PortfolioProject, Testimonial, FAQ, FAQSection,
-    Contact, ContactInfo, ContactFormField, SocialLink, Footer
+    Contact, ContactInfo, ContactFormField, SocialLink, Footer,
+    Promise, PromiseCard, FeaturedServices, FeaturedService, WhyTrust, WhyTrustFactor
 )
 
 
@@ -75,6 +76,7 @@ class Command(BaseCommand):
         hero_data = data.get('hero', {})
         hero, created = Hero.objects.get_or_create(pk=1, defaults={
             'badge': hero_data.get('badge', ''),
+            'eyebrow': hero_data.get('eyebrow', ''),
             'headline': hero_data.get('headline', ''),
             'description': hero_data.get('description', ''),
             'image_url': hero_data.get('image', {}).get('url', ''),
@@ -88,9 +90,11 @@ class Command(BaseCommand):
             'testimonial_name': hero_data.get('testimonial', {}).get('name', ''),
             'testimonial_meta': hero_data.get('testimonial', {}).get('meta', ''),
             'testimonial_stars': hero_data.get('testimonial', {}).get('stars', 5),
+            'stats_json': hero_data.get('stats', []),
         })
         if not created:
             hero.badge = hero_data.get('badge', '')
+            hero.eyebrow = hero_data.get('eyebrow', '')
             hero.headline = hero_data.get('headline', '')
             hero.description = hero_data.get('description', '')
             hero.image_url = hero_data.get('image', {}).get('url', '')
@@ -104,6 +108,7 @@ class Command(BaseCommand):
             hero.testimonial_name = hero_data.get('testimonial', {}).get('name', '')
             hero.testimonial_meta = hero_data.get('testimonial', {}).get('meta', '')
             hero.testimonial_stars = hero_data.get('testimonial', {}).get('stars', 5)
+            hero.stats_json = hero_data.get('stats', [])
             hero.save()
         self.stdout.write(self.style.SUCCESS(f'  ✓ Hero imported'))
         
@@ -135,6 +140,58 @@ class Command(BaseCommand):
             )
         self.stdout.write(self.style.SUCCESS(f'  ✓ {len(stats_data)} Stats imported'))
         
+        # Import Promise Section
+        promise_data = data.get('promise', {})
+        promise, created = Promise.objects.get_or_create(pk=1, defaults={
+            'title': promise_data.get('title', 'Our Promise'),
+            'main_statement': promise_data.get('main_statement', ''),
+            'substatement': promise_data.get('substatement', ''),
+            'closing_statement': promise_data.get('closing_statement', ''),
+        })
+        if not created:
+            promise.title = promise_data.get('title', 'Our Promise')
+            promise.main_statement = promise_data.get('main_statement', '')
+            promise.substatement = promise_data.get('substatement', '')
+            promise.closing_statement = promise_data.get('closing_statement', '')
+            promise.save()
+        self.stdout.write(self.style.SUCCESS(f'  ✓ Promise Section imported'))
+        
+        # Import Promise Cards
+        promise_cards_data = promise_data.get('cards', [])
+        PromiseCard.objects.all().delete()
+        for idx, card_data in enumerate(promise_cards_data):
+            PromiseCard.objects.create(
+                title=card_data.get('title', ''),
+                description=card_data.get('description', ''),
+                icon=card_data.get('icon', ''),
+                sort_order=idx
+            )
+        self.stdout.write(self.style.SUCCESS(f'  ✓ {len(promise_cards_data)} Promise Cards imported'))
+        
+        # Import Featured Services Section
+        featured_services_data = data.get('featured_services', {})
+        featured_services_section, created = FeaturedServices.objects.get_or_create(pk=1, defaults={
+            'title': featured_services_data.get('title', 'Featured Services'),
+            'description': featured_services_data.get('description', ''),
+        })
+        if not created:
+            featured_services_section.title = featured_services_data.get('title', 'Featured Services')
+            featured_services_section.description = featured_services_data.get('description', '')
+            featured_services_section.save()
+        self.stdout.write(self.style.SUCCESS(f'  ✓ Featured Services Section imported'))
+        
+        # Import Featured Services
+        featured_services_items = featured_services_data.get('items', [])
+        FeaturedService.objects.all().delete()
+        for idx, service_data in enumerate(featured_services_items):
+            FeaturedService.objects.create(
+                title=service_data.get('title', ''),
+                description=service_data.get('description', ''),
+                icon=service_data.get('icon', ''),
+                sort_order=idx
+            )
+        self.stdout.write(self.style.SUCCESS(f'  ✓ {len(featured_services_items)} Featured Services imported'))
+        
         # Import Services Section
         services_data = data.get('services', {})
         services_section, created = Services.objects.get_or_create(pk=1, defaults={
@@ -163,6 +220,30 @@ class Command(BaseCommand):
                 sort_order=idx
             )
         self.stdout.write(self.style.SUCCESS(f'  ✓ {len(services_items)} Services imported'))
+        
+        # Import Why Trust Section
+        why_trust_data = data.get('why_trust', {})
+        why_trust, created = WhyTrust.objects.get_or_create(pk=1, defaults={
+            'title': why_trust_data.get('title', 'Why Clients Trust Madrid Marble'),
+            'subtitle': why_trust_data.get('subtitle', ''),
+        })
+        if not created:
+            why_trust.title = why_trust_data.get('title', 'Why Clients Trust Madrid Marble')
+            why_trust.subtitle = why_trust_data.get('subtitle', '')
+            why_trust.save()
+        self.stdout.write(self.style.SUCCESS(f'  ✓ Why Trust Section imported'))
+        
+        # Import Why Trust Factors
+        why_trust_factors_data = why_trust_data.get('factors', [])
+        WhyTrustFactor.objects.all().delete()
+        for idx, factor_data in enumerate(why_trust_factors_data):
+            WhyTrustFactor.objects.create(
+                title=factor_data.get('title', ''),
+                description=factor_data.get('description', ''),
+                icon=factor_data.get('icon', ''),
+                sort_order=idx
+            )
+        self.stdout.write(self.style.SUCCESS(f'  ✓ {len(why_trust_factors_data)} Why Trust Factors imported'))
         
         # Import Portfolio
         portfolio_data = data.get('portfolio', {})
@@ -331,5 +412,15 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(f'  ✓ Footer imported'))
         
         self.stdout.write(self.style.SUCCESS('\n✅ All data imported successfully!'))
+        self.stdout.write(self.style.SUCCESS('\n📝 Note: Make sure your homepage.json includes the new sections:'))
+        self.stdout.write(self.style.SUCCESS('   - promise (with cards array)'))
+        self.stdout.write(self.style.SUCCESS('   - featured_services (with items array)'))
+        self.stdout.write(self.style.SUCCESS('   - why_trust (with factors array)'))
+        self.stdout.write(self.style.SUCCESS('   - hero.eyebrow and hero.stats (array)'))
+
+
+
+
+
 
 

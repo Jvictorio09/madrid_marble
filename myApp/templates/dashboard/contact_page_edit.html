@@ -1,0 +1,106 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}Edit Contact Page - Madrid Marble Dashboard{% endblock %}
+
+{% block content %}
+{% include "dashboard/image_picker_modal.html" %}
+
+<div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="text-4xl font-bold text-navy-900">Edit Contact Page</h1>
+        <a href="{% url 'dashboard:home' %}" class="text-gray-600 hover:text-navy-900">
+            <i class="fa-solid fa-arrow-left mr-2"></i> Back
+        </a>
+    </div>
+
+    <form method="post" class="bg-white rounded-xl shadow-sm p-8 space-y-6">
+        {% csrf_token %}
+        
+        <div class="border-b pb-6">
+            <h2 class="text-2xl font-semibold text-navy-900 mb-4">Hero Section</h2>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Badge</label>
+                <input type="text" name="badge" value="{{ page.badge|default:'' }}" 
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                <input type="text" name="title" value="{{ page.title|default:'' }}" required
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                <textarea name="description" rows="3" required
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ page.description|default:'' }}</textarea>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Hero Feature 1 Text</label>
+                    <input type="text" name="hero_feature_1_text" value="{{ page.hero_feature_1_text|default:'' }}" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Hero Feature 2 Text</label>
+                    <input type="text" name="hero_feature_2_text" value="{{ page.hero_feature_2_text|default:'' }}" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Hero Background Image URL</label>
+                <input type="url" name="hero_background_image_url" id="hero_background_image_url" value="{{ page.hero_background_image_url|default:'' }}" 
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                <p class="text-sm text-gray-500 mt-2">
+                    <button type="button" onclick="openImagePickerModal('hero_background_image_url')" class="text-navy-900 hover:underline">
+                        <i class="fa-solid fa-images mr-1"></i> Upload image from gallery
+                    </button>
+                </p>
+            </div>
+        </div>
+
+        <div class="border-b pb-6">
+            <h2 class="text-2xl font-semibold text-navy-900 mb-4">Contact Details Section</h2>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                <input type="text" name="contact_details_title" value="{{ page.contact_details_title|default:'' }}" 
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                <textarea name="contact_details_description" rows="2"
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ page.contact_details_description|default:'' }}</textarea>
+            </div>
+        </div>
+
+        <div class="pb-6">
+            <h2 class="text-2xl font-semibold text-navy-900 mb-4">Business Hours</h2>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Title</label>
+                <input type="text" name="business_hours_title" value="{{ page.business_hours_title|default:'' }}" 
+                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                <textarea name="business_hours_description" rows="2"
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ page.business_hours_description|default:'' }}</textarea>
+            </div>
+            <div class="mt-4">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Business Hours JSON</label>
+                <textarea name="business_hours_json" id="business_hours_json" rows="8"
+                          placeholder='[{"day": "Monday - Friday", "hours": "9:00 AM - 6:00 PM"}, {"day": "Saturday", "hours": "10:00 AM - 4:00 PM"}]'
+                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20 font-mono text-sm">{{ hours_json_str|default:'[]' }}</textarea>
+                <p class="text-sm text-gray-500 mt-2">
+                    <i class="fa-solid fa-info-circle mr-1"></i> 
+                    Format: Array of objects with "day" and "hours" fields.
+                </p>
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-4 pt-6 border-t">
+            <button type="submit" class="bg-navy-900 text-white px-8 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
+                <i class="fa-solid fa-save mr-2"></i> Save Changes
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

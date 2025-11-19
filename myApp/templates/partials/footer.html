@@ -1,17 +1,71 @@
 <footer class="bg-navy-950 text-white/70">
     <div class="border-t border-white/10">
-        <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-6 px-6 py-10 md:flex-row md:px-12">
-            <div class="flex items-center gap-3 text-base text-white/70">
-                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white">{{ content.footer.logo_text|default:"MM" }}</span>
-                <span>&copy; {% now "Y" %} {{ content.footer.note|default:"Madrid Marble. All rights reserved." }}</span>
+        <div class="mx-auto max-w-6xl px-6 md:px-12 py-14 space-y-12">
+
+            {# — MINI CTA — #}
+            <div class="flex flex-col items-center gap-4 text-center">
+                <h3 class="text-lg font-semibold text-white/90">Transform Your Space With Premium Marble</h3>
+                <p class="max-w-xl text-sm text-white/60">
+                    From bespoke countertops to full villa marble installations, {{ content.nav.brand|default:"Madrid Marble" }} delivers precision craftsmanship across Dubai and the UAE.
+                </p>
+
+                <a href="{% url 'contact' %}"
+                   class="mt-2 inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-navy-900 hover:bg-beige-50 transition">
+                    Start Your Project
+                </a>
             </div>
-            <nav class="flex items-center gap-7 text-sm font-semibold uppercase tracking-[0.3em]">
-                {% for link in content.footer.links %}
-                <a href="{{ link.href }}" class="transition hover:text-white">{{ link.label }}</a>
-                {% endfor %}
-            </nav>
+
+            {# — MAIN ROW — #}
+            <div class="flex flex-col items-center justify-between gap-6 md:flex-row">
+
+                {# BRAND + SEO COPY #}
+                <div class="flex items-center gap-3 text-sm text-white/70">
+                    <a href="{% url 'home' %}" class="flex items-center gap-3">
+                        {% if content.nav.logo_image_url %}
+                        <img src="{{ content.nav.logo_image_url }}" alt="{{ content.nav.brand|default:'Madrid Marble' }}" class="h-10 w-auto object-contain">
+                        {% else %}
+                        <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white font-semibold">{{ content.nav.logo_text|default:"MM" }}</span>
+                        {% endif %}
+                    </a>
+                    <p class="text-white/70">
+                        Premium Marble Fabrication • Dubai • UAE
+                    </p>
+                </div>
+
+                {# NAV LINKS #}
+                <nav class="flex flex-wrap items-center justify-center gap-6 text-xs font-semibold uppercase tracking-[0.28em]">
+                    {% if content.footer.links and content.footer.links|length > 0 %}
+                        {% for link in content.footer.links %}
+                            {% if link.href == '#about' or link.href == '/about/' %}
+                                <a href="{% url 'about' %}" class="hover:text-white transition">{{ link.label }}</a>
+                            {% elif link.href == '#services' or link.href == '/services/' %}
+                                <a href="{% url 'services' %}" class="hover:text-white transition">{{ link.label }}</a>
+                            {% elif link.href == '#faq' or link.href == '/faq/' %}
+                                <a href="{% url 'faq' %}" class="hover:text-white transition">{{ link.label }}</a>
+                            {% elif link.href == '#contact' or link.href == '/contact/' %}
+                                <a href="{% url 'contact' %}" class="hover:text-white transition">{{ link.label }}</a>
+                            {% elif link.href == '#' or link.href == '/' %}
+                                <a href="{% url 'home' %}" class="hover:text-white transition">{{ link.label }}</a>
+                            {% else %}
+                                <a href="{{ link.href }}" class="hover:text-white transition">{{ link.label }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <!-- Default footer links if none configured -->
+                        <a href="{% url 'home' %}" class="hover:text-white transition">Home</a>
+                        <a href="{% url 'about' %}" class="hover:text-white transition">About</a>
+                        <a href="{% url 'services' %}" class="hover:text-white transition">Services</a>
+                        <a href="{% url 'faq' %}" class="hover:text-white transition">FAQ</a>
+                        <a href="{% url 'contact' %}" class="hover:text-white transition">Contact</a>
+                    {% endif %}
+                </nav>
+            </div>
+
+            {# — BOTTOM STRIP — #}
+            <div class="flex flex-col items-center justify-between gap-2 border-t border-white/10 pt-4 text-xs text-white/45 md:flex-row">
+                <p>&copy; {% now "Y" %} {{ content.footer.note|default:"Madrid Marble. All rights reserved." }}</p>
+                <p>Marble Countertops • Bathroom Vanities • Flooring • Custom Stonework</p>
+            </div>
         </div>
     </div>
 </footer>
-
-

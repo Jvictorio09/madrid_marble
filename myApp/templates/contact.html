@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - {{ content.nav.brand|default:"Madrid Marble" }}{% endblock %}
+{% block meta_description %}Get in touch with {{ content.nav.brand|default:"Madrid Marble" }} for premium marble solutions. Request a quote today.{% endblock %}
+
+{% block content %}
+<div class="pt-24">
+
+    {# HERO / INTRO #}
+    <section class="relative overflow-hidden bg-navy-950 pb-24 pt-20">
+        <div class="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.6),transparent_60%)]"></div>
+        <div class="absolute inset-y-0 right-[-15%] w-[55%] bg-[url('https://images.unsplash.com/photo-1523419409543-3e4f83b9b4c9?q=80&auto=format&fit=crop&w=900')] bg-cover bg-center opacity-30 md:opacity-40 mix-blend-lighten pointer-events-none"></div>
+
+        <div class="relative mx-auto flex max-w-6xl flex-col gap-12 px-6 md:px-12 lg:flex-row lg:items-center">
+            <div class="max-w-xl space-y-6 text-white">
+                <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-1 text-xs font-semibold tracking-[0.28em] uppercase text-beige-100">
+                    <span class="h-px w-6 bg-beige-200"></span>
+                    Contact {{ content.nav.brand|default:"Madrid Marble" }}
+                    <span class="h-px w-6 bg-beige-200"></span>
+                </p>
+                <h1 class="text-[clamp(2.5rem,4vw,3.5rem)] font-semibold leading-tight text-white">
+                    Let’s turn your ideas into<br>
+                    <span class="text-beige-100/90">solid marble reality.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-beige-100/80 leading-relaxed">
+                    Share your drawings, inspiration photos, or even a rough concept — our team will help you refine it into a buildable plan with the right stone, finish, and budget.
+                </p>
+
+                <div class="grid gap-4 sm:grid-cols-2 text-sm text-beige-100/90">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-ruler-combined mt-1 text-beige-200"></i>
+                        <p>Custom solutions for kitchens, bathrooms, flooring, staircases, and full interiors.</p>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-helmet-safety mt-1 text-beige-200"></i>
+                        <p>Support for homeowners, designers, architects, and contractors.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full max-w-md lg:ml-auto">
+                <div class="rounded-3xl bg-white/95 shadow-2xl shadow-black/30 border border-beige-200/80 backdrop-blur">
+                    <div class="border-b border-beige-200/70 px-6 py-5">
+                        <h2 class="text-lg font-semibold text-navy-900">Quick Inquiry</h2>
+                        <p class="text-sm text-navy-600">
+                            Tell us a bit about your project and we’ll get back with options and next steps.
+                        </p>
+                    </div>
+
+                    <div class="px-6 py-6 md:px-7 md:py-7">
+                        <form class="space-y-6" id="contact-form" novalidate>
+                            <div class="grid gap-5 md:grid-cols-2">
+                                {% for field in content.contact.form.fields %}
+                                <div class="form-field space-y-2 {% if field.required %}required{% endif %} {% if field.span == 2 %}md:col-span-2{% endif %}">
+                                    <label for="{{ field.name }}" class="block text-sm font-semibold text-navy-700">
+                                        {{ field.label }}
+                                        {% if field.required %}<span class="text-red-500">*</span>{% endif %}
+                                    </label>
+                                    {% if field.type == "textarea" %}
+                                        <textarea
+                                            id="{{ field.name }}"
+                                            name="{{ field.name }}"
+                                            placeholder="{{ field.placeholder }}"
+                                            rows="{{ field.rows|default:4 }}"
+                                            {% if field.required %}required{% endif %}
+                                            class="w-full rounded-xl border border-beige-200 px-4 py-3 text-sm text-navy-900 placeholder:text-navy-400 focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/15 transition">
+                                        </textarea>
+                                    {% else %}
+                                        <input
+                                            id="{{ field.name }}"
+                                            name="{{ field.name }}"
+                                            type="{{ field.type }}"
+                                            placeholder="{{ field.placeholder }}"
+                                            {% if field.required %}required{% endif %}
+                                            {% if field.type == "email" %}pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"{% endif %}
+                                            class="w-full rounded-xl border border-beige-200 px-4 py-3 text-sm text-navy-900 placeholder:text-navy-400 focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/15 transition">
+                                        </input>
+                                    {% endif %}
+                                    <span class="error-message text-xs text-red-600"></span>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            <button
+                                type="submit"
+                                class="w-full rounded-xl bg-navy-900 px-6 py-3.5 text-sm md:text-base font-semibold text-white shadow-lg shadow-navy-900/40 transition hover:bg-navy-950 cursor-pointer">
+                                {{ content.contact.form.submit.label|default:"Submit Inquiry" }}
+                            </button>
+
+                            {% if content.contact.form.disclaimer %}
+                            <p class="text-xs text-navy-500 text-center">
+                                {{ content.contact.form.disclaimer }}
+                            </p>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# CONTACT DETAILS STRIP #}
+    <section class="bg-beige-50 py-20">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mb-10 text-center">
+                <h2 class="text-3xl md:text-4xl font-semibold text-navy-900 mb-3">
+                    Talk to the Madrid Marble Team
+                </h2>
+                <p class="text-base md:text-lg text-navy-700">
+                    Fast, professional responses whether you’re planning a single vanity or a full building.
+                </p>
+            </div>
+
+            <div class="grid gap-7 md:grid-cols-2 lg:grid-cols-4 stagger-children">
+                <!-- Phone -->
+                <div class="group flex flex-col h-full rounded-2xl bg-white p-6 border border-beige-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-white text-xl group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-base font-semibold text-navy-900 mb-1">Phone</h3>
+                    <p class="text-sm text-navy-600 mb-4 flex-grow">Speak directly with our team.</p>
+                    <div class="mt-auto">
+                        {% if content.contact.info %}
+                            {% for info in content.contact.info %}
+                                {% if info.type == 'phone' %}
+                                    <a href="{{ info.href|default:'tel:' }}" class="inline-flex items-center gap-2 text-sm font-semibold text-navy-800 hover:text-navy-950">
+                                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                                        <span>{{ info.text }}</span>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- WhatsApp -->
+                <div class="group flex flex-col h-full rounded-2xl bg-white p-6 border border-beige-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-[#25D366] text-white text-xl group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-base font-semibold text-navy-900 mb-1">WhatsApp</h3>
+                    <p class="text-sm text-navy-600 mb-4 flex-grow">Share photos, drawings, and quick questions.</p>
+                    <div class="mt-auto">
+                        {% if content.contact.info %}
+                            {% for info in content.contact.info %}
+                                {% if info.type == 'whatsapp' or 'whatsapp' in info.href|lower %}
+                                    <a href="{{ info.href }}" class="inline-flex items-center gap-2 text-sm font-semibold text-navy-800 hover:text-navy-950">
+                                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                                        <span>{{ info.text }}</span>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="group flex flex-col h-full rounded-2xl bg-white p-6 border border-beige-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-white text-xl group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-base font-semibold text-navy-900 mb-1">Email</h3>
+                    <p class="text-sm text-navy-600 mb-4 flex-grow">Send detailed project briefs and documents.</p>
+                    <div class="mt-auto">
+                        {% if content.contact.info %}
+                            {% for info in content.contact.info %}
+                                {% if info.type == 'email' %}
+                                    <a href="{{ info.href|default:'mailto:' }}" class="inline-flex items-center gap-2 text-sm font-semibold text-navy-800 hover:text-navy-950">
+                                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                                        <span>{{ info.text }}</span>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="group flex flex-col h-full rounded-2xl bg-white p-6 border border-beige-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-center mb-4">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-white text-xl group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-base font-semibold text-navy-900 mb-1">Workshop & Showroom</h3>
+                    <p class="text-sm text-navy-600 mb-4 flex-grow">Visit us to see slabs and samples in person.</p>
+                    <div class="mt-auto">
+                        {% if content.contact.info %}
+                            {% for info in content.contact.info %}
+                                {% if info.type == 'address' %}
+                                    <p class="text-sm font-medium text-navy-800">
+                                        {{ info.text }}
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# BUSINESS HOURS STRIP #}
+    <section class="bg-navy-950 py-20 text-white">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="grid gap-10 md:grid-cols-[auto,1fr] md:items-center">
+                <div class="flex justify-center md:justify-start">
+                    <div class="flex h-20 w-20 items-center justify-center rounded-2xl bg-white/10 text-4xl">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                </div>
+                <div class="space-y-3 text-center md:text-left">
+                    <h2 class="text-3xl md:text-4xl font-semibold">Business Hours</h2>
+                    <p class="text-base md:text-lg text-white/85">
+                        We're available throughout the week for showroom visits, site measurements, and project discussions.
+                    </p>
+                    <p class="text-lg font-medium text-white">
+                        Monday – Sunday: 8:00 AM – 8:00 PM
+                    </p>
+                    <p class="text-sm text-white/70">
+                        Need a special appointment outside these hours? Let us know in your inquiry and we’ll do our best to accommodate.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+
+    const fields = form.querySelectorAll('input[required], textarea[required]');
+
+    const validationMessages = {
+        'name': 'Please enter your full name.',
+        'email': 'Please enter a valid email address.',
+        'phone': 'Please enter your phone number.',
+        'project_type': 'Please enter your project type.',
+        'project_location': 'Please enter your project location.',
+        'project_details': 'Please share a few details about your project.'
+    };
+
+    fields.forEach(field => {
+        field.addEventListener('blur', function() {
+            validateField(this);
+        });
+
+        field.addEventListener('input', function() {
+            if (this.classList.contains('border-red-600')) {
+                validateField(this);
+            }
+        });
+    });
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        let isValid = true;
+        fields.forEach(field => {
+            if (!validateField(field)) {
+                isValid = false;
+            }
+        });
+
+        if (isValid) {
+            console.log('Form is valid, ready to submit');
+        }
+    });
+
+    function validateField(field) {
+        const errorMessage = field.parentElement.querySelector('.error-message');
+        let isValid = true;
+        let message = '';
+
+        field.classList.remove('border-red-600');
+        field.style.borderColor = '';
+
+        if (field.hasAttribute('required') && !field.value.trim()) {
+            isValid = false;
+            message = validationMessages[field.name] || 'This field is required.';
+        } else if (field.type === 'email' && field.value && !field.validity.valid) {
+            isValid = false;
+            message = 'Please enter a valid email address.';
+        }
+
+        if (!isValid) {
+            field.classList.add('border-red-600');
+            field.style.borderColor = '#dc2626';
+            if (errorMessage) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+            }
+        } else if (errorMessage) {
+            errorMessage.style.display = 'none';
+        }
+
+        return isValid;
+    }
+});
+</script>
+{% endblock %}

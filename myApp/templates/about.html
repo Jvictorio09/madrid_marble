@@ -1,0 +1,427 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - {{ content.nav.brand|default:"Madrid Marble" }}{% endblock %}
+{% block meta_description %}Learn about {{ content.nav.brand|default:"Madrid Marble" }} - premium marble and stone specialists in the UAE.{% endblock %}
+
+{% block content %}
+<div class="pt-24">
+
+    <!-- ABOUT INTRO – CLEAN, EDITORIAL -->
+    <section class="border-b border-beige-200/60 bg-white">
+        <div class="mx-auto max-w-6xl px-6 py-14 md:px-12 md:py-18">
+            <div class="grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-center">
+                <!-- Left: Intro text -->
+                <div class="space-y-6">
+                    <div class="inline-flex items-center gap-2 rounded-full bg-beige-50 px-4 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-navy-700">
+                        <span class="h-1.5 w-1.5 rounded-full bg-beige-400"></span>
+                        About {{ content.nav.brand|default:"Madrid Marble" }}
+                    </div>
+
+                    <h1 class="text-balance text-3xl font-semibold tracking-tight text-navy-900 sm:text-4xl md:text-5xl">
+                        The studio behind the stone.
+                    </h1>
+
+                    <p class="text-lg leading-relaxed text-navy-700 md:text-xl">
+                        Madrid Marble was built on a simple belief: every space deserves materials that look as premium as they feel.
+                    </p>
+
+                    <p class="text-base leading-relaxed text-navy-600 md:text-lg">
+                        What started as a small, highly focused workshop has grown into a trusted marble partner for homeowners, designers,
+                        and contractors across the UAE. Over the years, we've invested in better machines, a stronger team, and more refined
+                        processes — but our core hasn't changed: deliver precise work, treat every project with respect, and leave clients
+                        proud to show their spaces.
+                    </p>
+                </div>
+
+                <!-- Right: Slim image + “since” badge -->
+                <div class="md:pl-8">
+                    <div class="relative flex h-full items-stretch">
+                        <div class="relative w-full overflow-hidden rounded-3xl border border-beige-200/80 bg-beige-50 shadow-[0_18px_60px_rgba(15,23,42,0.16)]">
+                            <div class="aspect-[4/5]">
+                                <img
+                                    src="https://images.unsplash.com/photo-1600585154340-0ef3c08c0632?w=1000&auto=format&fit=crop"
+                                    alt="Marble interior detail"
+                                    class="h-full w-full object-cover"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="pointer-events-none absolute -right-3 top-6 hidden rounded-full border border-beige-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-navy-800 shadow-sm md:inline-flex">
+                            Since 20XX
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STORY TIMELINE – FROM WORKSHOP TO PARTNER -->
+    <section class="bg-beige-50 py-20">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mb-10 max-w-3xl">
+                <h2 class="text-2xl font-semibold text-navy-900 md:text-3xl">
+                    From a focused workshop to a trusted project partner.
+                </h2>
+                <p class="mt-3 text-base text-navy-600 md:text-lg">
+                    Our journey is shaped by small, deliberate decisions — the machines we invest in, the people we hire, and the standards we never compromise.
+                </p>
+            </div>
+
+            <!-- Vertical timeline -->
+            <div class="grid gap-10 md:grid-cols-[0.5fr_1.7fr]">
+                <div class="hidden md:block">
+                    <div class="h-full border-l border-beige-300/80">
+                        <div class="-ml-2 mt-2 flex h-4 w-4 items-center justify-center rounded-full border border-beige-400 bg-white"></div>
+                        <div class="-ml-2 mt-24 flex h-4 w-4 items-center justify-center rounded-full border border-beige-400 bg-white"></div>
+                        <div class="-ml-2 mt-24 flex h-4 w-4 items-center justify-center rounded-full border border-beige-400 bg-white"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-10">
+                    <div class="rounded-2xl bg-white/80 p-6 shadow-sm">
+                        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">
+                            The early workshop days
+                        </p>
+                        <p class="mt-2 text-sm text-navy-600 md:text-base">
+                            A small, specialist team focused on getting the basics perfect — slab handling, cutting, and clean installation — one kitchen and bathroom at a time.
+                        </p>
+                    </div>
+
+                    <div class="rounded-2xl bg-white/80 p-6 shadow-sm">
+                        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">
+                            Investing in better tools & people
+                        </p>
+                        <p class="mt-2 text-sm text-navy-600 md:text-base">
+                            We upgraded our machinery, refined our internal checklists, and built a team of marble specialists who understand both design expectations and site realities.
+                        </p>
+                    </div>
+
+                    <div class="rounded-2xl bg-white/80 p-6 shadow-sm">
+                        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">
+                            Today
+                        </p>
+                        <p class="mt-2 text-sm text-navy-600 md:text-base">
+                            Today, Madrid Marble partners with homeowners, designers, and contractors across the UAE — taking projects from material selection and detailed drawings
+                            to on-site installation and final polish.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR MISSION & PHILOSOPHY – 3 PILLARS -->
+    <section class="bg-white py-20">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mx-auto mb-10 max-w-4xl text-center">
+                <h2 class="text-3xl font-semibold text-navy-900 md:text-4xl">
+                    Our Mission & Philosophy
+                </h2>
+                <p class="mt-4 text-base text-navy-600 md:text-lg">
+                    A simple mission, backed by the way we think, plan, and execute every project.
+                </p>
+            </div>
+
+            <div class="grid gap-8 md:grid-cols-3 stagger-children">
+                <div class="space-y-3 rounded-2xl border border-beige-200/80 bg-beige-50/70 p-6">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-800">
+                        Our Mission
+                    </p>
+                    <p class="text-sm text-navy-700 md:text-base">
+                        To elevate everyday living and commercial spaces through carefully selected marble, precise fabrication, and dependable installation.
+                    </p>
+                </div>
+
+                <div class="space-y-3 rounded-2xl border border-beige-200/80 bg-white p-6">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-800">
+                        Who We Serve
+                    </p>
+                    <p class="text-sm text-navy-700 md:text-base">
+                        We work with clients who want more than standard stonework — people who care about layout, detailing, and how a space feels when you walk into it.
+                    </p>
+                </div>
+
+                <div class="space-y-3 rounded-2xl border border-beige-200/80 bg-white p-6">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-800">
+                        How We Deliver
+                    </p>
+                    <p class="text-sm text-navy-700 md:text-base">
+                        We prioritise thoughtful design, clear communication, and work that still looks impressive years after handover.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT SETS US APART – FEATURE GRID (NOT BASIC CARDS) -->
+    <section class="bg-gradient-to-b from-beige-50 via-white to-white py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mx-auto mb-12 max-w-3xl text-center">
+                <h2 class="text-3xl font-semibold text-navy-900 md:text-4xl">
+                    What Sets Us Apart
+                </h2>
+                <p class="mt-4 text-base text-navy-600 md:text-lg">
+                    Not just what we do, but how we think about every slab, cut, and joint.
+                </p>
+            </div>
+
+            <div class="grid gap-8 lg:grid-cols-[1.15fr_1.15fr]">
+                <!-- Left column: featured two -->
+                <div class="space-y-6">
+                    <div class="group relative overflow-hidden rounded-2xl border border-beige-200/80 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        <div class="flex items-start gap-4">
+                            <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-navy-900 text-2xl text-white transition-transform duration-300 group-hover:scale-110">
+                                <i class="fa-solid fa-cogs"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-navy-900">
+                                    State-of-the-Art Workshop
+                                </h3>
+                                <p class="mt-2 text-sm text-navy-600 md:text-base">
+                                    Modern machinery for cutting, profiling, and finishing — allowing us to handle complex details
+                                    and repeatable quality at scale.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group relative overflow-hidden rounded-2xl border border-beige-200/80 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        <div class="flex items-start gap-4">
+                            <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-navy-900 text-2xl text-white transition-transform duration-300 group-hover:scale-110">
+                                <i class="fa-solid fa-hand-sparkles"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-navy-900">
+                                    Hand-Finished Detailing
+                                </h3>
+                                <p class="mt-2 text-sm text-navy-600 md:text-base">
+                                    Edges, corners, and junctions are refined by hand, ensuring a soft, premium feel wherever
+                                    people interact with the stone.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right column: stacked two + mini callout -->
+                <div class="space-y-6">
+                    <div class="group relative overflow-hidden rounded-2xl border border-beige-200/80 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        <div class="flex items-start gap-4">
+                            <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-navy-900 text-2xl text-white transition-transform duration-300 group-hover:scale-110">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-navy-900">
+                                    Experienced Marble Specialists
+                                </h3>
+                                <p class="mt-2 text-sm text-navy-600 md:text-base">
+                                    Our team understands how different stones behave — how they cut, how they age, and how they
+                                    should be installed to last.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="group relative overflow-hidden rounded-2xl border border-beige-200/80 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                        <div class="flex items-start gap-4">
+                            <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-navy-900 text-2xl text-white transition-transform duration-300 group-hover:scale-110">
+                                <i class="fa-solid fa-headset"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold text-navy-900">
+                                    High-Touch, High-Communication Service
+                                </h3>
+                                <p class="mt-2 text-sm text-navy-600 md:text-base">
+                                    Project managers stay closely involved, providing updates, coordinating with other trades,
+                                    and making sure the final result matches the original vision.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="pt-2 text-sm font-semibold italic text-navy-800 md:text-base">
+                        We treat every project as a partnership — not a one-off transaction.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WORKSHOP BAND – “INSIDE MADRID MARBLE” -->
+    <section class="relative overflow-hidden bg-navy-950 py-20 text-white">
+        <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.18),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(15,23,42,0.9),_#020617)] opacity-90"></div>
+
+        <div class="relative mx-auto max-w-6xl px-6 md:px-12">
+            <div class="grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-center">
+                <div class="space-y-5">
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-200/80">
+                        Inside the workshop
+                    </p>
+                    <h2 class="text-2xl font-semibold md:text-3xl">
+                        Where design decisions meet precise execution.
+                    </h2>
+                    <p class="text-sm text-white/80 md:text-base">
+                        Every project starts long before installation — with slab selection, material checks, and detailed planning in our workshop.  
+                        It’s where our team aligns on veining, joints, and details that most people only notice when they’re done wrong.
+                    </p>
+
+                    <div class="mt-6 grid gap-6 sm:grid-cols-3">
+                        <div>
+                            <p class="text-2xl font-semibold text-white">3</p>
+                            <p class="text-xs uppercase tracking-[0.22em] text-white/60">Core processes</p>
+                            <p class="mt-1 text-xs text-white/70">Selection, fabrication, installation.</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-semibold text-white">+QC</p>
+                            <p class="text-xs uppercase tracking-[0.22em] text-white/60">Quality checks</p>
+                            <p class="mt-1 text-xs text-white/70">Internal checklists for every stage.</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-semibold text-white">1</p>
+                            <p class="text-xs uppercase tracking-[0.22em] text-white/60">Final polish</p>
+                            <p class="mt-1 text-xs text-white/70">The moment it truly feels finished.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:pl-8">
+                    <div class="overflow-hidden rounded-3xl border border-white/12 bg-white/5 shadow-[0_20px_65px_rgba(0,0,0,0.6)]">
+                        <div class="aspect-[5/4]">
+                            <img
+                                src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=1000&auto=format&fit=crop"
+                                alt="Workshop and marble cutting"
+                                class="h-full w-full object-cover"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR VALUES – VERTICAL STORY CARDS -->
+    <section class="bg-white py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mx-auto mb-10 max-w-3xl text-center">
+                <h2 class="text-3xl font-semibold text-navy-900 md:text-4xl">
+                    Our Values
+                </h2>
+                <p class="mt-4 text-base text-navy-600 md:text-lg">
+                    The principles that shape every decision, from the slab we select to the final polish on site.
+                </p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="flex gap-4 rounded-2xl border border-beige-200/80 bg-beige-50/70 p-5 md:items-start">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-beige-200/60 text-lg text-navy-900">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-semibold text-navy-900 md:text-lg">Integrity</h3>
+                        <p class="mt-1 text-sm text-navy-700 md:text-base">
+                            We honour our quotations, respect your timelines, and communicate honestly when conditions change.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 rounded-2xl border border-beige-200/80 bg-white p-5 md:items-start">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-beige-200/60 text-lg text-navy-900">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-semibold text-navy-900 md:text-lg">Craftsmanship</h3>
+                        <p class="mt-1 text-sm text-navy-700 md:text-base">
+                            We obsess over edges, joints, and alignments — the small decisions that separate “good” from “outstanding.”
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 rounded-2xl border border-beige-200/80 bg-white p-5 md:items-start">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-beige-200/60 text-lg text-navy-900">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-semibold text-navy-900 md:text-lg">Innovation</h3>
+                        <p class="mt-1 text-sm text-navy-700 md:text-base">
+                            We constantly refine how we cut, finish, and install marble to deliver better performance with cleaner aesthetics.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 rounded-2xl border border-beige-200/80 bg-white p-5 md:items-start">
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-beige-200/60 text-lg text-navy-900">
+                        <i class="fa-solid fa-people-group"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base font-semibold text-navy-900 md:text-lg">Client Partnership</h3>
+                        <p class="mt-1 text-sm text-navy-700 md:text-base">
+                            We listen before we recommend, and we collaborate with your designer, contractor, or in-house team to get the details right.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEET THE TEAM – WITH ROLES & FACES -->
+    <section class="bg-beige-50 py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mx-auto mb-12 max-w-4xl text-center space-y-5">
+                <h2 class="text-3xl font-semibold text-navy-900 md:text-4xl">
+                    Meet the Team
+                </h2>
+                <p class="text-lg leading-relaxed text-navy-700 md:text-xl">
+                    Behind every polished slab is a skilled group of people: project managers who coordinate timelines, workshop
+                    specialists who prepare and finish each piece, and installers who bring everything together on site. Together,
+                    they make sure your experience with Madrid Marble feels organized, professional, and genuinely easy to work with.
+                </p>
+            </div>
+
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 stagger-children">
+                <!-- Just placeholders; swap with CMS data later -->
+                <div class="flex flex-col items-center rounded-2xl border border-beige-200/80 bg-white p-6">
+                    <div class="mb-4 h-24 w-24 overflow-hidden rounded-full bg-beige-100">
+                        <img
+                            src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=400&auto=format&fit=crop"
+                            alt="Project Director"
+                            class="h-full w-full object-cover"
+                        >
+                    </div>
+                    <h3 class="text-sm font-semibold text-navy-900 md:text-base">Project Director</h3>
+                    <p class="mt-1 text-xs text-navy-600 md:text-sm">
+                        Leads client communication, timelines, and overall project delivery.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center rounded-2xl border border-beige-200/80 bg-white p-6">
+                    <div class="mb-4 h-24 w-24 overflow-hidden rounded-full bg-beige-100">
+                        <img
+                            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&auto=format&fit=crop"
+                            alt="Workshop Lead"
+                            class="h-full w-full object-cover"
+                        >
+                    </div>
+                    <h3 class="text-sm font-semibold text-navy-900 md:text-base">Workshop Lead</h3>
+                    <p class="mt-1 text-xs text-navy-600 md:text-sm">
+                        Oversees slab selection, cutting, and finishing in the workshop.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-center rounded-2xl border border-beige-200/80 bg-white p-6">
+                    <div class="mb-4 h-24 w-24 overflow-hidden rounded-full bg-beige-100">
+                        <img
+                            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop"
+                            alt="Installation Supervisor"
+                            class="h-full w-full object-cover"
+                        >
+                    </div>
+                    <h3 class="text-sm font-semibold text-navy-900 md:text-base">Installation Supervisor</h3>
+                    <p class="mt-1 text-xs text-navy-600 md:text-sm">
+                        Manages on-site fitting, detailing, and final handover of every project.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

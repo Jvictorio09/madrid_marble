@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Our Portfolio - {{ content.nav.brand|default:"Madrid Marble" }}{% endblock %}
+{% block meta_description %}View our portfolio of premium marble projects and installations across the UAE.{% endblock %}
+
+{% block content %}
+<div class="pt-24">
+    <!-- Our Masterpieces -->
+    <section class="bg-white py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mx-auto max-w-4xl text-center space-y-6 mb-16">
+                <h1 class="text-4xl font-semibold text-navy-900 md:text-5xl">Our Masterpieces</h1>
+                <p class="text-xl leading-relaxed text-navy-700">
+                    Browse a selection of projects where marble plays a central role in the design. Each project highlights our approach: thoughtful stone selection, precision fabrication, and clean, detail-driven installation.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Residential Designs -->
+    <section class="bg-beige-50 py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mb-12">
+                <h2 class="text-4xl font-semibold text-navy-900 md:text-5xl mb-6">Residential Designs</h2>
+                <p class="text-lg text-navy-700 mb-8">
+                    Refined, comfortable, and built for daily life.
+                </p>
+            </div>
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4 stagger-children">
+                <div class="group space-y-4 p-6 rounded-2xl border border-beige-200/80 bg-white hover:shadow-lg transition-all duration-300">
+                    <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-navy-900">Luxury Kitchens</h3>
+                </div>
+                <div class="group space-y-4 p-6 rounded-2xl border border-beige-200/80 bg-white hover:shadow-lg transition-all duration-300">
+                    <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl">
+                        <i class="fa-solid fa-bath"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-navy-900">Spa-Like Bathrooms</h3>
+                </div>
+                <div class="group space-y-4 p-6 rounded-2xl border border-beige-200/80 bg-white hover:shadow-lg transition-all duration-300">
+                    <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-navy-900">High-End Flooring & Cladding</h3>
+                </div>
+                <div class="group space-y-4 p-6 rounded-2xl border border-beige-200/80 bg-white hover:shadow-lg transition-all duration-300">
+                    <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-navy-900">Custom Marble Pieces for Villas & Apartments</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commercial Spaces -->
+    <section class="bg-white py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mb-12">
+                <h2 class="text-4xl font-semibold text-navy-900 md:text-5xl mb-6">Commercial Spaces</h2>
+                <p class="text-lg text-navy-700 mb-8">
+                    Marble solutions that elevate your brand — from reception to corridors to executive areas.
+                </p>
+            </div>
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4 stagger-children">
+                <div class="group space-y-4 p-8 rounded-2xl border border-beige-200/80 bg-white hover:shadow-xl transition-all duration-300 text-center">
+                    <div class="flex justify-center">
+                        <div class="flex h-16 w-16 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-hotel"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-navy-900">Hotels & Serviced Apartments</h3>
+                </div>
+                <div class="group space-y-4 p-8 rounded-2xl border border-beige-200/80 bg-white hover:shadow-xl transition-all duration-300 text-center">
+                    <div class="flex justify-center">
+                        <div class="flex h-16 w-16 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-utensils"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-navy-900">Restaurants & Lounges</h3>
+                </div>
+                <div class="group space-y-4 p-8 rounded-2xl border border-beige-200/80 bg-white hover:shadow-xl transition-all duration-300 text-center">
+                    <div class="flex justify-center">
+                        <div class="flex h-16 w-16 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-building"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-navy-900">Offices & Corporate Spaces</h3>
+                </div>
+                <div class="group space-y-4 p-8 rounded-2xl border border-beige-200/80 bg-white hover:shadow-xl transition-all duration-300 text-center">
+                    <div class="flex justify-center">
+                        <div class="flex h-16 w-16 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl group-hover:scale-110 transition-transform duration-300">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold text-navy-900">Showrooms & Retail Interiors</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Before & After -->
+    <section class="bg-navy-950 py-24 text-white">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            <div class="mx-auto max-w-4xl text-center space-y-6">
+                <h2 class="text-4xl font-semibold md:text-5xl">Before & After</h2>
+                <p class="text-xl leading-relaxed text-white/90">
+                    See how dated, underused spaces are transformed into modern, luxurious interiors through expert marble selection and installation. Slide between the 'before' and 'after' views to appreciate the impact of high-quality stonework.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Grid -->
+    {% if content.portfolio.projects %}
+    <section class="bg-white py-24">
+        <div class="mx-auto max-w-6xl px-6 md:px-12">
+            {% include "partials/portfolio.html" %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}
+

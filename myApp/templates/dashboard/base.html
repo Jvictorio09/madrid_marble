@@ -87,6 +87,35 @@
         .nav-section-content a {
             padding-left: 2rem;
         }
+        
+        /* Sticky save button for forms */
+        .form-container {
+            position: relative;
+            padding-bottom: 100px;
+        }
+        
+        .form-actions {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 1.5rem 0;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 2rem;
+            z-index: 10;
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Make all form action buttons sticky if they have border-t */
+        form .border-t:has(button[type="submit"]) {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+            margin-top: 2rem;
+            z-index: 10;
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body class="h-full">
@@ -171,9 +200,6 @@
                             </a>
                             <a href="{% url 'dashboard:portfolio_projects_list' %}" class="block px-4 py-2 rounded hover:bg-navy-800">
                                 <i class="fa-solid fa-list mr-2"></i> Portfolio Projects
-                            </a>
-                            <a href="{% url 'dashboard:testimonials_list' %}" class="block px-4 py-2 rounded hover:bg-navy-800">
-                                <i class="fa-solid fa-quote-left mr-2"></i> Testimonials
                             </a>
                             <a href="{% url 'dashboard:faq_section_edit' %}" class="block px-4 py-2 rounded hover:bg-navy-800">
                                 <i class="fa-solid fa-question-circle mr-2"></i> FAQ Section

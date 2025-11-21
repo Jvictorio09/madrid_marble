@@ -415,8 +415,23 @@ function selectImage() {
         }
     } else {
         // Single image selection (URL field)
-        inputField.value = selectedImage.web_url;
+        // Use secure_url as fallback if web_url is not available
+        const imageUrl = selectedImage.web_url || selectedImage.secure_url || selectedImage.url;
+        inputField.value = imageUrl;
         inputField.dispatchEvent(new Event('change', { bubbles: true }));
+        
+        // Check if there's a gallery item selection callback
+        if (typeof window.galleryItemSelectionCallback === 'function') {
+            // Pass the full selectedImage object to the callback
+            // Make sure we pass all available URL properties
+            const imageForCallback = {
+                ...selectedImage,
+                web_url: selectedImage.web_url || selectedImage.secure_url || selectedImage.url,
+                secure_url: selectedImage.secure_url || selectedImage.web_url || selectedImage.url,
+                url: selectedImage.web_url || selectedImage.secure_url || selectedImage.url
+            };
+            window.galleryItemSelectionCallback(imageForCallback);
+        }
         
         // Also update image alt field if it exists
         const altFieldId = targetInputField.replace('_url', '_alt');

@@ -6,7 +6,7 @@
 <!-- Include Image Picker Modal -->
 {% include "dashboard/image_picker_modal.html" %}
 
-<div class="max-w-4xl mx-auto">
+<div class="max-w-5xl mx-auto">
     <div class="flex items-center justify-between mb-8">
         <h1 class="text-4xl font-bold text-navy-900">Edit About Page</h1>
         <div class="flex gap-4">
@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <form method="post" class="bg-white rounded-xl shadow-sm p-8 space-y-6">
+    <form method="post" class="bg-white rounded-xl shadow-sm p-8 space-y-6 form-container">
         {% csrf_token %}
         
         <div class="border-b pb-6">
@@ -202,7 +202,7 @@
             </div>
         </div>
 
-        <div class="flex justify-end gap-4 pt-6 border-t">
+        <div class="form-actions flex justify-end gap-4">
             <button type="submit" class="bg-navy-900 text-white px-8 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
                 <i class="fa-solid fa-save mr-2"></i> Save Changes
             </button>

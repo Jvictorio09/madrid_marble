@@ -244,30 +244,56 @@ def about_edit(request):
         about.title = request.POST.get('title', '')
         
         # Parse copy JSON
-        copy_json_str = request.POST.get('copy_json', '[]')
+        copy_json_str = request.POST.get('copy_json', '[]').strip()
+        if not copy_json_str:
+            copy_json_str = '[]'
         try:
-            about.copy_json = json.loads(copy_json_str)
-        except:
+            parsed_copy = json.loads(copy_json_str)
+            # Ensure it's a list
+            if not isinstance(parsed_copy, list):
+                messages.error(request, 'Copy JSON must be an array. Using empty array.')
+                about.copy_json = []
+            else:
+                about.copy_json = parsed_copy
+        except json.JSONDecodeError as e:
+            messages.error(request, f'Invalid JSON in Copy field: {str(e)}. Using empty array.')
+            about.copy_json = []
+        except Exception as e:
+            messages.error(request, f'Error parsing Copy JSON: {str(e)}. Using empty array.')
             about.copy_json = []
         
         # Parse gallery JSON
-        gallery_json_str = request.POST.get('gallery_json', '[]')
+        gallery_json_str = request.POST.get('gallery_json', '[]').strip()
+        if not gallery_json_str:
+            gallery_json_str = '[]'
         try:
-            about.gallery_json = json.loads(gallery_json_str)
-        except:
+            parsed_gallery = json.loads(gallery_json_str)
+            # Ensure it's a list
+            if not isinstance(parsed_gallery, list):
+                messages.error(request, 'Gallery JSON must be an array. Using empty array.')
+                about.gallery_json = []
+            else:
+                about.gallery_json = parsed_gallery
+        except json.JSONDecodeError as e:
+            messages.error(request, f'Invalid JSON in Gallery field: {str(e)}. Using empty array.')
+            about.gallery_json = []
+        except Exception as e:
+            messages.error(request, f'Error parsing Gallery JSON: {str(e)}. Using empty array.')
             about.gallery_json = []
         
         about.save()
         messages.success(request, 'About section updated successfully!')
         return redirect('dashboard:about_edit')
     
-    # Convert gallery_json to JSON string for template
+    # Convert gallery_json and copy_json to JSON strings for template
     import json as json_lib
     gallery_json_str = json_lib.dumps(about.gallery_json) if about.gallery_json else '[]'
+    copy_json_str = json_lib.dumps(about.copy_json, indent=2) if about.copy_json else '[]'
     
     return render(request, 'dashboard/about_edit.html', {
         'about': about,
-        'gallery_json_str': gallery_json_str
+        'gallery_json_str': gallery_json_str,
+        'copy_json_str': copy_json_str
     })
 
 

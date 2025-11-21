@@ -14,7 +14,7 @@
         </a>
     </div>
 
-    <form method="post" class="bg-white rounded-xl shadow-sm p-8 space-y-6">
+    <form method="post" class="bg-white rounded-xl shadow-sm p-8 space-y-6 form-container" onsubmit="validateJSONFields(); return true;">
         {% csrf_token %}
         
         <div>
@@ -32,11 +32,28 @@
         </div>
 
         <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-2">Copy (JSON Array of Paragraphs)</label>
-            <textarea name="copy_json" rows="6" required
-                      placeholder='["First paragraph...", "Second paragraph..."]'
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20 font-mono text-sm">{% if about.copy_json %}{{ about.copy_json|safe }}{% else %}[]{% endif %}</textarea>
-            <p class="text-sm text-gray-500 mt-1">JSON array of paragraph strings (e.g., ["Paragraph 1", "Paragraph 2"])</p>
+            <div class="flex items-center justify-between mb-2">
+                <label class="block text-sm font-semibold text-gray-700">Copy (Paragraphs)</label>
+                <button type="button" onclick="addCopyParagraph()" class="text-xs bg-navy-900 text-white px-4 py-2 rounded-lg font-semibold hover:bg-navy-950 transition">
+                    <i class="fa-solid fa-plus mr-1"></i> Add Paragraph
+                </button>
+            </div>
+            
+            <!-- Paragraph Manager -->
+            <div id="paragraph-manager" class="space-y-3 border border-gray-200 rounded-xl p-4 bg-gray-50 min-h-[100px]">
+                <!-- Paragraphs will be dynamically added here -->
+                <div id="paragraphs-empty" class="text-center py-8 text-gray-500">
+                    <i class="fa-solid fa-paragraph text-3xl mb-3"></i>
+                    <p>No paragraphs added yet. Click "Add Paragraph" to get started.</p>
+                </div>
+            </div>
+            
+            <!-- Hidden field for form submission -->
+            <textarea name="copy_json" id="copy_json_textarea" class="hidden">{{ copy_json_str|default:"[]" }}</textarea>
+            <p class="text-sm text-gray-500 mt-2">
+                <i class="fa-solid fa-info-circle mr-1"></i> 
+                Add multiple paragraphs to display in the About section. Use the arrows to reorder them.
+            </p>
         </div>
 
         <div>
@@ -70,9 +87,9 @@
             </p>
         </div>
 
-        <div class="flex gap-4 pt-6">
+        <div class="form-actions flex gap-4 justify-end">
             <button type="submit" class="bg-navy-900 text-white px-8 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
-                Save Changes
+                <i class="fa-solid fa-save mr-2"></i> Save Changes
             </button>
             <a href="{% url 'dashboard:home' %}" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-xl font-semibold hover:bg-gray-300 transition">
                 Cancel
@@ -85,42 +102,73 @@
 // Gallery Manager for About Section
 let galleryImages = [];
 
-// Initialize gallery on page load
+// Paragraph Manager for Copy Section
+let copyParagraphs = [];
+
+// Initialize gallery and paragraphs on page load
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Gallery
     const galleryJsonField = document.getElementById('about_gallery_json');
     let galleryJsonValue = galleryJsonField ? galleryJsonField.value : '[]';
     
-    // If the value looks like a Python list (starts with [), try to parse it
-    // Otherwise, it might already be a JSON string
     try {
-        // First try direct JSON parsing
         if (galleryJsonValue && galleryJsonValue.trim() !== '') {
-            // Remove any extra whitespace
             galleryJsonValue = galleryJsonValue.trim();
-            
-            // If it's already a JSON string, parse it
             if (galleryJsonValue.startsWith('[') || galleryJsonValue.startsWith('{')) {
                 galleryImages = JSON.parse(galleryJsonValue);
             } else {
-                // Try to evaluate as Python literal (fallback)
                 galleryImages = [];
-                console.warn('Gallery JSON format unexpected, using empty array');
             }
         } else {
             galleryImages = [];
         }
     } catch (e) {
-        console.error('Error parsing gallery JSON:', e, 'Raw value:', galleryJsonValue);
+        console.error('Error parsing gallery JSON:', e);
         galleryImages = [];
     }
     
-    // Ensure galleryImages is an array
     if (!Array.isArray(galleryImages)) {
-        console.warn('Gallery images is not an array, resetting to empty array');
         galleryImages = [];
     }
+    
+    // Clean up invalid URLs
+    galleryImages = galleryImages.map(img => {
+        if (img && img.url && !img.url.startsWith('http://') && !img.url.startsWith('https://')) {
+            return { ...img, url: '' };
+        }
+        return img;
+    });
     
     renderGallery();
+    
+    // Initialize Paragraphs
+    const copyJsonField = document.getElementById('copy_json_textarea');
+    let copyJsonValue = copyJsonField ? copyJsonField.value : '[]';
+    
+    try {
+        if (copyJsonValue && copyJsonValue.trim() !== '') {
+            copyJsonValue = copyJsonValue.trim();
+            if (copyJsonValue.startsWith('[')) {
+                copyParagraphs = JSON.parse(copyJsonValue);
+            } else {
+                copyParagraphs = [];
+            }
+        } else {
+            copyParagraphs = [];
+        }
+    } catch (e) {
+        console.error('Error parsing copy JSON:', e);
+        copyParagraphs = [];
+    }
+    
+    if (!Array.isArray(copyParagraphs)) {
+        copyParagraphs = [];
+    }
+    
+    // Ensure all items are strings
+    copyParagraphs = copyParagraphs.map(p => String(p));
+    
+    renderParagraphs();
 });
 
 // Render gallery images
@@ -136,9 +184,9 @@ function renderGallery() {
                 <div class="flex gap-4">
                     <div class="flex-shrink-0">
                         <div class="relative w-32 h-24 bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
-                            <img src="${img.url || ''}" alt="${img.alt || ''}" 
-                                 class="w-full h-full object-cover"
-                                 onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect fill=%27%23e5e7eb%27 width=%27100%27 height=%27100%27/%3E%3Ctext x=%2750%25%27 y=%2750%25%27 text-anchor=%27middle%27 dy=%27.3em%27 fill=%27%239ca3af%27%3ENo Image%3C/text%3E%3C/svg%3E'">
+                            ${(img.url && (img.url.startsWith('http://') || img.url.startsWith('https://'))) 
+                                ? `<img src="${img.url}" alt="${img.alt || ''}" class="w-full h-full object-cover" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'w-full h-full flex items-center justify-center text-gray-400 text-xs\\'>Invalid</div>'">`
+                                : `<div class="w-full h-full flex items-center justify-center text-gray-400 text-xs">No Image</div>`}
                         </div>
                     </div>
                     <div class="flex-1 space-y-3">
@@ -266,51 +314,70 @@ function openImagePickerForGalleryItem(index) {
         const inputId = 'gallery-item-url-input-' + index;
         const currentValue = galleryImages[index] ? galleryImages[index].url : '';
         
+        // Store callback for when image is selected
+        window.galleryItemSelectionCallback = function(image) {
+            // Get the URL from various possible properties
+            let imageUrl = null;
+            if (image) {
+                imageUrl = image.web_url || image.secure_url || image.url || image.thumb_url;
+            }
+            
+            if (imageUrl && (imageUrl.startsWith('http://') || imageUrl.startsWith('https://'))) {
+                let imageAlt = '';
+                
+                if (image.title) {
+                    imageAlt = image.title.split('.')[0].replace(/[-_]/g, ' ');
+                }
+                
+                // Update gallery image
+                updateGalleryImage(index, 'url', imageUrl);
+                if (!galleryImages[index].alt && imageAlt) {
+                    updateGalleryImage(index, 'alt', imageAlt);
+                }
+                // Force re-render to update preview
+                renderGallery();
+            } else {
+                console.error('Invalid image URL:', imageUrl);
+                alert('Error: Selected image does not have a valid URL. Please try selecting another image.');
+            }
+            
+            // Clear callback
+            window.galleryItemSelectionCallback = undefined;
+        };
+        
         openImagePickerModal(inputId);
         
-        // Watch for changes to the input field (modal will update it)
+        // Also watch for changes to the input field as backup
         const checkInterval = setInterval(function() {
             const input = document.getElementById(inputId);
             if (input && input.value !== currentValue && input.value) {
                 clearInterval(checkInterval);
                 
-                // Get the selected image details from the modal - check both global selectedImage and input value
-                let imageUrl = input.value;
-                let imageAlt = '';
+                // Update gallery image from input value
+                const imageUrl = input.value;
                 
-                // Try to get from modal's selectedImage first
-                if (typeof selectedImage !== 'undefined' && selectedImage && selectedImage.web_url) {
-                    imageUrl = selectedImage.web_url;
-                    if (selectedImage.title) {
-                        imageAlt = selectedImage.title.split('.')[0].replace(/[-_]/g, ' ');
-                    }
-                } else if (input.value) {
-                    // Fallback to input value
-                    imageUrl = input.value;
-                    imageAlt = input.value.split('/').pop().split('.')[0].replace(/[-_]/g, ' ');
-                }
-                
-                // Update gallery image
-                if (imageUrl) {
+                // Only update if it's a valid full URL
+                if (imageUrl && (imageUrl.startsWith('http://') || imageUrl.startsWith('https://'))) {
+                    const imageAlt = imageUrl.split('/').pop().split('.')[0].replace(/[-_]/g, ' ');
+                    
                     updateGalleryImage(index, 'url', imageUrl);
                     if (!galleryImages[index].alt && imageAlt) {
                         updateGalleryImage(index, 'alt', imageAlt);
                     }
-                    // Force re-render to update preview
                     renderGallery();
+                } else {
+                    console.warn('Invalid URL format:', imageUrl);
                 }
                 
-                // Also update the visible URL input
-                const urlInput = document.querySelector(`.gallery-item[data-index="${index}"] input[type="url"]`);
-                if (urlInput) {
-                    urlInput.value = input.value;
-                }
+                // Clear callback since we handled it
+                window.galleryItemSelectionCallback = undefined;
             }
-        }, 200);
+        }, 300);
         
         // Clean up after 30 seconds
         setTimeout(function() {
             clearInterval(checkInterval);
+            window.galleryItemSelectionCallback = undefined;
         }, 30000);
     }
 }
@@ -418,6 +485,102 @@ window.openImagePickerModalForGallery = function(textareaFieldId) {
         }
     }
 };
+
+// Paragraph Manager Functions
+function renderParagraphs() {
+    const manager = document.getElementById('paragraph-manager');
+    const textarea = document.getElementById('copy_json_textarea');
+    
+    if (copyParagraphs.length === 0) {
+        manager.innerHTML = '<div id="paragraphs-empty" class="text-center py-8 text-gray-500"><i class="fa-solid fa-paragraph text-3xl mb-3"></i><p>No paragraphs added yet. Click "Add Paragraph" to get started.</p></div>';
+    } else {
+        manager.innerHTML = copyParagraphs.map((para, index) => `
+            <div class="paragraph-item bg-white rounded-lg border-2 border-gray-200 p-4 hover:border-navy-900 transition" data-index="${index}">
+                <div class="flex gap-4">
+                    <div class="flex-1">
+                        <label class="block text-xs font-semibold text-gray-700 mb-2">Paragraph ${index + 1}</label>
+                        <textarea 
+                            rows="3"
+                            placeholder="Enter paragraph text here..."
+                            class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20"
+                            onchange="updateParagraph(${index}, this.value)"
+                            oninput="updateParagraph(${index}, this.value)">${para || ''}</textarea>
+                    </div>
+                    <div class="flex-shrink-0 flex flex-col gap-2 pt-6">
+                        <button type="button" 
+                                onclick="moveParagraph(${index}, 'up')"
+                                ${index === 0 ? 'disabled' : ''}
+                                class="px-3 py-1.5 bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                        <button type="button" 
+                                onclick="moveParagraph(${index}, 'down')"
+                                ${index === copyParagraphs.length - 1 ? 'disabled' : ''}
+                                class="px-3 py-1.5 bg-gray-200 text-gray-700 text-xs font-semibold rounded-lg hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </button>
+                        <button type="button" 
+                                onclick="removeParagraph(${index})"
+                                class="px-3 py-1.5 bg-red-600 text-white text-xs font-semibold rounded-lg hover:bg-red-700 transition">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    // Update hidden textarea
+    textarea.value = JSON.stringify(copyParagraphs);
+}
+
+function addCopyParagraph() {
+    copyParagraphs.push('');
+    renderParagraphs();
+    // Focus on the new textarea
+    setTimeout(() => {
+        const items = document.querySelectorAll('.paragraph-item textarea');
+        if (items.length > 0) {
+            items[items.length - 1].focus();
+            items[items.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, 100);
+}
+
+function updateParagraph(index, value) {
+    if (copyParagraphs[index] !== undefined) {
+        copyParagraphs[index] = value;
+        const textarea = document.getElementById('copy_json_textarea');
+        textarea.value = JSON.stringify(copyParagraphs);
+    }
+}
+
+function removeParagraph(index) {
+    if (confirm('Are you sure you want to remove this paragraph?')) {
+        copyParagraphs.splice(index, 1);
+        renderParagraphs();
+    }
+}
+
+function moveParagraph(index, direction) {
+    if (direction === 'up' && index > 0) {
+        [copyParagraphs[index - 1], copyParagraphs[index]] = [copyParagraphs[index], copyParagraphs[index - 1]];
+        renderParagraphs();
+    } else if (direction === 'down' && index < copyParagraphs.length - 1) {
+        [copyParagraphs[index], copyParagraphs[index + 1]] = [copyParagraphs[index + 1], copyParagraphs[index]];
+        renderParagraphs();
+    }
+}
+
+// Validate JSON fields before form submission
+function validateJSONFields() {
+    // Update paragraphs JSON before submission
+    const textarea = document.getElementById('copy_json_textarea');
+    if (textarea) {
+        textarea.value = JSON.stringify(copyParagraphs);
+    }
+    return true;
+}
 </script>
 {% endblock %}
 

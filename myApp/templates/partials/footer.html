@@ -36,10 +36,14 @@
                 <nav class="flex flex-wrap items-center justify-center gap-6 text-xs font-semibold uppercase tracking-[0.28em]">
                     {% if content.footer.links and content.footer.links|length > 0 %}
                         {% for link in content.footer.links %}
-                            {% if link.href == '#about' or link.href == '/about/' %}
+                            {% if 'testimonial' in link.href|lower or 'testimonial' in link.label|lower %}
+                                {# Skip testimonials links #}
+                            {% elif link.href == '#about' or link.href == '/about/' %}
                                 <a href="{% url 'about' %}" class="hover:text-white transition">{{ link.label }}</a>
                             {% elif link.href == '#services' or link.href == '/services/' %}
                                 <a href="{% url 'services' %}" class="hover:text-white transition">{{ link.label }}</a>
+                            {% elif link.href == '#portfolio' or link.href == '/portfolio/' or link.href == '#work' or link.href == '/work/' or 'portfolio' in link.href|lower or 'work' in link.href|lower %}
+                                <a href="{% url 'portfolio' %}" class="hover:text-white transition">{{ link.label }}</a>
                             {% elif link.href == '#faq' or link.href == '/faq/' %}
                                 <a href="{% url 'faq' %}" class="hover:text-white transition">{{ link.label }}</a>
                             {% elif link.href == '#contact' or link.href == '/contact/' %}
@@ -54,6 +58,7 @@
                         <!-- Default footer links if none configured -->
                         <a href="{% url 'home' %}" class="hover:text-white transition">Home</a>
                         <a href="{% url 'about' %}" class="hover:text-white transition">About</a>
+                        <a href="{% url 'portfolio' %}" class="hover:text-white transition">Work</a>
                         <a href="{% url 'services' %}" class="hover:text-white transition">Services</a>
                         <a href="{% url 'faq' %}" class="hover:text-white transition">FAQ</a>
                         <a href="{% url 'contact' %}" class="hover:text-white transition">Contact</a>

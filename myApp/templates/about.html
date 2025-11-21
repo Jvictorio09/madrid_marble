@@ -56,54 +56,136 @@
     </section>
 
     <!-- STORY TIMELINE – FROM WORKSHOP TO PARTNER -->
-    <section class="bg-beige-50 py-20">
-        <div class="mx-auto max-w-6xl px-6 md:px-12">
-            <div class="mb-10 max-w-3xl">
-                <h2 class="text-2xl font-semibold text-navy-900 md:text-3xl">
+    <section class="relative overflow-hidden bg-gradient-to-b from-beige-50 via-white to-beige-50/50 py-24">
+        <!-- Decorative background elements -->
+        <div class="pointer-events-none absolute inset-0">
+            <div class="absolute -right-32 top-20 h-96 w-96 rounded-full bg-navy-900/3 blur-3xl"></div>
+            <div class="absolute -left-32 bottom-20 h-96 w-96 rounded-full bg-beige-300/20 blur-3xl"></div>
+        </div>
+
+        <div class="relative mx-auto max-w-7xl px-6 md:px-12">
+            <div class="mb-16 max-w-3xl text-center md:text-left">
+                <div class="inline-flex items-center gap-2 rounded-full bg-navy-900/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-navy-700 mb-6">
+                    <span class="h-1.5 w-1.5 rounded-full bg-navy-900/40"></span>
+                    Our Journey
+                </div>
+                <h2 class="text-3xl font-semibold text-navy-900 md:text-4xl lg:text-5xl">
                     From a focused workshop to a trusted project partner.
                 </h2>
-                <p class="mt-3 text-base text-navy-600 md:text-lg">
+                <p class="mt-4 text-base leading-relaxed text-navy-600 md:text-lg">
                     Our journey is shaped by small, deliberate decisions — the machines we invest in, the people we hire, and the standards we never compromise.
                 </p>
             </div>
 
-            <!-- Vertical timeline -->
-            <div class="grid gap-10 md:grid-cols-[0.5fr_1.7fr]">
-                <div class="hidden md:block">
-                    <div class="h-full border-l border-beige-300/80">
-                        <div class="-ml-2 mt-2 flex h-4 w-4 items-center justify-center rounded-full border border-beige-400 bg-white"></div>
-                        <div class="-ml-2 mt-24 flex h-4 w-4 items-center justify-center rounded-full border border-beige-400 bg-white"></div>
-                        <div class="-ml-2 mt-24 flex h-4 w-4 items-center justify-center rounded-full border border-beige-400 bg-white"></div>
-                    </div>
-                </div>
+            <!-- Enhanced Vertical timeline -->
+            <div class="relative">
+                <!-- Timeline line - visible on all screens -->
+                <div class="absolute left-8 top-0 bottom-0 hidden w-0.5 bg-gradient-to-b from-beige-300 via-navy-900/20 to-beige-300 md:block"></div>
+                
+                <div class="space-y-16 md:space-y-20">
+                    <!-- Timeline Item 1 -->
+                    <div class="group relative flex gap-8 md:gap-12">
+                        <!-- Timeline node -->
+                        <div class="relative z-10 flex shrink-0 items-center">
+                            <div class="relative">
+                                <div class="absolute inset-0 rounded-full bg-navy-900/10 blur-md group-hover:bg-navy-900/20 transition-all duration-500"></div>
+                                <div class="relative flex h-16 w-16 items-center justify-center rounded-full border-2 border-navy-900/30 bg-white shadow-lg ring-4 ring-white group-hover:border-navy-900/50 group-hover:scale-110 transition-all duration-300">
+                                    <div class="h-3 w-3 rounded-full bg-navy-900"></div>
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="space-y-10">
-                    <div class="rounded-2xl bg-white/80 p-6 shadow-sm">
-                        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">
-                            The early workshop days
-                        </p>
-                        <p class="mt-2 text-sm text-navy-600 md:text-base">
-                            A small, specialist team focused on getting the basics perfect — slab handling, cutting, and clean installation — one kitchen and bathroom at a time.
-                        </p>
+                        <!-- Content card -->
+                        <div class="flex-1 pb-4">
+                            <div class="group/card relative overflow-hidden rounded-3xl border border-beige-200/60 bg-white/90 p-8 shadow-lg backdrop-blur-sm transition-all duration-500 hover:border-navy-900/20 hover:shadow-2xl hover:-translate-y-1">
+                                <!-- Decorative gradient overlay -->
+                                <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white via-beige-50/30 to-white opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
+                                
+                                <div class="relative">
+                                    <div class="mb-4 flex items-center gap-3">
+                                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-beige-200 to-beige-300 text-navy-900 shadow-sm group-hover/card:scale-110 transition-transform duration-300">
+                                            <i class="fa-solid fa-hammer text-lg"></i>
+                                        </div>
+                                        <p class="text-xs font-bold uppercase tracking-[0.24em] text-navy-900">
+                                            The Early Workshop Days
+                                        </p>
+                                    </div>
+                                    <p class="text-base leading-relaxed text-navy-700 md:text-lg">
+                                        A small, specialist team focused on getting the basics perfect — slab handling, cutting, and clean installation — one kitchen and bathroom at a time.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="rounded-2xl bg-white/80 p-6 shadow-sm">
-                        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">
-                            Investing in better tools & people
-                        </p>
-                        <p class="mt-2 text-sm text-navy-600 md:text-base">
-                            We upgraded our machinery, refined our internal checklists, and built a team of marble specialists who understand both design expectations and site realities.
-                        </p>
+                    <!-- Timeline Item 2 -->
+                    <div class="group relative flex gap-8 md:gap-12">
+                        <!-- Timeline node -->
+                        <div class="relative z-10 flex shrink-0 items-center">
+                            <div class="relative">
+                                <div class="absolute inset-0 rounded-full bg-navy-900/10 blur-md group-hover:bg-navy-900/20 transition-all duration-500"></div>
+                                <div class="relative flex h-16 w-16 items-center justify-center rounded-full border-2 border-navy-900/30 bg-white shadow-lg ring-4 ring-white group-hover:border-navy-900/50 group-hover:scale-110 transition-all duration-300">
+                                    <div class="h-3 w-3 rounded-full bg-navy-900"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content card -->
+                        <div class="flex-1 pb-4">
+                            <div class="group/card relative overflow-hidden rounded-3xl border border-beige-200/60 bg-white/90 p-8 shadow-lg backdrop-blur-sm transition-all duration-500 hover:border-navy-900/20 hover:shadow-2xl hover:-translate-y-1">
+                                <!-- Decorative gradient overlay -->
+                                <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-white via-beige-50/30 to-white opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
+                                
+                                <div class="relative">
+                                    <div class="mb-4 flex items-center gap-3">
+                                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-navy-900 to-navy-800 text-white shadow-sm group-hover/card:scale-110 transition-transform duration-300">
+                                            <i class="fa-solid fa-tools text-lg"></i>
+                                        </div>
+                                        <p class="text-xs font-bold uppercase tracking-[0.24em] text-navy-900">
+                                            Investing in Better Tools & People
+                                        </p>
+                                    </div>
+                                    <p class="text-base leading-relaxed text-navy-700 md:text-lg">
+                                        We upgraded our machinery, refined our internal checklists, and built a team of marble specialists who understand both design expectations and site realities.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="rounded-2xl bg-white/80 p-6 shadow-sm">
-                        <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700">
-                            Today
-                        </p>
-                        <p class="mt-2 text-sm text-navy-600 md:text-base">
-                            Today, Madrid Marble partners with homeowners, designers, and contractors across the UAE — taking projects from material selection and detailed drawings
-                            to on-site installation and final polish.
-                        </p>
+                    <!-- Timeline Item 3 -->
+                    <div class="group relative flex gap-8 md:gap-12">
+                        <!-- Timeline node -->
+                        <div class="relative z-10 flex shrink-0 items-center">
+                            <div class="relative">
+                                <div class="absolute inset-0 rounded-full bg-navy-900/10 blur-md group-hover:bg-navy-900/20 transition-all duration-500"></div>
+                                <div class="relative flex h-16 w-16 items-center justify-center rounded-full border-2 border-navy-900/30 bg-gradient-to-br from-navy-900 to-navy-800 shadow-lg ring-4 ring-white group-hover:scale-110 transition-all duration-300">
+                                    <i class="fa-solid fa-star text-white text-sm"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content card -->
+                        <div class="flex-1 pb-4">
+                            <div class="group/card relative overflow-hidden rounded-3xl border-2 border-navy-900/20 bg-gradient-to-br from-navy-900 to-navy-800 p-8 text-white shadow-2xl backdrop-blur-sm transition-all duration-500 hover:shadow-[0_25px_80px_rgba(15,23,42,0.4)] hover:-translate-y-1">
+                                <!-- Decorative gradient overlay -->
+                                <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-navy-900/90 via-navy-800/90 to-navy-900/90 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
+                                
+                                <div class="relative">
+                                    <div class="mb-4 flex items-center gap-3">
+                                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm text-white shadow-lg ring-2 ring-white/20 group-hover/card:scale-110 group-hover/card:bg-white/30 transition-all duration-300">
+                                            <i class="fa-solid fa-rocket text-lg"></i>
+                                        </div>
+                                        <p class="text-xs font-bold uppercase tracking-[0.24em] text-white/95">
+                                            Today
+                                        </p>
+                                    </div>
+                                    <p class="text-base leading-relaxed text-white/90 md:text-lg">
+                                        Today, Madrid Marble partners with homeowners, designers, and contractors across the UAE — taking projects from material selection and detailed drawings to on-site installation and final polish.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -14,12 +14,7 @@
                 {% if 'testimonial' in link.href|lower or 'testimonial' in link.label|lower %}
                 {# Skip testimonials links #}
                 {% elif link.href == '#portfolio' or link.href == '/portfolio/' or link.href == '#work' or link.href == '/work/' or 'portfolio' in link.href|lower or 'work' in link.href|lower %}
-                <a href="{% url 'portfolio' %}" class="relative transition-colors duration-200 hover:text-navy-900 {% if request.resolver_match.url_name == 'portfolio' %}text-navy-900{% endif %}">
-                    <span class="relative z-10">{{ link.label }}</span>
-                    {% if request.resolver_match.url_name == 'portfolio' %}
-                    <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-navy-900"></span>
-                    {% endif %}
-                </a>
+                {# Skip portfolio/work links #}
                 {% elif link.href == '#about' or link.href == '/about/' %}
                 <a href="{% url 'about' %}" class="relative transition-colors duration-200 hover:text-navy-900 {% if request.resolver_match.url_name == 'about' %}text-navy-900{% endif %}">
                     <span class="relative z-10">{{ link.label }}</span>
@@ -62,12 +57,6 @@
                 {% endif %}
                 {% endfor %}
                 {# Always show essential links if configured links exist #}
-                <a href="{% url 'portfolio' %}" class="relative transition-colors duration-200 hover:text-navy-900 {% if request.resolver_match.url_name == 'portfolio' %}text-navy-900{% endif %}">
-                    <span class="relative z-10">Work</span>
-                    {% if request.resolver_match.url_name == 'portfolio' %}
-                    <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-navy-900"></span>
-                    {% endif %}
-                </a>
                 <a href="{% url 'about' %}" class="relative transition-colors duration-200 hover:text-navy-900 {% if request.resolver_match.url_name == 'about' %}text-navy-900{% endif %}">
                     <span class="relative z-10">About</span>
                     {% if request.resolver_match.url_name == 'about' %}
@@ -91,12 +80,6 @@
                 <a href="{% url 'about' %}" class="relative transition-colors duration-200 hover:text-navy-900 {% if request.resolver_match.url_name == 'about' %}text-navy-900{% endif %}">
                     <span class="relative z-10">About</span>
                     {% if request.resolver_match.url_name == 'about' %}
-                    <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-navy-900"></span>
-                    {% endif %}
-                </a>
-                <a href="{% url 'portfolio' %}" class="relative transition-colors duration-200 hover:text-navy-900 {% if request.resolver_match.url_name == 'portfolio' %}text-navy-900{% endif %}">
-                    <span class="relative z-10">Work</span>
-                    {% if request.resolver_match.url_name == 'portfolio' %}
                     <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-navy-900"></span>
                     {% endif %}
                 </a>
@@ -142,7 +125,7 @@
                 {% if 'testimonial' in link.href|lower or 'testimonial' in link.label|lower %}
                 {# Skip testimonials links #}
                 {% elif link.href == '#portfolio' or link.href == '/portfolio/' or link.href == '#work' or link.href == '/work/' or 'portfolio' in link.href|lower or 'work' in link.href|lower %}
-                <a href="{% url 'portfolio' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'portfolio' %}bg-white/10 text-white{% endif %}">{{ link.label }}</a>
+                {# Skip portfolio/work links #}
                 {% elif link.href == '#about' or link.href == '/about/' %}
                 <a href="{% url 'about' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'about' %}bg-white/10 text-white{% endif %}">{{ link.label }}</a>
                 {% elif link.href == '#services' or link.href == '/services/' %}
@@ -159,7 +142,6 @@
             {% endfor %}
             {# Always show essential links in mobile menu #}
             {% if content.nav.links and content.nav.links|length > 0 %}
-            <a href="{% url 'portfolio' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'portfolio' %}bg-white/10 text-white{% endif %}">Work</a>
             <a href="{% url 'about' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'about' %}bg-white/10 text-white{% endif %}">About</a>
             <a href="{% url 'faq' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'faq' %}bg-white/10 text-white{% endif %}">FAQ</a>
             {% endif %}
@@ -167,7 +149,6 @@
                 <!-- Default navigation links if none configured -->
                 <a href="{% url 'home' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'home' %}bg-white/10 text-white{% endif %}">Home</a>
                 <a href="{% url 'about' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'about' %}bg-white/10 text-white{% endif %}">About</a>
-                <a href="{% url 'portfolio' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'portfolio' %}bg-white/10 text-white{% endif %}">Work</a>
                 <a href="{% url 'services' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'services' %}bg-white/10 text-white{% endif %}">Services</a>
                 <a href="{% url 'faq' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'faq' %}bg-white/10 text-white{% endif %}">FAQ</a>
                 <a href="{% url 'contact' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'contact' %}bg-white/10 text-white{% endif %}">Contact</a>

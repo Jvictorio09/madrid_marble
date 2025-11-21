@@ -35,9 +35,14 @@ def about(request):
 
 def services(request):
     """Services page view"""
+    from .models import ServicesPage
+    
     content = get_content()
+    services_page = ServicesPage.objects.first()
+    
     context = {
-        "content": content
+        "content": content,
+        "services_page": services_page
     }
     return render(request, "services.html", context)
 

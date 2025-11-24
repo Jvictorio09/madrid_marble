@@ -100,111 +100,149 @@
     </section>
 
     {# CONTACT DETAILS STRIP #}
-    <section class="bg-beige-50 py-20">
-        <div class="mx-auto max-w-6xl px-6 md:px-12">
-            <div class="mb-10 text-center">
-                <h2 class="text-3xl md:text-4xl font-semibold text-navy-900 mb-3">
+    <section class="bg-beige-50 py-24">
+        <div class="mx-auto max-w-7xl px-6 md:px-12">
+            
+            <!-- Heading -->
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <h2 class="text-4xl md:text-5xl font-semibold text-navy-900 tracking-tight">
                     Talk to the Madrid Marble Team
                 </h2>
-                <p class="text-base md:text-lg text-navy-700">
-                    Fast, professional responses whether you’re planning a single vanity or a full building.
+                <p class="text-lg md:text-xl text-navy-700 mt-3">
+                    Choose the fastest way to reach us for quotes, site visits, or full marble fit-outs.
                 </p>
             </div>
-
-            <div class="grid gap-7 md:grid-cols-2 lg:grid-cols-4 stagger-children">
-                <!-- Phone -->
-                <div class="group flex flex-col h-full rounded-2xl bg-white p-6 border border-beige-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                    <div class="flex items-center justify-center mb-4">
-                        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-white text-xl group-hover:scale-110 transition-transform duration-300">
-                            <i class="fa-solid fa-phone"></i>
+    
+            <!-- PRIMARY CARD (full width) -->
+            <div class="rounded-3xl bg-white border border-beige-200/70 shadow-[0_15px_35px_rgba(0,0,0,0.08)] p-10 mb-12">
+                <span class="inline-block bg-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full mb-6 tracking-wide">
+                    FASTEST RESPONSE
+                </span>
+    
+                <h3 class="text-3xl font-semibold text-navy-900 mb-4">
+                    Speak to a specialist today
+                </h3>
+                <p class="text-navy-700 max-w-2xl mb-8">
+                    Send your drawings, measurements, or a simple idea. Our team will recommend the right marble,
+                    edge finish, and timeline for your project.
+                </p>
+    
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Phone -->
+                    <div class="rounded-2xl border border-beige-200/80 bg-beige-50 p-6">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="h-12 w-12 flex items-center justify-center bg-navy-900 text-white rounded-2xl">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-navy-500 tracking-wider">CALL US</p>
+                                <p class="text-sm text-navy-700">Best for quick questions & pricing</p>
+                            </div>
                         </div>
+                        {% for info in content.contact.info %}
+                            {% if info.type == 'phone' %}
+                                <a href="{{ info.href }}"
+                                   class="inline-flex items-center gap-2 text-sm font-semibold text-navy-900">
+                                    {{ info.text }} <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                    <h3 class="text-base font-semibold text-navy-900 mb-1">Phone</h3>
-                    <p class="text-sm text-navy-600 mb-4 flex-grow">Speak directly with our team.</p>
-                    <div class="mt-auto">
-                        {% if content.contact.info %}
-                            {% for info in content.contact.info %}
-                                {% if info.type == 'phone' %}
-                                    <a href="{{ info.href|default:'tel:' }}" class="inline-flex items-center gap-2 text-sm font-semibold text-navy-800 hover:text-navy-950">
-                                        <i class="fa-solid fa-arrow-right text-xs"></i>
-                                        <span>{{ info.text }}</span>
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
+    
+                    <!-- WhatsApp -->
+                    <div class="rounded-2xl border border-beige-200/80 bg-white p-6">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="h-12 w-12 flex items-center justify-center bg-[#25D366] text-white rounded-2xl">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-navy-500 tracking-wider">WHATSAPP</p>
+                                <p class="text-sm text-navy-700">Send photos, videos, and site details</p>
+                            </div>
+                        </div>
+                        {% for info in content.contact.info %}
+                            {% if info.type == 'whatsapp' %}
+                                <a href="{{ info.href }}"
+                                   class="inline-flex items-center gap-2 text-sm font-semibold text-navy-900">
+                                    {{ info.text }} <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
-
-                <!-- WhatsApp -->
-                <div class="group flex flex-col h-full rounded-2xl bg-white p-6 border border-beige-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                    <div class="flex items-center justify-center mb-4">
-                        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-[#25D366] text-white text-xl group-hover:scale-110 transition-transform duration-300">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-base font-semibold text-navy-900 mb-1">WhatsApp</h3>
-                    <p class="text-sm text-navy-600 mb-4 flex-grow">Share photos, drawings, and quick questions.</p>
-                    <div class="mt-auto">
-                        {% if content.contact.info %}
-                            {% for info in content.contact.info %}
-                                {% if info.type == 'whatsapp' or 'whatsapp' in info.href|lower %}
-                                    <a href="{{ info.href }}" class="inline-flex items-center gap-2 text-sm font-semibold text-navy-800 hover:text-navy-950">
-                                        <i class="fa-solid fa-arrow-right text-xs"></i>
-                                        <span>{{ info.text }}</span>
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                </div>
-
+            </div>
+    
+            <!-- SECONDARY CONTACT OPTIONS -->
+            <div class="grid gap-8 md:grid-cols-3">
+    
                 <!-- Email -->
-                <div class="group flex flex-col h-full rounded-2xl bg-white p-6 border border-beige-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                    <div class="flex items-center justify-center mb-4">
-                        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-white text-xl group-hover:scale-110 transition-transform duration-300">
+                <div class="rounded-3xl bg-white border border-beige-200/70 p-8 shadow-sm">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-navy-900 text-white">
                             <i class="fa-solid fa-envelope"></i>
                         </div>
-                    </div>
-                    <h3 class="text-base font-semibold text-navy-900 mb-1">Email</h3>
-                    <p class="text-sm text-navy-600 mb-4 flex-grow">Send detailed project briefs and documents.</p>
-                    <div class="mt-auto">
-                        {% if content.contact.info %}
-                            {% for info in content.contact.info %}
-                                {% if info.type == 'email' %}
-                                    <a href="{{ info.href|default:'mailto:' }}" class="inline-flex items-center gap-2 text-sm font-semibold text-navy-800 hover:text-navy-950">
-                                        <i class="fa-solid fa-arrow-right text-xs"></i>
-                                        <span>{{ info.text }}</span>
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </div>
-                </div>
-
-                <!-- Address -->
-                <div class="group flex flex-col h-full rounded-2xl bg-white p-6 border border-beige-200/90 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                    <div class="flex items-center justify-center mb-4">
-                        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-white text-xl group-hover:scale-110 transition-transform duration-300">
-                            <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <h3 class="text-base font-semibold text-navy-900">Email Project Brief</h3>
+                            <p class="text-xs text-navy-600">Best for architects/designers</p>
                         </div>
                     </div>
-                    <h3 class="text-base font-semibold text-navy-900 mb-1">Workshop & Showroom</h3>
-                    <p class="text-sm text-navy-600 mb-4 flex-grow">Visit us to see slabs and samples in person.</p>
-                    <div class="mt-auto">
-                        {% if content.contact.info %}
-                            {% for info in content.contact.info %}
-                                {% if info.type == 'address' %}
-                                    <p class="text-sm font-medium text-navy-800">
-                                        {{ info.text }}
-                                    </p>
-                                {% endif %}
-                            {% endfor %}
+    
+                    <p class="text-sm text-navy-700 mb-4">
+                        Attach drawings, BOQs, and schedules. We’ll prepare a detailed proposal.
+                    </p>
+    
+                    {% for info in content.contact.info %}
+                        {% if info.type == 'email' %}
+                            <a href="{{ info.href }}"
+                               class="inline-flex items-center gap-2 text-sm font-semibold text-navy-900">
+                                {{ info.text }} <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </a>
                         {% endif %}
-                    </div>
+                    {% endfor %}
                 </div>
+    
+                <!-- Address -->
+                <div class="rounded-3xl bg-navy-900 text-white p-8 shadow-sm">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-white/10 text-white">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-semibold">Workshop & Showroom</h3>
+                            <p class="text-xs text-white/70">View slabs and real installations</p>
+                        </div>
+                    </div>
+    
+                    {% for info in content.contact.info %}
+                        {% if info.type == 'address' %}
+                            <p class="text-sm text-white/90 mb-2">{{ info.text }}</p>
+                        {% endif %}
+                    {% endfor %}
+                    <p class="text-xs text-white/60 mt-2">By appointment recommended.</p>
+                </div>
+    
+                <!-- NEW EXTRA CARD (optional) -->
+                <div class="rounded-3xl bg-white border border-beige-200/70 p-8 shadow-sm">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="h-12 w-12 flex items-center justify-center rounded-2xl bg-navy-900 text-white">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-semibold text-navy-900">Project Timelines</h3>
+                            <p class="text-xs text-navy-600">Know our typical schedules</p>
+                        </div>
+                    </div>
+    
+                    <p class="text-sm text-navy-700">
+                        Installation timelines vary per project. Ask us for estimated lead times.
+                    </p>
+                </div>
+    
             </div>
         </div>
     </section>
+    
+    
 
     {# BUSINESS HOURS STRIP #}
     <section class="bg-navy-950 py-20 text-white">
@@ -221,7 +259,7 @@
                         We're available throughout the week for showroom visits, site measurements, and project discussions.
                     </p>
                     <p class="text-lg font-medium text-white">
-                        Monday – Sunday: 8:00 AM – 8:00 PM
+                        Monday – Saturday: 8:00 AM – 5:00 PM
                     </p>
                     <p class="text-sm text-white/70">
                         Need a special appointment outside these hours? Let us know in your inquiry and we’ll do our best to accommodate.

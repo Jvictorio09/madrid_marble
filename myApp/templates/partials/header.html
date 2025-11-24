@@ -29,13 +29,6 @@
                     <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-navy-900"></span>
                     {% endif %}
                 </a>
-                {% elif link.href == '#faq' or link.href == '/faq/' %}
-                <a href="{% url 'faq' %}" class="relative transition-colors duration-200 hover:text-navy-900 {% if request.resolver_match.url_name == 'faq' %}text-navy-900{% endif %}">
-                    <span class="relative z-10">{{ link.label }}</span>
-                    {% if request.resolver_match.url_name == 'faq' %}
-                    <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-navy-900"></span>
-                    {% endif %}
-                </a>
                 {% elif link.href == '#contact' or link.href == '/contact/' %}
                 <a href="{% url 'contact' %}" class="relative transition-colors duration-200 hover:text-navy-900 {% if request.resolver_match.url_name == 'contact' %}text-navy-900{% endif %}">
                     <span class="relative z-10">{{ link.label }}</span>
@@ -63,12 +56,6 @@
                     <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-navy-900"></span>
                     {% endif %}
                 </a>
-                <a href="{% url 'faq' %}" class="relative transition-colors duration-200 hover:text-navy-900 {% if request.resolver_match.url_name == 'faq' %}text-navy-900{% endif %}">
-                    <span class="relative z-10">FAQ</span>
-                    {% if request.resolver_match.url_name == 'faq' %}
-                    <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-navy-900"></span>
-                    {% endif %}
-                </a>
             {% else %}
                 <!-- Default navigation links if none configured -->
                 <a href="{% url 'home' %}" class="relative transition-colors duration-200 hover:text-navy-900 {% if request.resolver_match.url_name == 'home' %}text-navy-900{% endif %}">
@@ -86,12 +73,6 @@
                 <a href="{% url 'services' %}" class="relative transition-colors duration-200 hover:text-navy-900 {% if request.resolver_match.url_name == 'services' %}text-navy-900{% endif %}">
                     <span class="relative z-10">Services</span>
                     {% if request.resolver_match.url_name == 'services' %}
-                    <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-navy-900"></span>
-                    {% endif %}
-                </a>
-                <a href="{% url 'faq' %}" class="relative transition-colors duration-200 hover:text-navy-900 {% if request.resolver_match.url_name == 'faq' %}text-navy-900{% endif %}">
-                    <span class="relative z-10">FAQ</span>
-                    {% if request.resolver_match.url_name == 'faq' %}
                     <span class="absolute -bottom-1 left-0 right-0 h-0.5 bg-navy-900"></span>
                     {% endif %}
                 </a>
@@ -130,8 +111,6 @@
                 <a href="{% url 'about' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'about' %}bg-white/10 text-white{% endif %}">{{ link.label }}</a>
                 {% elif link.href == '#services' or link.href == '/services/' %}
                 <a href="{% url 'services' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'services' %}bg-white/10 text-white{% endif %}">{{ link.label }}</a>
-                {% elif link.href == '#faq' or link.href == '/faq/' %}
-                <a href="{% url 'faq' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'faq' %}bg-white/10 text-white{% endif %}">{{ link.label }}</a>
                 {% elif link.href == '#contact' or link.href == '/contact/' %}
                 <a href="{% url 'contact' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'contact' %}bg-white/10 text-white{% endif %}">{{ link.label }}</a>
                 {% elif link.href == '#' or link.href == '/' or link.href == '' %}
@@ -143,14 +122,12 @@
             {# Always show essential links in mobile menu #}
             {% if content.nav.links and content.nav.links|length > 0 %}
             <a href="{% url 'about' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'about' %}bg-white/10 text-white{% endif %}">About</a>
-            <a href="{% url 'faq' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'faq' %}bg-white/10 text-white{% endif %}">FAQ</a>
             {% endif %}
             {% else %}
                 <!-- Default navigation links if none configured -->
                 <a href="{% url 'home' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'home' %}bg-white/10 text-white{% endif %}">Home</a>
                 <a href="{% url 'about' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'about' %}bg-white/10 text-white{% endif %}">About</a>
                 <a href="{% url 'services' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'services' %}bg-white/10 text-white{% endif %}">Services</a>
-                <a href="{% url 'faq' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'faq' %}bg-white/10 text-white{% endif %}">FAQ</a>
                 <a href="{% url 'contact' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'contact' %}bg-white/10 text-white{% endif %}">Contact</a>
             {% endif %}
             {% if content.nav.cta %}

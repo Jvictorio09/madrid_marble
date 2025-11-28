@@ -1394,18 +1394,47 @@ def portfolio_page_edit(request):
     if not page:
         page = PortfolioPage.objects.create(
             title="Our Masterpieces",
-            description="Browse a selection of projects where marble plays a central role in the design. Each project highlights our approach: thoughtful stone selection, precision fabrication, and clean, detail-driven installation."
+            description="Where timeless elegance meets exceptional craftsmanship. Each project represents our commitment to transforming spaces into works of art."
         )
     
     if request.method == 'POST':
+        # Hero Section
+        page.hero_badge = request.POST.get('hero_badge', '')
         page.title = request.POST.get('title', '')
         page.description = request.POST.get('description', '')
+        page.hero_image_1_url = request.POST.get('hero_image_1_url', '')
+        page.hero_image_1_alt = request.POST.get('hero_image_1_alt', '')
+        page.hero_image_2_url = request.POST.get('hero_image_2_url', '')
+        page.hero_image_2_alt = request.POST.get('hero_image_2_alt', '')
+        page.hero_image_3_url = request.POST.get('hero_image_3_url', '')
+        page.hero_image_3_alt = request.POST.get('hero_image_3_alt', '')
+        
+        # Residential Section
+        page.residential_badge = request.POST.get('residential_badge', '')
         page.residential_title = request.POST.get('residential_title', '')
         page.residential_description = request.POST.get('residential_description', '')
+        page.residential_featured_image_url = request.POST.get('residential_featured_image_url', '')
+        page.residential_featured_image_alt = request.POST.get('residential_featured_image_alt', '')
+        page.residential_featured_title = request.POST.get('residential_featured_title', '')
+        page.residential_featured_description = request.POST.get('residential_featured_description', '')
+        
+        # Commercial Section
+        page.commercial_badge = request.POST.get('commercial_badge', '')
         page.commercial_title = request.POST.get('commercial_title', '')
         page.commercial_description = request.POST.get('commercial_description', '')
-        page.before_after_title = request.POST.get('before_after_title', '')
-        page.before_after_description = request.POST.get('before_after_description', '')
+        page.commercial_featured_image_url = request.POST.get('commercial_featured_image_url', '')
+        page.commercial_featured_image_alt = request.POST.get('commercial_featured_image_alt', '')
+        page.commercial_featured_title = request.POST.get('commercial_featured_title', '')
+        page.commercial_featured_description = request.POST.get('commercial_featured_description', '')
+        
+        # CTA Section
+        page.cta_title = request.POST.get('cta_title', '')
+        page.cta_description = request.POST.get('cta_description', '')
+        page.cta_primary_label = request.POST.get('cta_primary_label', '')
+        page.cta_primary_href = request.POST.get('cta_primary_href', '/contact/')
+        page.cta_secondary_label = request.POST.get('cta_secondary_label', '')
+        page.cta_secondary_href = request.POST.get('cta_secondary_href', '/services/')
+        
         page.save()
         messages.success(request, 'Portfolio Page updated successfully!')
         return redirect('dashboard:portfolio_page_edit')
@@ -1440,7 +1469,10 @@ def portfolio_page_category_edit(request, category_id=None):
             category = PortfolioPageCategory(portfolio_page=page)
         category.category_type = request.POST.get('category_type', 'residential')
         category.title = request.POST.get('title', '')
+        category.description = request.POST.get('description', '')
         category.icon = request.POST.get('icon', '')
+        category.image_url = request.POST.get('image_url', '')
+        category.image_alt = request.POST.get('image_alt', '')
         category.sort_order = int(request.POST.get('sort_order', 0))
         category.save()
         messages.success(request, f'Portfolio category {"updated" if category_id else "created"} successfully!')

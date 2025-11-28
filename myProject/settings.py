@@ -91,6 +91,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'myApp.context_processors.image_urls',  # Makes image_urls available in all templates
             ],
         },
     },

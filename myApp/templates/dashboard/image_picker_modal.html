@@ -115,7 +115,7 @@
                     Cancel
                 </button>
                 <button onclick="selectImage()" id="select-image-btn" disabled
-                        class="px-6 py-3 bg-navy-900 text-white rounded-xl font-semibold hover:bg-navy-950 transition disabled:bg-gray-300 disabled:cursor-not-allowed">
+                        class="px-6 py-3 bg-navy-900 text-white rounded-xl font-semibold hover:bg-navy-950 transition disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed">
                     Select Image
                 </button>
             </div>
@@ -209,9 +209,15 @@ function closeImagePickerModal() {
     selectedImage = null;
     targetInputField = null;
     isGalleryMode = false;
-    document.getElementById('selected-image-preview').classList.add('hidden');
-    document.getElementById('select-image-btn').disabled = true;
-    document.getElementById('select-image-btn').textContent = 'Select Image';
+    const previewEl = document.getElementById('selected-image-preview');
+    const selectBtn = document.getElementById('select-image-btn');
+    if (previewEl) previewEl.classList.add('hidden');
+    if (selectBtn) {
+        selectBtn.disabled = true;
+        selectBtn.textContent = 'Select Image';
+        selectBtn.classList.remove('bg-navy-900', 'text-white');
+        selectBtn.classList.add('bg-gray-300', 'text-gray-500');
+    }
 }
 
 // Tab switching
@@ -320,11 +326,23 @@ function selectImageFromGallery(image) {
     selectedImage = image;
     
     // Update preview
-    document.getElementById('selected-image-thumb').src = image.thumb_url;
-    document.getElementById('selected-image-title').textContent = image.title;
-    document.getElementById('selected-image-url').textContent = image.web_url;
-    document.getElementById('selected-image-preview').classList.remove('hidden');
-    document.getElementById('select-image-btn').disabled = false;
+    const thumbEl = document.getElementById('selected-image-thumb');
+    const titleEl = document.getElementById('selected-image-title');
+    const urlEl = document.getElementById('selected-image-url');
+    const previewEl = document.getElementById('selected-image-preview');
+    const selectBtn = document.getElementById('select-image-btn');
+    
+    if (thumbEl) thumbEl.src = image.thumb_url;
+    if (titleEl) titleEl.textContent = image.title;
+    if (urlEl) urlEl.textContent = image.web_url;
+    if (previewEl) previewEl.classList.remove('hidden');
+    
+    // Enable button and update styling
+    if (selectBtn) {
+        selectBtn.disabled = false;
+        selectBtn.classList.remove('bg-gray-300', 'text-gray-500');
+        selectBtn.classList.add('bg-navy-900', 'text-white');
+    }
     
     // Highlight selected image (compare as strings)
     const galleryGrid = document.getElementById('gallery-grid');
@@ -334,10 +352,10 @@ function selectImageFromGallery(image) {
             const cardId = card.getAttribute('data-asset-id');
             const imageId = image.id ? image.id.toString() : image.id;
             if (cardId === imageId) {
-                card.classList.add('border-navy-900');
+                card.classList.add('border-navy-900', 'ring-2', 'ring-navy-900');
                 card.classList.remove('border-transparent');
             } else {
-                card.classList.remove('border-navy-900');
+                card.classList.remove('border-navy-900', 'ring-2', 'ring-navy-900');
                 card.classList.add('border-transparent');
             }
         });

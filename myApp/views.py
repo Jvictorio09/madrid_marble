@@ -26,9 +26,14 @@ def home(request):
 
 def about(request):
     """About page view"""
+    from .models import AboutPage
+    
     content = get_content()
+    about_page = AboutPage.objects.first()
+    
     context = {
-        "content": content
+        "content": content,
+        "about_page": about_page
     }
     return render(request, "about.html", context)
 
@@ -49,26 +54,41 @@ def services(request):
 
 def portfolio(request):
     """Portfolio page view"""
+    from .models import PortfolioPage
+    
     content = get_content()
+    portfolio_page = PortfolioPage.objects.first()
+    
     context = {
-        "content": content
+        "content": content,
+        "portfolio_page": portfolio_page
     }
     return render(request, "portfolio.html", context)
 
 
 def faq(request):
     """FAQ page view"""
+    from .models import FAQPage
+    
     content = get_content()
+    faq_page = FAQPage.objects.first()
+    
     context = {
-        "content": content
+        "content": content,
+        "faq_page": faq_page
     }
     return render(request, "faq.html", context)
 
 
 def contact(request):
     """Contact page view"""
+    from .models import ContactPage
+    
     content = get_content()
+    contact_page = ContactPage.objects.first()
+    
     context = {
-        "content": content
+        "content": content,
+        "contact_page": contact_page
     }
     return render(request, "contact.html", context)

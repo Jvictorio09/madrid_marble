@@ -653,20 +653,41 @@ class ServicesPageProcessStep(models.Model):
 class PortfolioPage(models.Model):
     """Portfolio Page content"""
     # Hero Section
+    hero_badge = models.CharField(max_length=200, blank=True, help_text="Badge text above hero title")
     title = models.CharField(max_length=200)
     description = models.TextField()
+    hero_image_1_url = models.URLField(max_length=500, blank=True, help_text="First rotating hero image")
+    hero_image_1_alt = models.CharField(max_length=200, blank=True)
+    hero_image_2_url = models.URLField(max_length=500, blank=True, help_text="Second rotating hero image")
+    hero_image_2_alt = models.CharField(max_length=200, blank=True)
+    hero_image_3_url = models.URLField(max_length=500, blank=True, help_text="Third rotating hero image")
+    hero_image_3_alt = models.CharField(max_length=200, blank=True)
     
     # Residential Designs
+    residential_badge = models.CharField(max_length=200, blank=True, help_text="Badge text for residential section")
     residential_title = models.CharField(max_length=200, blank=True)
     residential_description = models.TextField(blank=True)
+    residential_featured_image_url = models.URLField(max_length=500, blank=True)
+    residential_featured_image_alt = models.CharField(max_length=200, blank=True)
+    residential_featured_title = models.CharField(max_length=200, blank=True)
+    residential_featured_description = models.TextField(blank=True)
     
     # Commercial Spaces
+    commercial_badge = models.CharField(max_length=200, blank=True, help_text="Badge text for commercial section")
     commercial_title = models.CharField(max_length=200, blank=True)
     commercial_description = models.TextField(blank=True)
+    commercial_featured_image_url = models.URLField(max_length=500, blank=True)
+    commercial_featured_image_alt = models.CharField(max_length=200, blank=True)
+    commercial_featured_title = models.CharField(max_length=200, blank=True)
+    commercial_featured_description = models.TextField(blank=True)
     
-    # Before & After
-    before_after_title = models.CharField(max_length=200, blank=True)
-    before_after_description = models.TextField(blank=True)
+    # CTA Section
+    cta_title = models.CharField(max_length=200, blank=True)
+    cta_description = models.TextField(blank=True)
+    cta_primary_label = models.CharField(max_length=200, blank=True)
+    cta_primary_href = models.CharField(max_length=200, default="/contact/")
+    cta_secondary_label = models.CharField(max_length=200, blank=True)
+    cta_secondary_href = models.CharField(max_length=200, default="/services/")
 
     class Meta:
         verbose_name = "Portfolio Page"
@@ -681,7 +702,10 @@ class PortfolioPageCategory(models.Model):
     portfolio_page = models.ForeignKey(PortfolioPage, on_delete=models.CASCADE, related_name='categories')
     category_type = models.CharField(max_length=20, choices=[('residential', 'Residential'), ('commercial', 'Commercial')], default='residential')
     title = models.CharField(max_length=200)
+    description = models.TextField(blank=True, help_text="Optional description for the category")
     icon = models.CharField(max_length=50, help_text="Font Awesome icon class")
+    image_url = models.URLField(max_length=500, blank=True, help_text="Category image URL")
+    image_alt = models.CharField(max_length=200, blank=True, help_text="Image alt text")
     sort_order = models.IntegerField(default=0)
 
     class Meta:

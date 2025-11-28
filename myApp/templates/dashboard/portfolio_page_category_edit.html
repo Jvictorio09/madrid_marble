@@ -1,0 +1,88 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}{% if category %}Edit{% else %}Add{% endif %} Portfolio Category - Madrid Marble Dashboard{% endblock %}
+
+{% block content %}
+<!-- Include Image Picker Modal -->
+{% include "dashboard/image_picker_modal.html" %}
+
+<div class="max-w-4xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+        <h1 class="text-4xl font-bold text-navy-900">{% if category %}Edit{% else %}Add{% endif %} Portfolio Category</h1>
+        <a href="{% url 'dashboard:portfolio_page_categories_list' %}" class="text-gray-600 hover:text-navy-900">
+            <i class="fa-solid fa-arrow-left mr-2"></i> Back to Categories
+        </a>
+    </div>
+
+    <form method="post" class="bg-white rounded-xl shadow-sm p-8 space-y-6">
+        {% csrf_token %}
+        
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Category Type <span class="text-red-500">*</span></label>
+            <select name="category_type" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+                <option value="residential" {% if category.category_type == 'residential' %}selected{% endif %}>Residential</option>
+                <option value="commercial" {% if category.category_type == 'commercial' %}selected{% endif %}>Commercial</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Title <span class="text-red-500">*</span></label>
+            <input type="text" name="title" value="{{ category.title|default:'' }}" required
+                   placeholder="Luxury Kitchens"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Description (Optional)</label>
+            <textarea name="description" rows="3"
+                      placeholder="Premium marble countertops and islands"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">{{ category.description|default:'' }}</textarea>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Icon (Font Awesome class) <span class="text-red-500">*</span></label>
+            <input type="text" name="icon" value="{{ category.icon|default:'' }}" required
+                   placeholder="fa-solid fa-utensils"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            <p class="text-sm text-gray-500 mt-1">Use Font Awesome icon classes (e.g., fa-solid fa-utensils)</p>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Category Image URL</label>
+            <input type="url" name="image_url" id="category_image_url" value="{{ category.image_url|default:'' }}" 
+                   placeholder="https://res.cloudinary.com/..."
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            <p class="text-sm text-gray-500 mt-2">
+                <button type="button" onclick="openImagePickerModal('category_image_url')" class="text-navy-900 hover:underline">
+                    <i class="fa-solid fa-images mr-1"></i> Upload image from gallery
+                </button>
+            </p>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Image Alt Text</label>
+            <input type="text" name="image_alt" id="category_image_alt" value="{{ category.image_alt|default:'' }}" 
+                   placeholder="Luxury kitchen with marble countertops"
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Sort Order</label>
+            <input type="number" name="sort_order" value="{{ category.sort_order|default:0 }}" 
+                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20">
+            <p class="text-sm text-gray-500 mt-1">Lower numbers appear first</p>
+        </div>
+
+        <div class="flex gap-4 pt-6 border-t">
+            <button type="submit" class="bg-navy-900 text-white px-8 py-3 rounded-xl font-semibold hover:bg-navy-950 transition">
+                {% if category %}Update{% else %}Create{% endif %} Category
+            </button>
+            <a href="{% url 'dashboard:portfolio_page_categories_list' %}" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-xl font-semibold hover:bg-gray-300 transition">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

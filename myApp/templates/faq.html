@@ -10,8 +10,8 @@
     <section class="bg-gradient-to-b from-beige-50 via-white to-white">
         <div class="mx-auto max-w-6xl px-6 pb-16 pt-16 md:px-12 md:pb-20 md:pt-20">
             <div class="grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-center">
-                <!-- Left: Copy -->
-                <div class="space-y-7">
+                <!-- Left: Copy (first on mobile) -->
+                <div class="order-1 space-y-7 lg:order-1">
                     <div class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-navy-700 shadow-sm">
                         <span class="h-1.5 w-1.5 rounded-full bg-beige-400"></span>
                         FAQ • {{ content.nav.brand|default:"Madrid Marble" }}
@@ -59,8 +59,8 @@
                     </div>
                 </div>
 
-                <!-- Right: Illustration / dummy image -->
-                <div class="lg:pl-6">
+                <!-- Right: Illustration / dummy image (second on mobile) -->
+                <div class="order-2 lg:order-2 lg:pl-6">
                     <div class="overflow-hidden rounded-3xl border border-beige-200/80 bg-beige-50 shadow-[0_18px_60px_rgba(15,23,42,0.16)]">
                         <div class="aspect-[4/5]">
                             <img

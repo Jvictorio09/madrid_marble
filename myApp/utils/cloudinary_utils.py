@@ -77,6 +77,7 @@ def upload_to_cloudinary(file_bytes: bytes, folder: str, public_id: str, tags=No
             overwrite=True,
             unique_filename=False,
             use_filename=False,
+            access_mode="public",  # Ensure images are publicly accessible
             eager=[{
                 "format": "webp",
                 "quality": "auto",

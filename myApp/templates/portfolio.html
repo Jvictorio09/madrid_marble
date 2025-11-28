@@ -3,121 +3,405 @@
 {% block title %}Our Portfolio - {{ content.nav.brand|default:"Madrid Marble" }}{% endblock %}
 {% block meta_description %}View our portfolio of premium marble projects and installations across the UAE.{% endblock %}
 
+{% block extra_head %}
+<style>
+    @keyframes fade-slide {
+        0% { opacity: 0; }
+        12% { opacity: 0.4; }
+        21% { opacity: 0.4; }
+        33% { opacity: 0; }
+        100% { opacity: 0; }
+    }
+    
+    .animate-fade-slide {
+        animation: fade-slide 9s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .animation-delay-3000 { animation-delay: 3s; }
+    .animation-delay-6000 { animation-delay: 6s; }
+
+    /* Portfolio Grid Hover Effects */
+    .portfolio-item {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .portfolio-item::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 0%, rgba(10,22,40,0.7) 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 1;
+    }
+    
+    .portfolio-item:hover::before {
+        opacity: 1;
+    }
+    
+    .portfolio-item-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2rem;
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.4s ease;
+        z-index: 2;
+    }
+    
+    .portfolio-item:hover .portfolio-item-content {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    /* Image Parallax Effect */
+    .parallax-image {
+        transition: transform 0.3s ease-out;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="pt-24">
-    <!-- Our Masterpieces -->
-    <section class="bg-white py-24">
-        <div class="mx-auto max-w-6xl px-6 md:px-12">
-            <div class="mx-auto max-w-4xl text-center space-y-6 mb-16">
-                <h1 class="text-4xl font-semibold text-navy-900 md:text-5xl">Our Masterpieces</h1>
-                <p class="text-xl leading-relaxed text-navy-700">
-                    Browse a selection of projects where marble plays a central role in the design. Each project highlights our approach: thoughtful stone selection, precision fabrication, and clean, detail-driven installation.
-                </p>
+    <!-- HERO: PREMIUM ROTATING BACKGROUND -->
+    <section class="relative overflow-hidden border-b border-beige-200/60 pb-20 pt-16 md:pb-32 md:pt-24 min-h-[85vh] flex items-center">
+        <!-- Background images - rotating every 3 seconds -->
+        <div class="pointer-events-none absolute inset-0">
+            <div class="bg-slide-1 absolute inset-0 opacity-0 animate-fade-slide">
+                <img
+                    src="{% if portfolio_page.hero_image_1_url %}{{ portfolio_page.hero_image_1_url }}{% else %}https://images.unsplash.com/photo-1600607687920-4e2a534abf1c?w=1920&auto=format&fit=crop&q=90{% endif %}"
+                    alt="{% if portfolio_page.hero_image_1_alt %}{{ portfolio_page.hero_image_1_alt }}{% else %}Luxury marble staircase{% endif %}"
+                    class="h-full w-full object-cover"
+                >
+            </div>
+            <div class="bg-slide-2 absolute inset-0 opacity-0 animate-fade-slide animation-delay-3000">
+                <img
+                    src="{% if portfolio_page.hero_image_2_url %}{{ portfolio_page.hero_image_2_url }}{% else %}https://images.unsplash.com/photo-1600585154340-0ef3c08c0632?w=1920&auto=format&fit=crop&q=90{% endif %}"
+                    alt="{% if portfolio_page.hero_image_2_alt %}{{ portfolio_page.hero_image_2_alt }}{% else %}Premium marble kitchen{% endif %}"
+                    class="h-full w-full object-cover"
+                >
+            </div>
+            <div class="bg-slide-3 absolute inset-0 opacity-0 animate-fade-slide animation-delay-6000">
+                <img
+                    src="{% if portfolio_page.hero_image_3_url %}{{ portfolio_page.hero_image_3_url }}{% else %}https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=1920&auto=format&fit=crop&q=90{% endif %}"
+                    alt="{% if portfolio_page.hero_image_3_alt %}{{ portfolio_page.hero_image_3_alt }}{% else %}Luxury marble bathroom{% endif %}"
+                    class="h-full w-full object-cover"
+                >
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-b from-navy-950/80 via-navy-900/75 to-navy-950/80"></div>
+            <div class="absolute inset-0 backdrop-blur-[1px]"></div>
+        </div>
+
+        <div class="relative mx-auto max-w-6xl px-6 md:px-12 w-full">
+            <div class="mx-auto max-w-5xl space-y-10 text-center">
+                <!-- Badge -->
+                {% if portfolio_page.hero_badge %}
+                <div class="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-6 py-2.5 text-xs font-medium uppercase tracking-[0.22em] text-white/90 shadow-lg">
+                    <span class="h-1.5 w-1.5 rounded-full bg-white/60 animate-pulse"></span>
+                    {{ portfolio_page.hero_badge }}
+                </div>
+                {% else %}
+                <div class="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 px-6 py-2.5 text-xs font-medium uppercase tracking-[0.22em] text-white/90 shadow-lg">
+                    <span class="h-1.5 w-1.5 rounded-full bg-white/60 animate-pulse"></span>
+                    Portfolio • Dubai • Abu Dhabi • UAE
+                </div>
+                {% endif %}
+
+                <!-- Main heading -->
+                <div class="space-y-6">
+                    <h1 class="text-balance text-5xl font-medium tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl leading-[1.05]" style="text-shadow: 0 4px 20px rgba(0,0,0,0.4);">
+                        {{ portfolio_page.title|default:"Our Masterpieces" }}
+                    </h1>
+                    <p class="text-xl leading-relaxed text-white/95 md:text-2xl lg:text-3xl max-w-4xl mx-auto font-light" style="text-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+                        {{ portfolio_page.description|default:"Where timeless elegance meets exceptional craftsmanship. Each project represents our commitment to transforming spaces into works of art." }}
+                    </p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Residential Designs -->
-    <section class="bg-beige-50 py-24">
-        <div class="mx-auto max-w-6xl px-6 md:px-12">
-            <div class="mb-12">
-                <h2 class="text-4xl font-semibold text-navy-900 md:text-5xl mb-6">Residential Designs</h2>
-                <p class="text-lg text-navy-700 mb-8">
-                    Refined, comfortable, and built for daily life.
+    <!-- RESIDENTIAL PORTFOLIO GALLERY -->
+    <section class="bg-gradient-to-b from-white via-beige-50/30 to-white py-32">
+        <div class="mx-auto max-w-7xl px-6 md:px-12">
+            <div class="mb-16 text-center">
+                {% if portfolio_page.residential_badge %}
+                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700 mb-4">{{ portfolio_page.residential_badge }}</p>
+                {% else %}
+                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700 mb-4">Residential Excellence</p>
+                {% endif %}
+                <h2 class="text-4xl font-semibold text-navy-900 md:text-5xl lg:text-6xl mb-6">{{ portfolio_page.residential_title|default:"Residential Designs" }}</h2>
+                <p class="text-xl leading-relaxed text-navy-700 max-w-3xl mx-auto">
+                    {{ portfolio_page.residential_description|default:"Refined, comfortable, and built for daily life. Each space tells a story of luxury and sophistication." }}
                 </p>
             </div>
+
+            <!-- Large Featured Image -->
+            {% if portfolio_page.residential_featured_image_url %}
+            <div class="mb-16 group">
+                <div class="relative overflow-hidden rounded-[2.5rem] border border-beige-200/80 shadow-[0_25px_80px_rgba(15,23,42,0.15)]">
+                    <img
+                        src="{{ portfolio_page.residential_featured_image_url }}"
+                        alt="{{ portfolio_page.residential_featured_image_alt|default:'Luxury residential marble installation' }}"
+                        class="h-[600px] w-full object-cover transition duration-700 group-hover:scale-105 parallax-image"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-transparent"></div>
+                    {% if portfolio_page.residential_featured_title or portfolio_page.residential_featured_description %}
+                    <div class="absolute bottom-0 left-0 right-0 p-10 text-white">
+                        {% if portfolio_page.residential_featured_title %}
+                        <h3 class="text-3xl font-semibold mb-3">{{ portfolio_page.residential_featured_title }}</h3>
+                        {% endif %}
+                        {% if portfolio_page.residential_featured_description %}
+                        <p class="text-lg text-white/90 max-w-2xl">{{ portfolio_page.residential_featured_description }}</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Category Grid with Images - Dynamic from Database -->
+            {% if portfolio_page.categories.all %}
             <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4 stagger-children">
-                <div class="group space-y-4 p-6 rounded-2xl border border-beige-200/80 bg-white hover:shadow-lg transition-all duration-300">
-                    <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl">
-                        <i class="fa-solid fa-utensils"></i>
+                {% for category in portfolio_page.categories.all %}
+                    {% if category.category_type == 'residential' %}
+                    <div class="portfolio-item group rounded-3xl overflow-hidden border border-beige-200/80 bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-80 overflow-hidden">
+                            <img
+                                src="{% if category.image_url %}{{ category.image_url }}{% else %}https://images.unsplash.com/photo-1600585154340-0ef3c08c0632?w=800&auto=format&fit=crop&q=90{% endif %}"
+                                alt="{% if category.image_alt %}{{ category.image_alt }}{% else %}{{ category.title }}{% endif %}"
+                                class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                            >
+                            <div class="portfolio-item-content">
+                                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md text-white text-xl mb-3">
+                                    <i class="{{ category.icon|default:'fa-solid fa-home' }}"></i>
+                                </div>
+                                <h3 class="text-2xl font-semibold text-white mb-2">{{ category.title }}</h3>
+                                {% if category.description %}
+                                <p class="text-white/90">{{ category.description }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-lg font-semibold text-navy-900">Luxury Kitchens</h3>
-                </div>
-                <div class="group space-y-4 p-6 rounded-2xl border border-beige-200/80 bg-white hover:shadow-lg transition-all duration-300">
-                    <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl">
-                        <i class="fa-solid fa-bath"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-navy-900">Spa-Like Bathrooms</h3>
-                </div>
-                <div class="group space-y-4 p-6 rounded-2xl border border-beige-200/80 bg-white hover:shadow-lg transition-all duration-300">
-                    <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl">
-                        <i class="fa-solid fa-layer-group"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-navy-900">High-End Flooring & Cladding</h3>
-                </div>
-                <div class="group space-y-4 p-6 rounded-2xl border border-beige-200/80 bg-white hover:shadow-lg transition-all duration-300">
-                    <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl">
-                        <i class="fa-solid fa-gem"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold text-navy-900">Custom Marble Pieces for Villas & Apartments</h3>
-                </div>
+                    {% endif %}
+                {% endfor %}
             </div>
-        </div>
-    </section>
-
-    <!-- Commercial Spaces -->
-    <section class="bg-white py-24">
-        <div class="mx-auto max-w-6xl px-6 md:px-12">
-            <div class="mb-12">
-                <h2 class="text-4xl font-semibold text-navy-900 md:text-5xl mb-6">Commercial Spaces</h2>
-                <p class="text-lg text-navy-700 mb-8">
-                    Marble solutions that elevate your brand — from reception to corridors to executive areas.
-                </p>
-            </div>
+            {% else %}
+            <!-- Fallback if no categories -->
             <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4 stagger-children">
-                <div class="group space-y-4 p-8 rounded-2xl border border-beige-200/80 bg-white hover:shadow-xl transition-all duration-300 text-center">
-                    <div class="flex justify-center">
-                        <div class="flex h-16 w-16 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl group-hover:scale-110 transition-transform duration-300">
-                            <i class="fa-solid fa-hotel"></i>
+                <div class="portfolio-item group rounded-3xl overflow-hidden border border-beige-200/80 bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
+                    <div class="relative h-80 overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1600585154340-0ef3c08c0632?w=800&auto=format&fit=crop&q=90"
+                            alt="Luxury kitchen"
+                            class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+                        <div class="portfolio-item-content">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md text-white text-xl mb-3">
+                                <i class="fa-solid fa-utensils"></i>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-white mb-2">Luxury Kitchens</h3>
+                            <p class="text-white/90">Premium marble countertops and islands</p>
                         </div>
                     </div>
-                    <h3 class="text-xl font-semibold text-navy-900">Hotels & Serviced Apartments</h3>
-                </div>
-                <div class="group space-y-4 p-8 rounded-2xl border border-beige-200/80 bg-white hover:shadow-xl transition-all duration-300 text-center">
-                    <div class="flex justify-center">
-                        <div class="flex h-16 w-16 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl group-hover:scale-110 transition-transform duration-300">
-                            <i class="fa-solid fa-utensils"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-semibold text-navy-900">Restaurants & Lounges</h3>
-                </div>
-                <div class="group space-y-4 p-8 rounded-2xl border border-beige-200/80 bg-white hover:shadow-xl transition-all duration-300 text-center">
-                    <div class="flex justify-center">
-                        <div class="flex h-16 w-16 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl group-hover:scale-110 transition-transform duration-300">
-                            <i class="fa-solid fa-building"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-semibold text-navy-900">Offices & Corporate Spaces</h3>
-                </div>
-                <div class="group space-y-4 p-8 rounded-2xl border border-beige-200/80 bg-white hover:shadow-xl transition-all duration-300 text-center">
-                    <div class="flex justify-center">
-                        <div class="flex h-16 w-16 items-center justify-center rounded-xl bg-navy-900 text-white text-2xl group-hover:scale-110 transition-transform duration-300">
-                            <i class="fa-solid fa-store"></i>
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-semibold text-navy-900">Showrooms & Retail Interiors</h3>
                 </div>
             </div>
+            {% endif %}
         </div>
     </section>
 
-    <!-- Before & After -->
-    <section class="bg-navy-950 py-24 text-white">
-        <div class="mx-auto max-w-6xl px-6 md:px-12">
-            <div class="mx-auto max-w-4xl text-center space-y-6">
-                <h2 class="text-4xl font-semibold md:text-5xl">Before & After</h2>
-                <p class="text-xl leading-relaxed text-white/90">
-                    See how dated, underused spaces are transformed into modern, luxurious interiors through expert marble selection and installation. Slide between the 'before' and 'after' views to appreciate the impact of high-quality stonework.
+    <!-- COMMERCIAL PORTFOLIO GALLERY -->
+    <section class="bg-white py-32">
+        <div class="mx-auto max-w-7xl px-6 md:px-12">
+            <div class="mb-16 text-center">
+                {% if portfolio_page.commercial_badge %}
+                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700 mb-4">{{ portfolio_page.commercial_badge }}</p>
+                {% else %}
+                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700 mb-4">Commercial Excellence</p>
+                {% endif %}
+                <h2 class="text-4xl font-semibold text-navy-900 md:text-5xl lg:text-6xl mb-6">{{ portfolio_page.commercial_title|default:"Commercial Spaces" }}</h2>
+                <p class="text-xl leading-relaxed text-navy-700 max-w-3xl mx-auto">
+                    {{ portfolio_page.commercial_description|default:"Marble solutions that elevate your brand — from reception to corridors to executive areas." }}
                 </p>
             </div>
+
+            <!-- Large Featured Image -->
+            {% if portfolio_page.commercial_featured_image_url %}
+            <div class="mb-16 group">
+                <div class="relative overflow-hidden rounded-[2.5rem] border border-beige-200/80 shadow-[0_25px_80px_rgba(15,23,42,0.15)]">
+                    <img
+                        src="{{ portfolio_page.commercial_featured_image_url }}"
+                        alt="{{ portfolio_page.commercial_featured_image_alt|default:'Luxury commercial marble installation' }}"
+                        class="h-[600px] w-full object-cover transition duration-700 group-hover:scale-105 parallax-image"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-navy-950/60 via-transparent to-transparent"></div>
+                    {% if portfolio_page.commercial_featured_title or portfolio_page.commercial_featured_description %}
+                    <div class="absolute bottom-0 left-0 right-0 p-10 text-white">
+                        {% if portfolio_page.commercial_featured_title %}
+                        <h3 class="text-3xl font-semibold mb-3">{{ portfolio_page.commercial_featured_title }}</h3>
+                        {% endif %}
+                        {% if portfolio_page.commercial_featured_description %}
+                        <p class="text-lg text-white/90 max-w-2xl">{{ portfolio_page.commercial_featured_description }}</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Commercial Categories Grid - Dynamic from Database -->
+            {% if portfolio_page.categories.all %}
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4 stagger-children">
+                {% for category in portfolio_page.categories.all %}
+                    {% if category.category_type == 'commercial' %}
+                    <div class="portfolio-item group rounded-3xl overflow-hidden border border-beige-200/80 bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <div class="relative h-80 overflow-hidden">
+                            <img
+                                src="{% if category.image_url %}{{ category.image_url }}{% else %}https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&auto=format&fit=crop&q=90{% endif %}"
+                                alt="{% if category.image_alt %}{{ category.image_alt }}{% else %}{{ category.title }}{% endif %}"
+                                class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                            >
+                            <div class="portfolio-item-content">
+                                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md text-white text-xl mb-3">
+                                    <i class="{{ category.icon|default:'fa-solid fa-building' }}"></i>
+                                </div>
+                                <h3 class="text-2xl font-semibold text-white mb-2">{{ category.title }}</h3>
+                                {% if category.description %}
+                                <p class="text-white/90">{{ category.description }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% else %}
+            <!-- Fallback if no categories -->
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4 stagger-children">
+                <div class="portfolio-item group rounded-3xl overflow-hidden border border-beige-200/80 bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
+                    <div class="relative h-80 overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&auto=format&fit=crop&q=90"
+                            alt="Hotel lobby"
+                            class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+                        <div class="portfolio-item-content">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md text-white text-xl mb-3">
+                                <i class="fa-solid fa-hotel"></i>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-white mb-2">Hotels & Serviced Apartments</h3>
+                            <p class="text-white/90">Luxury hospitality spaces</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </section>
 
-    <!-- Portfolio Grid -->
+    <!-- PORTFOLIO GRID -->
     {% if content.portfolio.projects %}
-    <section class="bg-white py-24">
-        <div class="mx-auto max-w-6xl px-6 md:px-12">
+    <section class="bg-gradient-to-b from-white via-beige-50/30 to-white py-32">
+        <div class="mx-auto max-w-7xl px-6 md:px-12">
+            <div class="mb-16 text-center">
+                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700 mb-4">Featured Projects</p>
+                <h2 class="text-4xl font-semibold text-navy-900 md:text-5xl lg:text-6xl mb-6">Selected Works</h2>
+                <p class="text-xl leading-relaxed text-navy-700 max-w-3xl mx-auto">
+                    A curated selection showcasing our finest work across residential and commercial projects.
+                </p>
+            </div>
             {% include "partials/portfolio.html" %}
+        </div>
+    </section>
+    {% else %}
+    <!-- Fallback Premium Portfolio Grid -->
+    <section class="bg-gradient-to-b from-white via-beige-50/30 to-white py-32">
+        <div class="mx-auto max-w-7xl px-6 md:px-12">
+            <div class="mb-16 text-center">
+                <p class="text-xs font-semibold uppercase tracking-[0.22em] text-beige-700 mb-4">Featured Projects</p>
+                <h2 class="text-4xl font-semibold text-navy-900 md:text-5xl lg:text-6xl mb-6">Selected Works</h2>
+                <p class="text-xl leading-relaxed text-navy-700 max-w-3xl mx-auto">
+                    A curated selection showcasing our finest work across residential and commercial projects.
+                </p>
+            </div>
+            
+            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 stagger-children">
+                <div class="portfolio-item group rounded-3xl overflow-hidden border border-beige-200/80 bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
+                    <div class="relative h-96 overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1600585154340-0ef3c08c0632?w=1000&auto=format&fit=crop&q=90"
+                            alt="Project 1"
+                            class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+                        <div class="portfolio-item-content">
+                            <h3 class="text-2xl font-semibold text-white mb-2">Palm Jumeirah Penthouse</h3>
+                            <p class="text-white/90">Complete marble installation</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item group rounded-3xl overflow-hidden border border-beige-200/80 bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
+                    <div class="relative h-96 overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1600607687920-4e2a534abf1c?w=1000&auto=format&fit=crop&q=90"
+                            alt="Project 2"
+                            class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+                        <div class="portfolio-item-content">
+                            <h3 class="text-2xl font-semibold text-white mb-2">Downtown Dubai Office</h3>
+                            <p class="text-white/90">Executive floor renovation</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item group rounded-3xl overflow-hidden border border-beige-200/80 bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
+                    <div class="relative h-96 overflow-hidden">
+                        <img
+                            src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?w=1000&auto=format&fit=crop&q=90"
+                            alt="Project 3"
+                            class="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                        >
+                        <div class="portfolio-item-content">
+                            <h3 class="text-2xl font-semibold text-white mb-2">Emirates Hills Villa</h3>
+                            <p class="text-white/90">Luxury residential project</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- CTA SECTION -->
+    {% if portfolio_page.cta_title or portfolio_page.cta_description %}
+    <section class="bg-gradient-to-br from-navy-900 via-navy-950 to-navy-900 py-24 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute inset-0" style="background-image: url('https://images.unsplash.com/photo-1600607687920-4e2a534abf1c?w=1920&auto=format&fit=crop&q=80'); background-size: cover; background-position: center;"></div>
+        </div>
+        <div class="relative mx-auto max-w-4xl px-6 md:px-12 text-center">
+            {% if portfolio_page.cta_title %}
+            <h2 class="text-4xl font-semibold text-white md:text-5xl mb-6">{{ portfolio_page.cta_title }}</h2>
+            {% endif %}
+            {% if portfolio_page.cta_description %}
+            <p class="text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+                {{ portfolio_page.cta_description }}
+            </p>
+            {% endif %}
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                {% if portfolio_page.cta_primary_label %}
+                <a href="{{ portfolio_page.cta_primary_href|default:'/contact/' }}" class="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-semibold uppercase tracking-[0.26em] text-navy-900 hover:bg-white/90 hover:shadow-xl hover:shadow-white/20 transition">
+                    {{ portfolio_page.cta_primary_label }}
+                    <i class="fa-solid fa-arrow-right ml-3"></i>
+                </a>
+                {% endif %}
+                {% if portfolio_page.cta_secondary_label %}
+                <a href="{{ portfolio_page.cta_secondary_href|default:'/services/' }}" class="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 backdrop-blur-md px-8 py-4 text-sm font-semibold uppercase tracking-[0.26em] text-white hover:bg-white/20 hover:border-white/50 transition">
+                    {{ portfolio_page.cta_secondary_label }}
+                </a>
+                {% endif %}
+            </div>
         </div>
     </section>
     {% endif %}

@@ -99,8 +99,8 @@
         </div>
     </div>
     <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden border-t border-white/10 bg-navy-950/98 backdrop-blur-lg lg:hidden">
-        <nav class="mx-auto max-w-7xl flex flex-col gap-1 px-6 py-4">
+    <div id="mobile-menu" class="hidden border-t border-beige-200/50 bg-white shadow-xl lg:hidden z-30">
+        <nav class="mx-auto max-w-7xl flex flex-col gap-1 px-6 py-6">
             {% if content.nav.links and content.nav.links|length > 0 %}
             {% for link in content.nav.links %}
                 {% if 'testimonial' in link.href|lower or 'testimonial' in link.label|lower %}
@@ -108,33 +108,33 @@
                 {% elif link.href == '#portfolio' or link.href == '/portfolio/' or link.href == '#work' or link.href == '/work/' or 'portfolio' in link.href|lower or 'work' in link.href|lower %}
                 {# Skip portfolio/work links #}
                 {% elif link.href == '#about' or link.href == '/about/' %}
-                <a href="{% url 'about' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'about' %}bg-white/10 text-white{% endif %}">{{ link.label }}</a>
+                <a href="{% url 'about' %}" class="block rounded-lg px-4 py-3.5 text-sm font-semibold uppercase tracking-[0.2em] text-navy-900 transition-all duration-200 hover:bg-beige-50 hover:text-navy-900 {% if request.resolver_match.url_name == 'about' %}bg-beige-100 text-navy-900{% endif %}">{{ link.label }}</a>
                 {% elif link.href == '#services' or link.href == '/services/' %}
-                <a href="{% url 'services' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'services' %}bg-white/10 text-white{% endif %}">{{ link.label }}</a>
+                <a href="{% url 'services' %}" class="block rounded-lg px-4 py-3.5 text-sm font-semibold uppercase tracking-[0.2em] text-navy-900 transition-all duration-200 hover:bg-beige-50 hover:text-navy-900 {% if request.resolver_match.url_name == 'services' %}bg-beige-100 text-navy-900{% endif %}">{{ link.label }}</a>
                 {% elif link.href == '#contact' or link.href == '/contact/' %}
-                <a href="{% url 'contact' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'contact' %}bg-white/10 text-white{% endif %}">{{ link.label }}</a>
+                <a href="{% url 'contact' %}" class="block rounded-lg px-4 py-3.5 text-sm font-semibold uppercase tracking-[0.2em] text-navy-900 transition-all duration-200 hover:bg-beige-50 hover:text-navy-900 {% if request.resolver_match.url_name == 'contact' %}bg-beige-100 text-navy-900{% endif %}">{{ link.label }}</a>
                 {% elif link.href == '#' or link.href == '/' or link.href == '' %}
-                <a href="{% url 'home' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'home' %}bg-white/10 text-white{% endif %}">{{ link.label }}</a>
+                <a href="{% url 'home' %}" class="block rounded-lg px-4 py-3.5 text-sm font-semibold uppercase tracking-[0.2em] text-navy-900 transition-all duration-200 hover:bg-beige-50 hover:text-navy-900 {% if request.resolver_match.url_name == 'home' %}bg-beige-100 text-navy-900{% endif %}">{{ link.label }}</a>
                 {% else %}
-                <a href="{{ link.href }}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white">{{ link.label }}</a>
+                <a href="{{ link.href }}" class="block rounded-lg px-4 py-3.5 text-sm font-semibold uppercase tracking-[0.2em] text-navy-900 transition-all duration-200 hover:bg-beige-50 hover:text-navy-900">{{ link.label }}</a>
                 {% endif %}
             {% endfor %}
             {# Always show essential links in mobile menu #}
             {% if content.nav.links and content.nav.links|length > 0 %}
-            <a href="{% url 'about' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'about' %}bg-white/10 text-white{% endif %}">About</a>
+            <a href="{% url 'about' %}" class="block rounded-lg px-4 py-3.5 text-sm font-semibold uppercase tracking-[0.2em] text-navy-900 transition-all duration-200 hover:bg-beige-50 hover:text-navy-900 {% if request.resolver_match.url_name == 'about' %}bg-beige-100 text-navy-900{% endif %}">About</a>
             {% endif %}
             {% else %}
                 <!-- Default navigation links if none configured -->
-                <a href="{% url 'home' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'home' %}bg-white/10 text-white{% endif %}">Home</a>
-                <a href="{% url 'about' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'about' %}bg-white/10 text-white{% endif %}">About</a>
-                <a href="{% url 'services' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'services' %}bg-white/10 text-white{% endif %}">Services</a>
-                <a href="{% url 'contact' %}" class="block rounded-lg px-4 py-3 text-sm font-medium uppercase tracking-[0.2em] text-white/80 transition-all duration-200 hover:bg-white/5 hover:text-white {% if request.resolver_match.url_name == 'contact' %}bg-white/10 text-white{% endif %}">Contact</a>
+                <a href="{% url 'home' %}" class="block rounded-lg px-4 py-3.5 text-sm font-semibold uppercase tracking-[0.2em] text-navy-900 transition-all duration-200 hover:bg-beige-50 hover:text-navy-900 {% if request.resolver_match.url_name == 'home' %}bg-beige-100 text-navy-900{% endif %}">Home</a>
+                <a href="{% url 'about' %}" class="block rounded-lg px-4 py-3.5 text-sm font-semibold uppercase tracking-[0.2em] text-navy-900 transition-all duration-200 hover:bg-beige-50 hover:text-navy-900 {% if request.resolver_match.url_name == 'about' %}bg-beige-100 text-navy-900{% endif %}">About</a>
+                <a href="{% url 'services' %}" class="block rounded-lg px-4 py-3.5 text-sm font-semibold uppercase tracking-[0.2em] text-navy-900 transition-all duration-200 hover:bg-beige-50 hover:text-navy-900 {% if request.resolver_match.url_name == 'services' %}bg-beige-100 text-navy-900{% endif %}">Services</a>
+                <a href="{% url 'contact' %}" class="block rounded-lg px-4 py-3.5 text-sm font-semibold uppercase tracking-[0.2em] text-navy-900 transition-all duration-200 hover:bg-beige-50 hover:text-navy-900 {% if request.resolver_match.url_name == 'contact' %}bg-beige-100 text-navy-900{% endif %}">Contact</a>
             {% endif %}
             {% if content.nav.cta %}
             {% if content.nav.cta.href == '#contact' or content.nav.cta.href == '/contact/' %}
-            <a href="{% url 'contact' %}" class="mt-4 block rounded-full border border-white/30 bg-white/5 px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-200 hover:bg-white/10 hover:border-white/50">{{ content.nav.cta.label }}</a>
+            <a href="{% url 'contact' %}" class="mt-4 block rounded-full border border-navy-900 bg-navy-900 px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-200 hover:bg-navy-950 hover:border-navy-950">{{ content.nav.cta.label }}</a>
             {% else %}
-            <a href="{{ content.nav.cta.href }}" class="mt-4 block rounded-full border border-white/30 bg-white/5 px-6 py-3 text-center text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-200 hover:bg-white/10 hover:border-white/50">{{ content.nav.cta.label }}</a>
+            <a href="{{ content.nav.cta.href }}" class="mt-4 block rounded-full border border-navy-900 bg-navy-900 px-6 py-3.5 text-center text-xs font-semibold uppercase tracking-[0.2em] text-white transition-all duration-200 hover:bg-navy-950 hover:border-navy-950">{{ content.nav.cta.label }}</a>
             {% endif %}
             {% endif %}
         </nav>

@@ -34,6 +34,8 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'madridmarble-production.up.railway.app',
+    'madridmarble.com',
+    'www.madridmarble.com',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -42,6 +44,8 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
     'http://127.0.0.1',
     'http://localhost',
+    'https://madridmarble.com',
+    'https://www.madridmarble.com',
 ]
 
 # CSRF settings

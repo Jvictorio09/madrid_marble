@@ -104,8 +104,26 @@
                                 {% endfor %}
                             </div>
 
+                            <!-- Privacy Policy Checkbox -->
+                            <div class="flex items-start gap-3 pt-2">
+                                <div class="flex items-center h-5">
+                                    <input
+                                        id="privacy_consent"
+                                        name="privacy_consent"
+                                        type="checkbox"
+                                        required
+                                        class="w-4 h-4 rounded border-2 border-beige-300 text-navy-900 focus:ring-2 focus:ring-navy-600/20 focus:ring-offset-0 cursor-pointer transition-all duration-200"
+                                    >
+                                </div>
+                                <label for="privacy_consent" class="text-sm text-navy-700 leading-relaxed cursor-pointer">
+                                    I agree with the <a href="/privacy-policy/" target="_blank" class="text-navy-900 font-semibold underline hover:text-navy-700 transition">privacy policy</a> of Madrid Marble
+                                </label>
+                            </div>
+                            <span class="error-message text-xs text-red-600 font-medium hidden" id="privacy_consent_error"></span>
+
                             <button
                                 type="submit"
+                                id="submit-button"
                                 class="w-full rounded-lg bg-gradient-to-r from-navy-900 to-navy-800 px-6 py-3.5 text-sm md:text-base font-semibold text-white shadow-lg shadow-navy-900/30 transition-all duration-200 hover:from-navy-800 hover:to-navy-700 hover:shadow-xl hover:shadow-navy-900/40 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2">
                                 <span>{{ content.contact.form.submit.label|default:"Submit Inquiry" }}</span>
                                 <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -324,6 +342,40 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Privacy consent checkbox
+    const privacyCheckbox = form.querySelector('#privacy_consent');
+    const privacyError = document.getElementById('privacy_consent_error');
+    const submitButton = form.querySelector('#submit-button');
+
+    // Validate privacy checkbox
+    function validatePrivacyCheckbox() {
+        if (!privacyCheckbox.checked) {
+            privacyError.textContent = 'You must agree to the privacy policy to submit the form.';
+            privacyError.classList.remove('hidden');
+            privacyError.style.display = 'block';
+            return false;
+        } else {
+            privacyError.classList.add('hidden');
+            privacyError.style.display = 'none';
+            return true;
+        }
+    }
+
+    // Add change listener to privacy checkbox
+    if (privacyCheckbox) {
+        privacyCheckbox.addEventListener('change', function() {
+            validatePrivacyCheckbox();
+        });
+    }
+
+    // Disable submit button initially if checkbox is not checked
+    if (privacyCheckbox && submitButton) {
+        submitButton.disabled = !privacyCheckbox.checked;
+        privacyCheckbox.addEventListener('change', function() {
+            submitButton.disabled = !this.checked;
+        });
+    }
+
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -334,19 +386,27 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // Validate privacy checkbox
+        if (!validatePrivacyCheckbox()) {
+            isValid = false;
+        }
+
         if (isValid) {
             // Disable submit button and show loading state
-            const submitButton = form.querySelector('button[type="submit"]');
-            const originalButtonText = submitButton.textContent;
+            const originalButtonText = submitButton.querySelector('span').textContent;
             submitButton.disabled = true;
-            submitButton.textContent = 'Sending...';
+            submitButton.querySelector('span').textContent = 'Sending...';
             
             // Collect form data
             const formData = {};
             const formFields = form.querySelectorAll('input, textarea, select');
             formFields.forEach(field => {
-                if (field.name && field.value) {
-                    formData[field.name] = field.value.trim();
+                if (field.name) {
+                    if (field.type === 'checkbox') {
+                        formData[field.name] = field.checked;
+                    } else if (field.value) {
+                        formData[field.name] = field.value.trim();
+                    }
                 }
             });
             
@@ -380,14 +440,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Show error message
                     alert('Error: ' + (data.error || 'Failed to send message. Please try again.'));
                     submitButton.disabled = false;
-                    submitButton.textContent = originalButtonText;
+                    submitButton.querySelector('span').textContent = originalButtonText;
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
                 alert('An error occurred. Please try again later.');
                 submitButton.disabled = false;
-                submitButton.textContent = originalButtonText;
+                submitButton.querySelector('span').textContent = originalButtonText;
             });
         }
     });

@@ -105,6 +105,15 @@ def contact(request):
     return render(request, "contact.html", context)
 
 
+def privacy_policy(request):
+    """Privacy Policy page view"""
+    content = get_content()
+    context = {
+        "content": content
+    }
+    return render(request, "privacy_policy.html", context)
+
+
 def send_email_resend(
     *,
     subject: str,
@@ -176,6 +185,14 @@ def contact_submit(request):
         return JsonResponse({
             "success": False,
             "error": f"Missing required fields: {', '.join(missing_fields)}"
+        }, status=400)
+    
+    # Validate privacy consent
+    privacy_consent = data.get("privacy_consent", False)
+    if not privacy_consent:
+        return JsonResponse({
+            "success": False,
+            "error": "You must agree to the privacy policy to submit the form."
         }, status=400)
     
     # Extract form data

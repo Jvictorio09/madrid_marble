@@ -14,6 +14,7 @@ urlpatterns = [
     path('portfolio/', views.portfolio, name='portfolio'),
     path('faq/', views.faq, name='faq'),
     path('contact/', views.contact, name='contact'),
+    path('api/contact/', views.contact_submit, name='contact_submit'),
 ]
 
 # Serve static files in development

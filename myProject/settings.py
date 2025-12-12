@@ -176,3 +176,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/dashboard/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/dashboard/login/'
+
+# Resend Email Configuration
+RESEND_API_KEY = os.getenv('RESEND_API_KEY', '')
+RESEND_FROM = os.getenv('RESEND_FROM', 'Madrid Marble <noreply@madridmarble.com>')
+RESEND_REPLY_TO = os.getenv('RESEND_REPLY_TO', 'info@madridmarble.com')
+RESEND_BASE_URL = os.getenv('RESEND_BASE_URL', 'https://api.resend.com')
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'prod')

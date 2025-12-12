@@ -53,39 +53,75 @@
             </div>
 
             <!-- Right Column: Form (second on mobile) -->
-            <div class="order-2 rounded-3xl bg-white p-8 shadow-2xl lg:order-2 md:p-10">
-                <form class="space-y-7" id="contact-form" novalidate>
-                    <div class="grid gap-7 md:grid-cols-2">
-                        {% for field in content.contact.form.fields %}
-                        <div class="form-field space-y-2 {% if field.required %}required{% endif %} {% if field.span == 2 %}md:col-span-2{% endif %}">
-                            <label for="{{ field.name }}" class="text-base font-semibold text-navy-700 block">{{ field.label }}</label>
-                            {% if field.type == "textarea" %}
-                            <textarea 
-                                id="{{ field.name }}" 
-                                name="{{ field.name }}" 
-                                placeholder="{{ field.placeholder }}" 
-                                rows="{{ field.rows|default:5 }}" 
-                                {% if field.required %}required{% endif %}
-                                class="w-full rounded-xl border border-beige-200 px-5 py-3.5 text-navy-900 focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20 transition"></textarea>
-                            {% else %}
-                            <input 
-                                id="{{ field.name }}" 
-                                name="{{ field.name }}" 
-                                type="{{ field.type }}" 
-                                placeholder="{{ field.placeholder }}" 
-                                {% if field.required %}required{% endif %}
-                                {% if field.type == "email" %}pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"{% endif %}
-                                class="w-full rounded-xl border border-beige-200 px-5 py-3.5 text-navy-900 focus:border-navy-900 focus:outline-none focus:ring-2 focus:ring-navy-900/20 transition">
-                            {% endif %}
-                            <span class="error-message text-sm text-red-600"></span>
+            <div class="order-2 rounded-3xl bg-white shadow-2xl shadow-black/20 border border-beige-100 overflow-hidden lg:order-2">
+                <!-- Header Section -->
+                <div class="bg-gradient-to-r from-navy-900 to-navy-800 px-8 py-6 text-white">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                            </svg>
                         </div>
-                        {% endfor %}
+                        <h2 class="text-xl font-bold">Quick Inquiry</h2>
                     </div>
-                    <button type="submit" class="w-full rounded-xl bg-navy-900 px-7 py-3.5 text-lg font-semibold text-white transition hover:bg-navy-950 cursor-pointer">
-                        {{ content.contact.form.submit.label }}
-                    </button>
-                    <p class="text-sm text-navy-600 text-center">{{ content.contact.form.disclaimer }}</p>
-                </form>
+                    <p class="text-sm text-navy-100 leading-relaxed">
+                        Tell us a bit about your project and we'll get back with options and next steps.
+                    </p>
+                </div>
+
+                <!-- Form Section -->
+                <div class="p-8 md:p-10 bg-white">
+                    <form class="space-y-6" id="contact-form" novalidate>
+                        <div class="grid gap-6 md:grid-cols-2">
+                            {% for field in content.contact.form.fields %}
+                            <div class="form-field space-y-1.5 {% if field.required %}required{% endif %} {% if field.span == 2 %}md:col-span-2{% endif %}">
+                                <label for="{{ field.name }}" class="text-base font-semibold text-navy-800">{{ field.label }}</label>
+                                {% if field.type == "textarea" %}
+                                <textarea 
+                                    id="{{ field.name }}" 
+                                    name="{{ field.name }}" 
+                                    placeholder="{{ field.placeholder }}" 
+                                    rows="{{ field.rows|default:5 }}" 
+                                    {% if field.required %}required{% endif %}
+                                    class="w-full rounded-lg border-2 border-beige-200 bg-beige-50/50 px-5 py-3.5 text-navy-900 placeholder:text-navy-400/60 focus:border-navy-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-navy-600/20 transition-all duration-200 resize-none"></textarea>
+                                {% else %}
+                                <div class="relative">
+                                    <input 
+                                        id="{{ field.name }}" 
+                                        name="{{ field.name }}" 
+                                        type="{{ field.type }}" 
+                                        placeholder="{{ field.placeholder }}" 
+                                        {% if field.required %}required{% endif %}
+                                        {% if field.type == "email" %}pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"{% endif %}
+                                        class="w-full rounded-lg border-2 border-beige-200 bg-beige-50/50 px-5 py-3.5 text-navy-900 placeholder:text-navy-400/60 focus:border-navy-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-navy-600/20 transition-all duration-200">
+                                    {% if field.type == "email" %}
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                                        <svg class="w-4 h-4 text-navy-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </div>
+                                    {% elif field.type == "tel" %}
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                                        <svg class="w-4 h-4 text-navy-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                        </svg>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                                <span class="error-message text-sm text-red-600 font-medium hidden"></span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <button type="submit" class="w-full rounded-lg bg-gradient-to-r from-navy-900 to-navy-800 px-7 py-3.5 text-lg font-semibold text-white shadow-lg shadow-navy-900/30 transition-all duration-200 hover:from-navy-800 hover:to-navy-700 hover:shadow-xl hover:shadow-navy-900/40 hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2">
+                            <span>{{ content.contact.form.submit.label }}</span>
+                            <svg class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </button>
+                        <p class="text-sm text-navy-600 text-center leading-relaxed pt-2">{{ content.contact.form.disclaimer }}</p>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -113,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         field.addEventListener('input', function() {
-            if (this.classList.contains('border-red-600')) {
+            if (this.classList.contains('border-red-500')) {
                 validateField(this);
             }
         });
@@ -131,11 +167,60 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (isValid) {
-            // Form is valid, proceed with submission
-            // You can add AJAX submission here or let the form submit naturally
-            console.log('Form is valid, ready to submit');
-            // Uncomment the next line if you want the form to actually submit
-            // form.submit();
+            // Disable submit button and show loading state
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+            
+            // Collect form data
+            const formData = {};
+            const formFields = form.querySelectorAll('input, textarea, select');
+            formFields.forEach(field => {
+                if (field.name && field.value) {
+                    formData[field.name] = field.value.trim();
+                }
+            });
+            
+            // Submit to backend
+            fetch('/api/contact/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success message
+                    form.innerHTML = `
+                        <div class="text-center py-12 px-4">
+                            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-green-100 to-green-50 mb-6 shadow-lg animate-pulse">
+                                <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-navy-900 mb-3">Thank You!</h3>
+                            <p class="text-navy-600 text-base leading-relaxed max-w-sm mx-auto">${data.message || 'We\'ll get back to you within 24-48 hours.'}</p>
+                            <div class="mt-6 pt-6 border-t border-beige-200">
+                                <p class="text-xs text-navy-500">Check your email for a confirmation message.</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Show error message
+                    alert('Error: ' + (data.error || 'Failed to send message. Please try again.'));
+                    submitButton.disabled = false;
+                    submitButton.textContent = originalButtonText;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+            });
         }
     });
 
@@ -159,17 +244,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Apply error styling or remove it
         if (!isValid) {
-            field.classList.add('border-red-600');
-            field.style.borderColor = '#dc2626';
+            field.classList.remove('border-beige-200', 'border-navy-600');
+            field.classList.add('border-red-500', 'bg-red-50');
+            field.style.borderColor = '#ef4444';
             if (errorMessage) {
                 errorMessage.textContent = message;
+                errorMessage.classList.remove('hidden');
                 errorMessage.style.display = 'block';
-                errorMessage.classList.add('show');
             }
         } else {
+            field.classList.remove('border-red-500', 'bg-red-50');
+            field.classList.add('border-beige-200');
             if (errorMessage) {
+                errorMessage.classList.add('hidden');
                 errorMessage.style.display = 'none';
-                errorMessage.classList.remove('show');
             }
         }
 
